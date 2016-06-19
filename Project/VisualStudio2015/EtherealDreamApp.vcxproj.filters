@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{F3F6462C-5FD6-C5C7-68EE-509ED44C2C29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entity">
+      <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Files">
+      <UniqueIdentifier>{B5B67FC3-2177-FBF9-EAB1-4477563140D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Graphics">
+      <UniqueIdentifier>{93407773-7F39-96C5-A86B-7B4A94C375D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\HUD">
+      <UniqueIdentifier>{C33B1A54-2FF1-9249-B8E5-8C20249A894D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager">
+      <UniqueIdentifier>{1D7698AA-8901-066F-9212-8963FE1C626F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Engine">
+      <UniqueIdentifier>{02BE12B6-EEB7-3B08-D724-D218C3BDA174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Event">
+      <UniqueIdentifier>{2E59B7BF-9AC5-72BA-63B9-0A18CFE49422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Game">
+      <UniqueIdentifier>{E6E97291-D278-FC5A-7B97-105667050D01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Input">
+      <UniqueIdentifier>{DC87FBBF-48F4-B6BA-11E8-4E187D13D922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Item">
+      <UniqueIdentifier>{7B527491-67E1-FD5A-1000-1256FC6D0E01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Level">
+      <UniqueIdentifier>{64F92CC0-D065-E8BA-9959-801805850A23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Render">
+      <UniqueIdentifier>{ECB1C6D3-D8AB-EF25-C118-8636ADB15592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Sound">
+      <UniqueIdentifier>{951DB1C0-018A-6CBB-CA7D-041936A98E23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Time">
+      <UniqueIdentifier>{DB2C7A91-C7BB-035B-70DA-17565C481401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Resources">
+      <UniqueIdentifier>{1DA8934C-89BE-91E2-D235-1D043E8B626A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Utils">
+      <UniqueIdentifier>{932295C4-FFE2-10FB-C81D-5A78349D55D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project">
+      <UniqueIdentifier>{5C2CF323-C80B-72BF-D123-FD953D82D820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Project\VisualStudio2015">
+      <UniqueIdentifier>{3F107122-2B35-C0A2-5480-A5324004BFC0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Classes\Entity\Animal.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Building.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Character.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Pnj.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\EtherealDreamManagers.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Files\Reader.h">
+      <Filter>Classes\Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Graphics\DrawableObject.h">
+      <Filter>Classes\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\HUD\Hud.h">
+      <Filter>Classes\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\HUD\Menu.h">
+      <Filter>Classes\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Engine\EngineMgr.h">
+      <Filter>Classes\Manager\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h">
+      <Filter>Classes\Manager\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Game\GameMgr.h">
+      <Filter>Classes\Manager\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Input\InputMgr.h">
+      <Filter>Classes\Manager\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Item\ItemMgr.h">
+      <Filter>Classes\Manager\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h">
+      <Filter>Classes\Manager\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Manager.h">
+      <Filter>Classes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Render\RenderMgr.h">
+      <Filter>Classes\Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Sound\SoundMgr.h">
+      <Filter>Classes\Manager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h">
+      <Filter>Classes\Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Resources\Resources.h">
+      <Filter>Classes\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\Constante.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\Structure.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Project\VisualStudio2015</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Classes\Entity\Animal.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Building.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Character.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Pnj.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\EtherealDreamManagers.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Files\Reader.cpp">
+      <Filter>Classes\Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Graphics\DrawableObject.cpp">
+      <Filter>Classes\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\HUD\Hud.cpp">
+      <Filter>Classes\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
+      <Filter>Classes\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Engine\EngineMgr.cpp">
+      <Filter>Classes\Manager\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp">
+      <Filter>Classes\Manager\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Game\GameMgr.cpp">
+      <Filter>Classes\Manager\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Input\InputMgr.cpp">
+      <Filter>Classes\Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Item\ItemMgr.cpp">
+      <Filter>Classes\Manager\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp">
+      <Filter>Classes\Manager\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Manager.cpp">
+      <Filter>Classes\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Render\RenderMgr.cpp">
+      <Filter>Classes\Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Sound\SoundMgr.cpp">
+      <Filter>Classes\Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Time\TimeMgr.cpp">
+      <Filter>Classes\Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Resources\Resources.cpp">
+      <Filter>Classes\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Project\VisualStudio2015</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Project\VisualStudio2015</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

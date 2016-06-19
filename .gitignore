@@ -1,0 +1,4 @@
+*.db
+*.opendb
+Project/VisualStudio2015/Obj/
+Project/VisualStudio2015/ipch/
