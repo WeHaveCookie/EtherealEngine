@@ -2,7 +2,7 @@
 #include "InputMgr.h"
 
 InputMgr::InputMgr()
-:Manager(ManagerType::INPUT)
+:Manager(ManagerType::MT_INPUT)
 {
 }
 

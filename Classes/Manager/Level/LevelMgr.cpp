@@ -2,7 +2,7 @@
 #include "LevelMgr.h"
 
 LevelMgr::LevelMgr()
-:Manager(ManagerType::LEVEL)
+:Manager(ManagerType::MT_LEVEL)
 {
 }
 

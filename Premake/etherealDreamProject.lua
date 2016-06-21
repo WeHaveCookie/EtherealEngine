@@ -189,6 +189,7 @@ function EtherealDreamProject(name, etherealDreamPath)
 				etherealDreamPath .. "Project/VisualStudio2015",
 				etherealDreamPath .. "Classes",
 				etherealDreamPath .. "../External/ImGui",
+				etherealDreamPath .. "../External/rapidjson",
 				"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10150.0/ucrt"
 			}
 			

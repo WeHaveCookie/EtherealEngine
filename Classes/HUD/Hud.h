@@ -10,9 +10,8 @@ class Hud : public DrawableObject
         Hud();
         virtual ~Hud();
         // Function
-        void draw(sf::RenderWindow* window);
-        void update(sf::RenderWindow* window);
-        void updateAnimation();
+        void paint();
+        void update();
 
     protected:
     private:

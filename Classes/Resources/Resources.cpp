@@ -11,10 +11,10 @@ Resources::~Resources()
     //dtor
 }
 
-void Resources::draw(sf::RenderWindow* window)
+void Resources::paint()
 {
 }
 
-void Resources::update(sf::RenderWindow* window)
+void Resources::update()
 {
 }

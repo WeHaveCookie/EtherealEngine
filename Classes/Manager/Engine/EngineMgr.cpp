@@ -2,7 +2,7 @@
 #include "EngineMgr.h"
 
 EngineMgr::EngineMgr()
-:Manager(ManagerType::ENGINE)
+:Manager(ManagerType::MT_ENGINE)
 {
 }
 

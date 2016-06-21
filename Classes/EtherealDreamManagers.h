@@ -18,6 +18,7 @@ DECLARE_MANAGER(GameMgr)
 DECLARE_MANAGER(EventMgr)
 DECLARE_MANAGER(EngineMgr)
 DECLARE_MANAGER(RenderMgr)
+DECLARE_MANAGER(EntityMgr)
 
 #define TIME_MGR	g_TimeMgr;
 #define SOUND_MGR	g_SoundMgr;
@@ -28,6 +29,7 @@ DECLARE_MANAGER(RenderMgr)
 #define EVENT_MGR	g_EventMgr;
 #define ENGINE_MGR	g_EngineMgr;
 #define RENDER_MGR	g_RenderMgr;
+#define ENTITY_MGR	g_EntityMgr;
 
 class Manager;
 

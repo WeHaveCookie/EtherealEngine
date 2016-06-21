@@ -2,7 +2,7 @@
 #include "RenderMgr.hpp"
 
 RenderMgr::RenderMgr()
-:Manager(ManagerType::RENDER)
+:Manager(ManagerType::MT_RENDER)
 {
 
 }

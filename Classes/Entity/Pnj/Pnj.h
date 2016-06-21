@@ -11,8 +11,8 @@ class Pnj : public DrawableObject
         virtual ~Pnj();
 
         // Function
-        void draw(sf::RenderWindow* window);
-        void update(sf::RenderWindow* window);
+        void paint();
+        void update();
 
     protected:
     private:

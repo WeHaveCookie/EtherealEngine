@@ -2,7 +2,7 @@
 #include "EventMgr.hpp"
 
 EventMgr::EventMgr()
-:Manager(ManagerType::EVENT)
+:Manager(ManagerType::MT_EVENT)
 {
 
 }

@@ -2,7 +2,7 @@
 #include "ItemMgr.h"
 
 ItemMgr::ItemMgr()
-:Manager(ManagerType::ITEM)
+:Manager(ManagerType::MT_ITEM)
 {
     //ctor
 }

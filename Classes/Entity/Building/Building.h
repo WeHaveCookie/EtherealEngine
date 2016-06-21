@@ -9,8 +9,8 @@ class Building : public DrawableObject
     public:
         Building(sf::Vector2f pos);
         virtual ~Building();
-        void draw(sf::RenderWindow* window);
-        void update(sf::RenderWindow* window);
+        void paint();
+        void update();
       
     protected:
       

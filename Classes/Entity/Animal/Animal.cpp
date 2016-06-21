@@ -11,10 +11,10 @@ Animal::~Animal()
 }
 
 
-void Animal::draw(sf::RenderWindow* window)
+void Animal::paint()
 {
 }
 
-void Animal::update(sf::RenderWindow* window)
+void Animal::update()
 {
 }

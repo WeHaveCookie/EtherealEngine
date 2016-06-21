@@ -9,8 +9,8 @@ class Animal : public DrawableObject
         virtual ~Animal();
 
         // Function
-        void draw(sf::RenderWindow* window);
-        void update(sf::RenderWindow* window);
+        void paint();
+        void update();
 
     protected:
    

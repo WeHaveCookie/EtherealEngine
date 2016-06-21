@@ -2,7 +2,7 @@
 #include "TimeMgr.hpp"
 
 TimeMgr::TimeMgr()
-:Manager(ManagerType::TIME)
+:Manager(ManagerType::MT_TIME)
 {
 
 }

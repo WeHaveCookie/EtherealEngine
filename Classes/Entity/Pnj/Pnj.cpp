@@ -11,12 +11,12 @@ Pnj::~Pnj()
 }
 
 
-void Pnj::draw(sf::RenderWindow* window)
+void Pnj::paint()
 {
 
 }
 
-void Pnj::update(sf::RenderWindow* window)
+void Pnj::update()
 {
    
 }

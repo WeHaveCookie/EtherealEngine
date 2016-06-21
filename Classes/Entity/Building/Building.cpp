@@ -10,12 +10,12 @@ Building::~Building()
     //dtor
 }
 
-void Building::draw(sf::RenderWindow* window)
+void Building::paint()
 {
   
 }
 
-void Building::update(sf::RenderWindow* window)
+void Building::update()
 {
   
 }

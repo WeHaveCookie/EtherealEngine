@@ -2,7 +2,7 @@
 #include "SoundMgr.h"
 
 SoundMgr::SoundMgr()
-:Manager(ManagerType::SOUND)
+:Manager(ManagerType::MT_SOUND)
 {
 
 }

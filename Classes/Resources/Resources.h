@@ -7,8 +7,8 @@ class Resources : public DrawableObject
     public:
         Resources();
         virtual ~Resources();
-        void draw(sf::RenderWindow* window);
-        void update(sf::RenderWindow* window);
+        void paint();
+        void update();
     protected:
 
     private:

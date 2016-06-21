@@ -7,6 +7,18 @@
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Entity\Animal">
+      <UniqueIdentifier>{20D36F68-8C3F-2B63-5533-C3C0C15E4DCB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entity\Building">
+      <UniqueIdentifier>{BC27BA4A-285F-02E2-3169-66059D1F29DB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entity\Character">
+      <UniqueIdentifier>{7B5417BD-6779-663D-90C4-4BCD7C48655B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Entity\Pnj">
+      <UniqueIdentifier>{165450DF-0238-1135-6B98-0B88579BFBB6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Files">
       <UniqueIdentifier>{B5B67FC3-2177-FBF9-EAB1-4477563140D6}</UniqueIdentifier>
     </Filter>
@@ -21,6 +33,9 @@
     </Filter>
     <Filter Include="Classes\Manager\Engine">
       <UniqueIdentifier>{02BE12B6-EEB7-3B08-D724-D218C3BDA174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Entity">
+      <UniqueIdentifier>{C9DF19B6-B5D9-4208-9E46-D9188ADFA874}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Event">
       <UniqueIdentifier>{2E59B7BF-9AC5-72BA-63B9-0A18CFE49422}</UniqueIdentifier>
@@ -60,17 +75,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Classes\Entity\Animal.h">
+    <ClInclude Include="..\..\Classes\Entity\Animal\Animal.h">
+      <Filter>Classes\Entity\Animal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Building\Building.h">
+      <Filter>Classes\Entity\Building</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
+      <Filter>Classes\Entity\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\Entity.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Building.h">
-      <Filter>Classes\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Character.h">
-      <Filter>Classes\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Pnj.h">
-      <Filter>Classes\Entity</Filter>
+    <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h">
+      <Filter>Classes\Entity\Pnj</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\EtherealDreamManagers.h">
       <Filter>Classes</Filter>
@@ -89,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Engine\EngineMgr.h">
       <Filter>Classes\Manager\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h">
+      <Filter>Classes\Manager\Entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h">
       <Filter>Classes\Manager\Event</Filter>
@@ -131,17 +152,20 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Classes\Entity\Animal.cpp">
+    <ClCompile Include="..\..\Classes\Entity\Animal\Animal.cpp">
+      <Filter>Classes\Entity\Animal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Building\Building.cpp">
+      <Filter>Classes\Entity\Building</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
+      <Filter>Classes\Entity\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\Entity.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Building.cpp">
-      <Filter>Classes\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Character.cpp">
-      <Filter>Classes\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Pnj.cpp">
-      <Filter>Classes\Entity</Filter>
+    <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp">
+      <Filter>Classes\Entity\Pnj</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\EtherealDreamManagers.cpp">
       <Filter>Classes</Filter>
@@ -160,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Engine\EngineMgr.cpp">
       <Filter>Classes\Manager\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp">
+      <Filter>Classes\Manager\Entity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp">
       <Filter>Classes\Manager\Event</Filter>

@@ -1,0 +1,32 @@
+{
+	"ID" : "testPlayer",
+	"Width" : 105,
+	"Height" : 105,
+	"Speed" : 1.0,
+	"Animation" : [
+		{
+			"State" : "RIGHT",
+			"Frame" : 6,
+			"Line" : 1,
+			"Time" : 1.0
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 6,
+			"Line" : 2,
+			"Time" : 1.0
+		},
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 6,
+			"Line" : 3,
+			"Time" : 1.0
+		},
+		{
+			"State" : "IDLE_LEFT",
+			"Frame" : 6,
+			"Line" : 4,
+			"Time" : 1.0
+		}
+	]
+}

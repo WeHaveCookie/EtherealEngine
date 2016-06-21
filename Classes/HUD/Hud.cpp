@@ -11,16 +11,12 @@ Hud::~Hud()
 }
 
 
-void Hud::draw(sf::RenderWindow* window)
+void Hud::paint()
 {
 }
 
-void Hud::update(sf::RenderWindow* window)
+void Hud::update()
 {
 }
 
-void Hud::updateAnimation()
-{
-
-}
 

@@ -3,7 +3,7 @@
 
 
 GameMgr::GameMgr()
-:Manager(ManagerType::GAME)
+:Manager(ManagerType::MT_GAME)
 {
 
 }
