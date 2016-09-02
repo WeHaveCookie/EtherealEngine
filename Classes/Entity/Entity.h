@@ -2,25 +2,60 @@
 
 #include "Graphics/DrawableObject.h"
 
+struct EntityAnimation {
+	std::vector<sf::Sprite> m_animation;
+	float					m_timePerFrame;
+	unsigned int			m_currentFrame;
+
+	sf::Sprite* getCurrentAnimation() {
+		return &m_animation[m_currentFrame];
+	}
+
+	void nextFrame() {
+		m_currentFrame++;
+		if (m_currentFrame > m_animation.size())
+		{
+			m_currentFrame = 0;
+		}
+	}
+
+};
+
+namespace EntityAnimationState {
+	enum Enum {
+		Right,
+		Left,
+		Idle,
+		IdleRight,
+		IdleLeft
+	};
+}
+
 class Entity : public DrawableObject
 {
 	public:
-		Entity();
+		Entity(const char* path);
 		~Entity();
 
 		virtual void move(sf::Vector2f motion);
 		virtual void paint();
 		virtual void update();
 
-		void setId(const char* id);
-		void addAnimation(EntityAnimation entAnim);
+		void setId(int id) { m_id = id; }
+		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
 		void setSpeed(float speed);
-		const char* getId() const { return m_id;}
-		
+		const int getId() const { return m_id;}
+		void setPosition(sf::Vector2f pos) { m_position = pos; }
+		void setState(EntityAnimationState::Enum state) { m_currentState = state; }
+		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 
 	private:
-		char*								m_id;
-		std::vector<EntityAnimation>		m_animations;
-		float								m_speed;
-		EntityAnimationState				m_currentState;
+		void build(const char* path);
+		int														m_id;
+		std::map<EntityAnimationState::Enum, EntityAnimation>	m_animations;
+		float													m_speed;
+		EntityAnimationState::Enum								m_currentState;
+		sf::Vector2f											m_position;
+		sf::Texture											m_texture;
+		
 };

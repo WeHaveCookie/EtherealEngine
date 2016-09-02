@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Manager/Manager.h"
-
-class Entity;
+#include "Entity/Entity.h"
 
 class EntityMgr : public Manager
 {
@@ -18,12 +17,12 @@ class EntityMgr : public Manager
 		EntityMgr();
 		~EntityMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
-		void Paint();
+		void init();
+		void process(const float dt);
+		void end();
+		void paint();
 
-		void BuildEntity(const char* path);
+		void buildEntity(const char* path);
 
 	private:
 		std::vector<Entity*> m_entitys;

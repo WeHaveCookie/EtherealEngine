@@ -5,7 +5,7 @@
 class Character : public Entity
 {
 public:
-    Character();
+    Character(const char* path);
     virtual ~Character();
 
     // Function

@@ -1,21 +1,21 @@
 {
-	"ID" : 1,
-	"Width" : 105,
-	"Height" : 105,
+	"ID" : 2,
+	"Width" : 27,
+	"Height" : 27,
 	"Speed" : 1.0,
-	"Position" : [500.0, 200.0],
+	"Position" : [300.0, 200.0],
 	"State" : "IDLE_RIGHT",
 	"Animation" : [
 		{
 			"State" : "RIGHT",
-			"Frame" : 6,
+			"Frame" : 4,
 			"Line" : 1,
 			"Time" : 1.0,
 			"Line" : 1
 		},
 		{
 			"State" : "LEFT",
-			"Frame" : 6,
+			"Frame" : 3,
 			"Line" : 2,
 			"Time" : 1.0,
 			"Line" : 2

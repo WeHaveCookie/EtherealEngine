@@ -2,7 +2,8 @@
 #include "Character.h"
 
 
-Character::Character()
+Character::Character(const char* path)
+	:Entity(path)
 {
    
 }
