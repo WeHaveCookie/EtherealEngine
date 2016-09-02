@@ -2,7 +2,7 @@
 #include "SoundMgr.h"
 
 SoundMgr::SoundMgr()
-:Manager(ManagerType::MT_SOUND)
+:Manager(ManagerType::Enum::Sound)
 {
 
 }
@@ -12,17 +12,17 @@ SoundMgr::~SoundMgr()
 
 }
 
-void SoundMgr::Init()
+void SoundMgr::init()
 {
 
 }
 
-void SoundMgr::Process(const float dt)
+void SoundMgr::process(const float dt)
 {
 
 }
 
-void SoundMgr::End()
+void SoundMgr::end()
 {
 
 }

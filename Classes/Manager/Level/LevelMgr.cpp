@@ -2,7 +2,7 @@
 #include "LevelMgr.h"
 
 LevelMgr::LevelMgr()
-:Manager(ManagerType::MT_LEVEL)
+:Manager(ManagerType::Enum::Level)
 {
 }
 
@@ -10,22 +10,22 @@ LevelMgr::~LevelMgr()
 {
 }
 
-void LevelMgr::Init()
+void LevelMgr::init()
 {
 
 }
 
-void LevelMgr::Process(const float dt)
+void LevelMgr::process(const float dt)
 {
 
 }
 
-void LevelMgr::End()
+void LevelMgr::end()
 {
 
 }
 
-void LevelMgr::Paint()
+void LevelMgr::paint()
 {
 
 }

@@ -7,9 +7,9 @@ class EventMgr : public Manager
 		EventMgr();
 		~EventMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
+		void init();
+		void process(const float dt);
+		void end();
 
 	private:
 };

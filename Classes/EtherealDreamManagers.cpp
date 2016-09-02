@@ -17,9 +17,9 @@ EtherealDreamManagers* EtherealDreamManagers::m_instance = NULL;
 #define REGISTER_MANAGER(ManagerClass) ManagerClass* g_##ManagerClass = NULL;
 
 #define CREATE_MGR(ManagerClass) g_##ManagerClass = new ManagerClass(); m_managers.push_back(g_##ManagerClass);
-#define INIT_MGR(ManagerClass) g_##ManagerClass->Init();
-#define PROCESS_MGR(ManagerClass) g_##ManagerClass->Process(g_DeltaTime);
-#define END_MGR(ManagerClass) g_##ManagerClass->End();	
+#define INIT_MGR(ManagerClass) g_##ManagerClass->init();
+#define PROCESS_MGR(ManagerClass) g_##ManagerClass->process(g_DeltaTime);
+#define END_MGR(ManagerClass) g_##ManagerClass->end();	
 
 
 float g_DeltaTimeRaw = 0.33f;
@@ -59,6 +59,11 @@ void EtherealDreamManagers::CreateManagers()
 
 void EtherealDreamManagers::InitManagers()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.DisplaySize.x = 1920.0f;
+	io.DisplaySize.y = 1280.0f;
+
+
 	INIT_MGR(TimeMgr)
 		INIT_MGR(SoundMgr)
 		INIT_MGR(LevelMgr)
@@ -80,7 +85,7 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 	_dt = g_DeltaTime;
 
 	// must be first
-	g_RenderMgr->StartFrame();
+	g_RenderMgr->startFrame();
 
 	PROCESS_MGR(TimeMgr)
 		PROCESS_MGR(SoundMgr)
@@ -91,6 +96,8 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 		PROCESS_MGR(EventMgr)
 		PROCESS_MGR(EngineMgr)
 		PROCESS_MGR(EntityMgr)
+
+		PROCESS_MGR(RenderMgr);
 }
 
 void EtherealDreamManagers::DestroyManagers()
@@ -117,12 +124,17 @@ void EtherealDreamManagers::DestroyManagers()
 	m_managers.clear();
 }
 
-Manager* EtherealDreamManagers::getManager(ManagerType type)
+Manager* EtherealDreamManagers::getManager(ManagerType::Enum type)
 {
-	for (int ID = 0; ID < m_managers.size(); ++ID)
+	for (unsigned int ID = 0; ID < m_managers.size(); ++ID)
 	{
 		if (m_managers[ID]->getType() == type)
 			return m_managers[ID];
 	}
 	return NULL;
+}
+
+bool EtherealDreamManagers::isRunning() 
+{ 
+	return g_GameMgr->isRunning(); 
 }

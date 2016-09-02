@@ -8,9 +8,9 @@ class TimeMgr : public Manager
 		TimeMgr();
 		~TimeMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
+		void init();
+		void process(const float dt);
+		void end();
 
 		const float GetDeltaTime() const;
 

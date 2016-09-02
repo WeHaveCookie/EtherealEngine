@@ -2,7 +2,7 @@
 #include "ItemMgr.h"
 
 ItemMgr::ItemMgr()
-:Manager(ManagerType::MT_ITEM)
+:Manager(ManagerType::Enum::Item)
 {
     //ctor
 }
@@ -12,17 +12,17 @@ ItemMgr::~ItemMgr()
     //dtor
 }
 
-void ItemMgr::Init()
+void ItemMgr::init()
 {
 
 }
 
-void ItemMgr::Process(const float dt)
+void ItemMgr::process(const float dt)
 {
 
 }
 
-void ItemMgr::End()
+void ItemMgr::end()
 {
 
 }

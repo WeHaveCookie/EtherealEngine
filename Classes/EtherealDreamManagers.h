@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-
+#include "Manager/Manager.h"
 
 #define DECLARE_MANAGER(ManagerClass)\
 	class ManagerClass; extern ManagerClass* g_##ManagerClass; extern bool g_activate##ManagerClass;
@@ -48,8 +48,8 @@ public:
 	void					UpdateManagers(float _dt);
 	void					DestroyManagers();
 	std::vector<Manager*>&	getManagers() { return m_managers; }
-	Manager*				getManager(ManagerType _type);
-
+	Manager*				getManager(ManagerType::Enum _type);
+	bool					isRunning();
 
 
 private:

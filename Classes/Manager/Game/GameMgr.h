@@ -9,14 +9,16 @@ class GameMgr : public Manager
         ~GameMgr();
 
         // Function
-		void Init();
-		void Process(const float dt);
-		void End();
-		void Paint();
+		void init();
+		void process(const float dt);
+		void end();
+		void paint();
+		bool isRunning();
 
+		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
 
     protected:
     private:
         // Function
-        
+		sf::RenderWindow* m_mainRenderWindow;
 };

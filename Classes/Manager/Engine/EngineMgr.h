@@ -8,9 +8,9 @@ class EngineMgr : public Manager
         EngineMgr();
         virtual ~EngineMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
+		void init();
+		void process(const float dt);
+		void end();
 
         // Function
         bool collisionCircle(sf::FloatRect box1, sf::CircleShape circle);

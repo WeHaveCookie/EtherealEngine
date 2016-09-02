@@ -7,10 +7,10 @@ class LevelMgr : public Manager
         LevelMgr();
         virtual ~LevelMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
-		void Paint();
+		void init();
+		void process(const float dt);
+		void end();
+		void paint();
 
 
     protected:

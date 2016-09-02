@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "TimeMgr.hpp"
+#include "TimeMgr.h"
 
 TimeMgr::TimeMgr()
-:Manager(ManagerType::MT_TIME)
+:Manager(ManagerType::Enum::Time)
 {
 
 }
@@ -12,17 +12,17 @@ TimeMgr::~TimeMgr()
 
 }
 
-void TimeMgr::Init()
+void TimeMgr::init()
 {
 
 }
 
-void TimeMgr::Process(const float dt)
+void TimeMgr::process(const float dt)
 {
 
 }
 
-void TimeMgr::End()
+void TimeMgr::end()
 {
 
 }

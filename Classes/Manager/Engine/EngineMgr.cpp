@@ -2,7 +2,7 @@
 #include "EngineMgr.h"
 
 EngineMgr::EngineMgr()
-:Manager(ManagerType::MT_ENGINE)
+:Manager(ManagerType::Enum::Engine)
 {
 }
 
@@ -10,17 +10,17 @@ EngineMgr::~EngineMgr()
 {
 }
 
-void EngineMgr::Init()
+void EngineMgr::init()
 {
 
 }
 
-void EngineMgr::Process(const float dt)
+void EngineMgr::process(const float dt)
 {
 
 }
 
-void EngineMgr::End()
+void EngineMgr::end()
 {
 
 }

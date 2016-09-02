@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "EventMgr.hpp"
+#include "EventMgr.h"
 
 EventMgr::EventMgr()
-:Manager(ManagerType::MT_EVENT)
+:Manager(ManagerType::Enum::Event)
 {
 
 }
@@ -12,17 +12,17 @@ EventMgr::~EventMgr()
 
 }
 
-void EventMgr::Init()
+void EventMgr::init()
 {
 
 }
 
-void EventMgr::Process(const float dt)
+void EventMgr::process(const float dt)
 {
 
 }
 
-void EventMgr::End()
+void EventMgr::end()
 {
 
 }
