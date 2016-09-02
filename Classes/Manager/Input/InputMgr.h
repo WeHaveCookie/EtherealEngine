@@ -9,9 +9,9 @@ class InputMgr : public Manager
 		InputMgr();
 		~InputMgr();
 
-		void Init();
-		void Process(const float dt);
-		void End();
+		void init();
+		void process(const float dt);
+		void end();
 
 	private:
 };
