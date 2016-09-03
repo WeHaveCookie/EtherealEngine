@@ -6,17 +6,28 @@ struct EntityAnimation {
 	std::vector<sf::Sprite> m_animation;
 	float					m_timePerFrame;
 	unsigned int			m_currentFrame;
+	float					m_timeElapsedSinceUdpate = 0.0f;
 
 	sf::Sprite* getCurrentAnimation() {
+		if (m_timeElapsedSinceUdpate >= m_timePerFrame)
+		{
+			nextFrame();
+			m_timeElapsedSinceUdpate = 0.0f;
+		}
 		return &m_animation[m_currentFrame];
 	}
 
 	void nextFrame() {
 		m_currentFrame++;
-		if (m_currentFrame > m_animation.size())
+		if (m_currentFrame >= m_animation.size())
 		{
 			m_currentFrame = 0;
 		}
+	}
+
+	void update(const float dt)
+	{
+		m_timeElapsedSinceUdpate += dt;
 	}
 
 };
@@ -39,7 +50,7 @@ class Entity : public DrawableObject
 
 		virtual void move(sf::Vector2f motion);
 		virtual void paint();
-		virtual void update();
+		virtual void update(const float dt);
 
 		void setId(int id) { m_id = id; }
 		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
@@ -56,6 +67,5 @@ class Entity : public DrawableObject
 		float													m_speed;
 		EntityAnimationState::Enum								m_currentState;
 		sf::Vector2f											m_position;
-		sf::Texture											m_texture;
-		
+		sf::Texture												m_texture;
 };

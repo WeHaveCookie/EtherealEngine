@@ -23,7 +23,7 @@ void EntityMgr::process(const float dt)
 {
 	for (auto it = m_entitys.begin(); it != m_entitys.end(); it++)
 	{
-		(*it)->update();
+		(*it)->update(dt);
 	}
 }
 

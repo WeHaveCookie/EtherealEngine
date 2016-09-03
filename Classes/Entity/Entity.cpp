@@ -48,8 +48,9 @@ void Entity::paint()
 	rdrWin->draw(*m_animations[m_currentState].getCurrentAnimation());
 }
 
-void Entity::update()
+void Entity::update(const float dt)
 {
+	m_animations[m_currentState].update(dt);
 	sf::Sprite* currentAnim = m_animations[m_currentState].getCurrentAnimation();
 	currentAnim->setPosition(m_position);
 }
