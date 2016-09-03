@@ -442,7 +442,6 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h" />
     <ClInclude Include="..\..\Classes\Resources\Resources.h" />
     <ClInclude Include="..\..\Classes\Utils\Constante.h" />
-    <ClInclude Include="..\..\Classes\Utils\Structure.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

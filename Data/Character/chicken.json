@@ -10,29 +10,25 @@
 			"State" : "RIGHT",
 			"Frame" : 4,
 			"Line" : 1,
-			"Time" : 1.0,
-			"Line" : 1
+			"Time" : 0.1
 		},
 		{
 			"State" : "LEFT",
-			"Frame" : 3,
+			"Frame" : 4,
 			"Line" : 2,
-			"Time" : 1.0,
-			"Line" : 2
+			"Time" : 0.1
 		},
 		{
 			"State" : "IDLE_RIGHT",
 			"Frame" : 6,
 			"Line" : 3,
-			"Time" : 1.0,
-			"Line" : 3
+			"Time" : 0.1
 		},
 		{
 			"State" : "IDLE_LEFT",
 			"Frame" : 6,
 			"Line" : 4,
-			"Time" : 1.0,
-			"Line" : 4
+			"Time" : 0.1
 		}
 	]
 }

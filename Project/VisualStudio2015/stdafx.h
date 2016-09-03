@@ -23,7 +23,6 @@
 #include <math.h>
 
 // Framework
-#include <imgui.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -32,4 +31,3 @@
 
 // Game
 #include "Utils/Constante.h"
-#include "Utils/Structure.h"

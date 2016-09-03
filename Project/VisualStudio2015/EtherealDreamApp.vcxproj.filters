@@ -144,9 +144,6 @@
     <ClInclude Include="..\..\Classes\Utils\Constante.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Utils\Structure.h">
-      <Filter>Classes\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Project\VisualStudio2015</Filter>
     </ClInclude>
