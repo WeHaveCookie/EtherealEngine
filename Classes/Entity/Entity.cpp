@@ -38,7 +38,7 @@ Entity::~Entity()
 
 void Entity::move(sf::Vector2f motion)
 {
-
+	m_position += motion;
 }
 
 void Entity::paint()
@@ -63,6 +63,12 @@ void Entity::addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimati
 void Entity::setSpeed(float speed)
 {
 	m_speed = std::max(speed,0.0f);
+}
+
+void Entity::setState(EntityAnimationState::Enum state)
+{ 
+	m_animations[m_currentState].reset();
+	m_currentState = state; 
 }
 
 EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)

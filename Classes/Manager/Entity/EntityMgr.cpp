@@ -79,3 +79,15 @@ void EntityMgr::buildEntity(const char* path)
 	Entity* ent = new Entity(path);
 	m_entitys.push_back(ent);
 }
+
+Entity* EntityMgr::getEntity(unsigned int id)
+{
+	for (auto& ent : m_entitys)
+	{
+		if (ent->getId() == id)
+		{
+			return ent;
+		}
+	}
+	return NULL;
+}

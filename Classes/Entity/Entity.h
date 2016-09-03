@@ -30,6 +30,12 @@ struct EntityAnimation {
 		m_timeElapsedSinceUdpate += dt;
 	}
 
+	void reset()
+	{
+		m_timeElapsedSinceUdpate = 0.0f;
+		m_currentFrame = 0;
+	}
+
 };
 
 namespace EntityAnimationState {
@@ -57,7 +63,7 @@ class Entity : public DrawableObject
 		void setSpeed(float speed);
 		const int getId() const { return m_id;}
 		void setPosition(sf::Vector2f pos) { m_position = pos; }
-		void setState(EntityAnimationState::Enum state) { m_currentState = state; }
+		void setState(EntityAnimationState::Enum state);
 		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 
 	private:

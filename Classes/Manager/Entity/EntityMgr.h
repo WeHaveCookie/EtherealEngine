@@ -23,6 +23,7 @@ class EntityMgr : public Manager
 		void paint();
 
 		void buildEntity(const char* path);
+		Entity* getEntity(unsigned int id);
 
 	private:
 		std::vector<Entity*> m_entitys;
