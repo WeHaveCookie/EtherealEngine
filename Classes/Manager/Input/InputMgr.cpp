@@ -32,10 +32,10 @@ int KeyToSFML[] = {
 	sf::Keyboard::X, // kbX
 	sf::Keyboard::Y, // kbY
 	sf::Keyboard::Z, // kbZ
-	sf::Keyboard::Right, // kbCrossRight
-	sf::Keyboard::Up, // kbCrossUp
-	sf::Keyboard::Left, // kbCrossLeft
-	sf::Keyboard::Down, // kbCrossDown
+	sf::Keyboard::Right, // kbRight
+	sf::Keyboard::Up, // kbUp
+	sf::Keyboard::Left, // kbLeft
+	sf::Keyboard::Down, // kbDown
 	sf::Keyboard::LControl, // kbLeftCtlr
 	sf::Keyboard::RControl, // kbRightCtlr
 	sf::Keyboard::LAlt, // kbLeftAlt
