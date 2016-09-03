@@ -21,6 +21,7 @@
 #include <stack>
 #include <algorithm>
 #include <math.h>
+#include <assert.h>
 
 // Framework
 #include <SFML/Graphics.hpp>

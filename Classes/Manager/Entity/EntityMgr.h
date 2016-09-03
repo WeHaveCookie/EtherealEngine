@@ -3,15 +3,10 @@
 #include "Manager/Manager.h"
 #include "Entity/Entity.h"
 
+class EntityPool;
+
 class EntityMgr : public Manager
 {
-	struct EntityBuilder {
-		const char*						m_id;
-		int								m_width;
-		int								m_height;
-		float							m_speed;
-		std::vector<EntityAnimation>	m_entityAnimations;
-	};
 
 	public:
 		EntityMgr();
@@ -26,6 +21,6 @@ class EntityMgr : public Manager
 		Entity* getEntity(unsigned int id);
 
 	private:
-		std::vector<Entity*> m_entitys;
+		EntityPool*				m_pool;
 
 };

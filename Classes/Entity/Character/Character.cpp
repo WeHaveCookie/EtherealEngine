@@ -2,22 +2,12 @@
 #include "Character.h"
 
 
-Character::Character(const char* path)
-	:Entity(path)
+Character::Character()
+	:Entity()
 {
    
 }
 
 Character::~Character()
 {
-}
-
-void Character::paint()
-{
-   
-}
-
-void Character::update()
-{
-  
 }

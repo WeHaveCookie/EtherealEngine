@@ -4,6 +4,7 @@
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
 #include "../../External/rapidjson/document.h"
+#include "Utils/Random.h"
 
 std::map<std::string, EntityAnimationState::Enum> StateToEnum =
 {
@@ -22,13 +23,12 @@ std::vector<const char*> EnumToString = {
 	"IDLE_LEFT"
 };
 
-Entity::Entity(const char* path)
+Entity::Entity()
+	:m_uid(newUID++)
 {
-	m_id = -1;
-	m_speed = 1.0f;
-	m_currentState = EntityAnimationState::Idle;
-	m_position = sf::Vector2f(0.0f, 0.0f);
-	build(path);
+	m_live = false;
+	m_state.m_live.m_errorTexture.loadFromFile(ERROR_TEXTURE);
+	m_state.m_live.m_errorTexture.setRepeated(true);
 }
 
 Entity::~Entity()
@@ -43,39 +43,52 @@ void Entity::move(sf::Vector2f motion)
 
 void Entity::paint()
 {
-	auto renderMgr = RENDER_MGR;
-	auto rdrWin  = renderMgr->getMainRenderWindow();
-	rdrWin->draw(*m_animations[m_currentState].getCurrentAnimation());
+	if (m_live)
+	{
+		auto renderMgr = RENDER_MGR;
+		auto rdrWin = renderMgr->getMainRenderWindow();
+		sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
+		rdrWin->draw(*currentAnim);
+	}
 }
 
 void Entity::update(const float dt)
 {
-	m_animations[m_currentState].update(dt);
-	sf::Sprite* currentAnim = m_animations[m_currentState].getCurrentAnimation();
+	m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
+	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 	currentAnim->setPosition(m_position);
+}
+
+bool Entity::process(const float dt)
+{
+	if (m_live)
+	{
+		update(dt);
+	}
+	return m_live;
 }
 
 void Entity::addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim)
 {
-	m_animations[entAnimState] = entAnim;
+	m_state.m_live.m_animations[entAnimState] = entAnim;
 }
 
 void Entity::setSpeed(float speed)
 {
-	m_speed = std::max(speed,0.0f);
+	m_state.m_live.m_speed = std::max(speed, 0.0f);
 }
 
 void Entity::setState(EntityAnimationState::Enum state)
-{ 
-	m_animations[m_currentState].reset();
-	m_currentState = state; 
+{
+	m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
+	m_state.m_live.m_currentState = state;
 }
 
 EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
-{ 
-	if (m_animations[state].m_animation.size() != 0)
+{
+	if (m_state.m_live.m_animations[state].m_animation.size() != 0)
 	{
-		return &m_animations[state]; 
+		return &m_state.m_live.m_animations[state];
 	}
 	else
 	{
@@ -83,15 +96,35 @@ EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 	}
 }
 
-void getEntityPath(char* dest, const char* source)
+void replaceJsonByPng(char* dest, const char* source)
 {
 	strcpy(dest, source);
 	char* ext = strstr(dest, ".json");
 	strncpy(ext, ".png", 5);
 }
 
+void replaceName(char* dest, const char* name, int sizeName)
+{
+	int i = 0;
+	int lastSlashPos = 0;
+	while (dest[i] != '\0')
+	{
+		if (dest[i] == '/' || dest[i] == '\\')
+		{
+			lastSlashPos = i + 1;
+		}
+		i++;
+	}
+	for (int i = 0; i < sizeName; i++)
+	{
+		dest[lastSlashPos + i] = name[i];
+	}
+	dest[lastSlashPos + sizeName] = '\0';
+}
+
 void Entity::build(const char* path)
 {
+
 	FILE *f = fopen(path, "rb");
 	fseek(f, 0, SEEK_END);
 	long fsize = ftell(f);
@@ -110,28 +143,37 @@ void Entity::build(const char* path)
 
 	sf::Sprite spr;
 	char entPath[128];
-	getEntityPath(entPath, path);
+	if (document.HasMember("Textures"))
+	{
+		const rapidjson::Value& textures = document["Textures"];
+		int textureID = randIntBorned(0, textures.GetArray().Size());
+		strcpy(entPath, path);
+		replaceName(entPath, textures[textureID].GetString(), textures[textureID].GetStringLength());
+	} else
+	{
+		replaceJsonByPng(entPath, path);
+	}
 
 	assert(m_texture.loadFromFile(entPath));
 	m_texture.setSmooth(true);
 
 	spr.setTexture(m_texture);
 
-	assert(document.HasMember("ID"));
-	setId(document["ID"].GetInt());
+	assert(document.HasMember("Name"));
+	setName(document["Name"].GetString());
 
 	assert(document.HasMember("Speed"));
 	setSpeed(document["Speed"].GetFloat());
 
 	assert(document.HasMember("Width"));
-	unsigned int width = document["Width"].GetUint();
+	m_state.m_live.m_width = document["Width"].GetUint();
 
 	assert(document.HasMember("Height"));
-	unsigned int height = document["Height"].GetUint();
+	m_state.m_live.m_height = document["Height"].GetUint();
 
-	assert(document.HasMember("State"));
-	setState(StateToEnum[document["State"].GetString()]);
-
+	m_state.m_live.clear();
+	m_state.m_next = NULL;
+	
 	assert(document.HasMember("Animation"));
 	const rapidjson::Value& animation = document["Animation"];
 
@@ -151,7 +193,7 @@ void Entity::build(const char* path)
 
 		for (unsigned int column = 0; column < nbrFrame; column++)
 		{
-			spr.setTextureRect(sf::IntRect(width * column, height * line, width, height));
+			spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
 			anim.m_animation.push_back(spr);
 		}
 		anim.m_currentFrame = 0;
@@ -162,7 +204,14 @@ void Entity::build(const char* path)
 	{
 		const rapidjson::Value& posArray = document["Position"];
 		assert(posArray.Size() == 2);
-		sf::Vector2f pos = { posArray[0].GetFloat(), posArray[1].GetFloat() };
+		sf::Vector2f pos;
+		pos.x = randIntBorned(0.0f, posArray[0].GetFloat());
+		pos.y = posArray[1].GetFloat();
 		setPosition(pos);
 	}
+
+	assert(document.HasMember("State"));
+	setState(StateToEnum[document["State"].GetString()]);
+
+	m_live = true;
 }

@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GameMgr.h"
 #include "EtherealDreamManagers.h"
+#include "Manager/Input/InputMgr.h"
+#include "Manager/Entity/EntityMgr.h"
 
 GameMgr::GameMgr()
 :Manager(ManagerType::Enum::Game)
@@ -31,6 +33,53 @@ void GameMgr::init()
 
 void GameMgr::process(const float dt)
 {
+	auto inputMgr = INPUT_MGR;
+	auto entityMgr = ENTITY_MGR;
+	sf::Vector2f motion = { 0.0f, 0.0f };
+// 	auto ent = entityMgr->getEntity(1);
+// 	
+// 	if (inputMgr->keyIsJustPressed(KeyType::kbRight))
+// 	{
+// 		motion.x++;
+// 		ent->setState(EntityAnimationState::Right);
+// 	}
+// 	if (inputMgr->keyIsPressed(KeyType::kbRight))
+// 	{
+// 		motion.x++;
+// 	}
+// 
+// 	if (inputMgr->keyIsJustReleased(KeyType::kbRight))
+// 	{
+// 		ent->setState(EntityAnimationState::IdleRight);
+// 	}
+// 
+// 	if (inputMgr->keyIsJustPressed(KeyType::kbLeft))
+// 	{
+// 		motion.x--;
+// 		ent->setState(EntityAnimationState::Left);
+// 	}
+// 	if (inputMgr->keyIsPressed(KeyType::kbLeft))
+// 	{
+// 		motion.x--;
+// 	}
+// 
+// 	if (inputMgr->keyIsJustReleased(KeyType::kbLeft))
+// 	{
+// 		ent->setState(EntityAnimationState::IdleLeft);
+// 	}
+// 
+// 	if (inputMgr->keyIsPressed(KeyType::kbUp))
+// 	{
+// 		motion.y--;
+// 	}
+// 
+// 	if (inputMgr->keyIsPressed(KeyType::kbDown))
+// 	{
+// 		motion.y++;
+// 	}
+// 	ent->move(motion);
+	
+
 }
 
 void GameMgr::end()

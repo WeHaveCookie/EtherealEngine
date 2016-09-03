@@ -1,0 +1,22 @@
+{
+	"Name" : "Pig",
+	"Width" : 105,
+	"Height" : 105,
+	"Speed" : 1.0,
+	"Position" : [400.0, 400.0],
+	"State" : "RIGHT",
+	"Animation" : [
+		{
+			"State" : "RIGHT",
+			"Frame" : 6,
+			"Line" : 1,
+			"Time" : 0.3
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 6,
+			"Line" : 1,
+			"Time" : 0.3
+		}
+	]
+}

@@ -423,6 +423,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Entity\Building\Building.h" />
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h" />
     <ClInclude Include="..\..\Classes\Entity\Entity.h" />
+    <ClInclude Include="..\..\Classes\Entity\EntityPool.h" />
     <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h" />
     <ClInclude Include="..\..\Classes\EtherealDreamManagers.h" />
     <ClInclude Include="..\..\Classes\Files\Reader.h" />
@@ -442,6 +443,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h" />
     <ClInclude Include="..\..\Classes\Resources\Resources.h" />
     <ClInclude Include="..\..\Classes\Utils\Constante.h" />
+    <ClInclude Include="..\..\Classes\Utils\Random.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +451,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Entity\Building\Building.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp" />
+    <ClCompile Include="..\..\Classes\Entity\EntityPool.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp" />
     <ClCompile Include="..\..\Classes\EtherealDreamManagers.cpp" />
     <ClCompile Include="..\..\Classes\Files\Reader.cpp" />

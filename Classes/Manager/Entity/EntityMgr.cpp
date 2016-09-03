@@ -2,12 +2,12 @@
 #include "EntityMgr.h"
 
 #include "../../External/rapidjson/document.h"
+#include "Entity/EntityPool.h"
 
 EntityMgr::EntityMgr()
 :Manager(ManagerType::Enum::Entity)
 {
-	buildEntity("Data/Character/testPlayer.json");
-	buildEntity("Data/Character/chicken.json");
+	m_pool = new EntityPool(100);
 }
 
 EntityMgr::~EntityMgr()
@@ -17,14 +17,23 @@ EntityMgr::~EntityMgr()
 
 void EntityMgr::init()
 {
+	buildEntity("Data/Character/player.json");
+	buildEntity("Data/Character/chicken.json");
+	buildEntity("Data/Character/cow.json");
+	buildEntity("Data/Character/pig.json");
+	buildEntity("Data/Character/client.json");
+	buildEntity("Data/Character/client.json");
+	buildEntity("Data/Character/client.json");
+	buildEntity("Data/Character/client.json");
+	buildEntity("Data/Character/entrepreneur.json");
+	buildEntity("Data/Character/entrepreneur.json");
+	buildEntity("Data/Character/entrepreneur.json");
+	buildEntity("Data/Character/entrepreneur.json");
 }
 
 void EntityMgr::process(const float dt)
 {
-	for (auto it = m_entitys.begin(); it != m_entitys.end(); it++)
-	{
-		(*it)->update(dt);
-	}
+	m_pool->process(dt);
 }
 
 void EntityMgr::end()
@@ -34,10 +43,7 @@ void EntityMgr::end()
 
 void EntityMgr::paint()
 {
-	for (auto it = m_entitys.begin(); it != m_entitys.end(); it++)
-	{
-		(*it)->paint();
-	}
+	m_pool->paint();
 
 // 	if(ImGui::Begin("EntityMgr"))
 // 	{
@@ -76,18 +82,10 @@ void EntityMgr::paint()
 
 void EntityMgr::buildEntity(const char* path)
 {
-	Entity* ent = new Entity(path);
-	m_entitys.push_back(ent);
+	m_pool->create(path);
 }
 
 Entity* EntityMgr::getEntity(unsigned int id)
 {
-	for (auto& ent : m_entitys)
-	{
-		if (ent->getId() == id)
-		{
-			return ent;
-		}
-	}
 	return NULL;
 }

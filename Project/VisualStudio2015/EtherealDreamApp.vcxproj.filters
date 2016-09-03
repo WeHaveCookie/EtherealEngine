@@ -87,6 +87,9 @@
     <ClInclude Include="..\..\Classes\Entity\Entity.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Entity\EntityPool.h">
+      <Filter>Classes\Entity</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h">
       <Filter>Classes\Entity\Pnj</Filter>
     </ClInclude>
@@ -144,6 +147,9 @@
     <ClInclude Include="..\..\Classes\Utils\Constante.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\Random.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Project\VisualStudio2015</Filter>
     </ClInclude>
@@ -159,6 +165,9 @@
       <Filter>Classes\Entity\Character</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp">
+      <Filter>Classes\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Entity\EntityPool.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp">

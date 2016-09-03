@@ -13,6 +13,7 @@
 #include "Manager/Entity/EntityMgr.h"
 
 EtherealDreamManagers* EtherealDreamManagers::m_instance = NULL;
+unsigned int Entity::newUID = 0;
 
 #define REGISTER_MANAGER(ManagerClass) ManagerClass* g_##ManagerClass = NULL;
 
