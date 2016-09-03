@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameMgr.h"
-
+#include "EtherealDreamManagers.h"
 
 GameMgr::GameMgr()
 :Manager(ManagerType::Enum::Game)
@@ -21,7 +21,7 @@ void GameMgr::init()
 		vm = sf::VideoMode(1920, 1080);
 	}
 	m_mainRenderWindow = new sf::RenderWindow(vm, "Ethereal Dream", sf::Style::Default /*| sf::Style::Fullscreen*/);
-	m_mainRenderWindow->setFramerateLimit(60);
+	setFrameRate(60);
 	m_mainRenderWindow->setVerticalSyncEnabled(true);
 	srand(time(NULL));
 
@@ -44,4 +44,10 @@ void GameMgr::paint()
 bool GameMgr::isRunning()
 {
 	return m_mainRenderWindow->isOpen();
+}
+
+void GameMgr::setFrameRate(unsigned int frameRate)
+{
+	m_mainRenderWindow->setFramerateLimit(frameRate);
+	g_DeltaTime = 1.0f / (float)frameRate;
 }

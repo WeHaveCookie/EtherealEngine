@@ -14,7 +14,7 @@ class GameMgr : public Manager
 		void end();
 		void paint();
 		bool isRunning();
-
+		void setFrameRate(unsigned int frameRate);
 		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
 
     protected:

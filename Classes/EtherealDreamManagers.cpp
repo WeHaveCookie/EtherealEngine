@@ -59,11 +59,6 @@ void EtherealDreamManagers::CreateManagers()
 
 void EtherealDreamManagers::InitManagers()
 {
-	ImGuiIO& io = ImGui::GetIO();
-	io.DisplaySize.x = 1920.0f;
-	io.DisplaySize.y = 1280.0f;
-
-
 	INIT_MGR(TimeMgr)
 		INIT_MGR(SoundMgr)
 		INIT_MGR(LevelMgr)
