@@ -64,6 +64,9 @@
     <Filter Include="Classes\Resources">
       <UniqueIdentifier>{1DA8934C-89BE-91E2-D235-1D043E8B626A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Sound">
+      <UniqueIdentifier>{EB666EC4-5727-EAFA-2062-33788CE12ED7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Utils">
       <UniqueIdentifier>{932295C4-FFE2-10FB-C81D-5A78349D55D7}</UniqueIdentifier>
     </Filter>
@@ -144,6 +147,18 @@
     <ClInclude Include="..\..\Classes\Resources\Resources.h">
       <Filter>Classes\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Sound\MusicComponent.h">
+      <Filter>Classes\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Sound\MusicComponentPool.h">
+      <Filter>Classes\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Sound\SoundComponent.h">
+      <Filter>Classes\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Sound\SoundComponentPool.h">
+      <Filter>Classes\Sound</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\Constante.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
@@ -223,6 +238,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Resources\Resources.cpp">
       <Filter>Classes\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Sound\MusicComponent.cpp">
+      <Filter>Classes\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Sound\MusicComponentPool.cpp">
+      <Filter>Classes\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Sound\SoundComponent.cpp">
+      <Filter>Classes\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Sound\SoundComponentPool.cpp">
+      <Filter>Classes\Sound</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Project\VisualStudio2015</Filter>
