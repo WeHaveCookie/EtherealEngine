@@ -7,7 +7,7 @@
 EntityMgr::EntityMgr()
 :Manager(ManagerType::Enum::Entity)
 {
-	m_pool = new EntityPool(100);
+	m_entitys = new EntityPool(100);
 }
 
 EntityMgr::~EntityMgr()
@@ -33,56 +33,22 @@ void EntityMgr::init()
 
 void EntityMgr::process(const float dt)
 {
-	m_pool->process(dt);
+	m_entitys->process(dt);
 }
 
 void EntityMgr::end()
 {
-
+	free(m_entitys);
 }
 
 void EntityMgr::paint()
 {
-	m_pool->paint();
-
-// 	if(ImGui::Begin("EntityMgr"))
-// 	{
-// 		for (auto it = m_entitys.begin(); it != m_entitys.end(); it++)
-// 		{
-// 
-// 			if (ImGui::TreeNode(std::to_string((*it)->getId()).c_str()))
-// 			{
-// 				for (auto &state : EnumToString)
-// 				{
-// 					if (ImGui::TreeNode(state))
-// 					{
-// 						auto entAnim = (*it)->getAnimation(StateToEnum[state]);
-// 						auto anim = entAnim->m_animation;
-// 						int count = 0;
-// 						for (auto it = anim.begin(); it < anim.end(); it++)
-// 						{
-// 							ImGui::Text(std::to_string(count).c_str());
-// 							if (ImGui::IsItemHovered())
-// 							{
-// 								sf::Sprite mumu = *it;
-// 								const sf::Texture* bulbe = mumu.getTexture();
-// 								ImGui::Image((void*)bulbe, ImVec2(bulbe->getSize().x, bulbe->getSize().y));
-// 							}
-// 							count++;
-// 						}
-// 					}
-// 					ImGui::TreePop();
-// 				}
-// 			}
-// 			ImGui::TreePop();
-// 		}
-// 	}
-
+	m_entitys->paint();
 }
 
 void EntityMgr::buildEntity(const char* path)
 {
-	m_pool->create(path);
+	m_entitys->create(path);
 }
 
 Entity* EntityMgr::getEntity(unsigned int id)

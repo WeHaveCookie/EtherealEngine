@@ -21,6 +21,6 @@ class EntityMgr : public Manager
 		Entity* getEntity(unsigned int id);
 
 	private:
-		EntityPool*				m_pool;
+		EntityPool*				m_entitys;
 
 };
