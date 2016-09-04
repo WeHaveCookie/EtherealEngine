@@ -1,0 +1,16 @@
+#pragma once
+#include "SoundComponent.h"
+
+class SoundComponentPool
+{
+public:
+
+	SoundComponentPool(int size);
+	void create(const char* path, bool loop, bool persistent);
+	void process(const float dt);
+
+private:
+	const int						m_poolSize;
+	std::vector<SoundComponent*>	m_sounds;
+	SoundComponent*					m_firstAvailable;
+};
