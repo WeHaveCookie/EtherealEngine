@@ -84,9 +84,9 @@ class Entity : public DrawableObject
 
 		bool m_live;
 
-		union state
+		union State
 		{
-			struct live
+			struct
 			{
 				char													m_name[128];
 				std::map<EntityAnimationState::Enum, EntityAnimation>	m_animations;
@@ -113,13 +113,13 @@ class Entity : public DrawableObject
 
 			Entity*		m_next;
 
-			state()
+			State()
 				:m_live()
 			{
 				m_next = NULL;
 			}
 
-			~state()
+			~State()
 			{
 			}
 
