@@ -7,7 +7,7 @@
 struct EntityAnimation {
 	std::vector<sf::Sprite> m_animation;
 	float					m_timePerFrame;
-	unsigned int			m_currentFrame;
+	uint32_t				m_currentFrame;
 	float					m_timeElapsedSinceUdpate = 0.0f;
 
 	sf::Sprite* getCurrentAnimation() {
@@ -67,7 +67,7 @@ class Entity : public DrawableObject
 		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
 		void setSpeed(float speed);
 		const char* getId() const { return m_state.m_live.m_name;}
-		const unsigned int getUID() const { return m_uid; }
+		const uint32_t getUID() const { return m_uid; }
 		void setPosition(sf::Vector2f pos) { m_position = pos; }
 		void setState(EntityAnimationState::Enum state);
 		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
@@ -75,8 +75,8 @@ class Entity : public DrawableObject
 		Entity* getNext() { return m_state.m_next; }
 
 	protected:
-		static unsigned int newUID;
-		const unsigned int m_uid;
+		static uint32_t		newUID;
+		const uint32_t		m_uid;
 
 	private:
 		friend class EntityPool;
@@ -95,8 +95,8 @@ class Entity : public DrawableObject
 				sf::Vector2f											m_position;
 				sf::Texture												m_texture;
 				sf::Texture												m_errorTexture;
-				unsigned int											m_height;
-				unsigned int											m_width;
+				uint32_t												m_height;
+				uint32_t												m_width;
 
 				void clear()
 				{

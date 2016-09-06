@@ -5,6 +5,7 @@
 class GameMgr : public Manager
 {
     public:
+		static GameMgr* getSingleton() { return s_singleton; }
         GameMgr();
         ~GameMgr();
 
@@ -14,11 +15,15 @@ class GameMgr : public Manager
 		void end();
 		void paint();
 		bool isRunning();
-		void setFrameRate(unsigned int frameRate);
+		void setFrameRate(uint32_t frameRate);
 		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
+
+		const char* getGameName() { return m_gameName; }
 
     protected:
     private:
         // Function
+		static GameMgr* s_singleton;
 		sf::RenderWindow* m_mainRenderWindow;
+		char m_gameName[128];
 };

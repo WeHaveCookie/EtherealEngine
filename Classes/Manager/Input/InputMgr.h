@@ -200,14 +200,14 @@ class InputMgr : public Manager
 		void process(const float dt);
 		void end();
 
-		bool keyIsPressed(KeyType::Enum key, unsigned int id = 0);
-		bool keyIsJustPressed(KeyType::Enum key, unsigned int id = 0);
-		bool keyIsReleased(KeyType::Enum key, unsigned int id = 0);
-		bool keyIsJustReleased(KeyType::Enum key, unsigned int id = 0);
+		bool keyIsPressed(KeyType::Enum key, uint32_t id = 0);
+		bool keyIsJustPressed(KeyType::Enum key, uint32_t id = 0);
+		bool keyIsReleased(KeyType::Enum key, uint32_t id = 0);
+		bool keyIsJustReleased(KeyType::Enum key, uint32_t id = 0);
 
-		float getPadKeyValue(KeyType::Enum key, unsigned int id = 0);
-		float getPadKeyLastValue(KeyType::Enum key, unsigned int id = 0);
-		float getTimeSinceKeyPressed(KeyType::Enum key, unsigned int id = 0);
+		float getPadKeyValue(KeyType::Enum key, uint32_t id = 0);
+		float getPadKeyLastValue(KeyType::Enum key, uint32_t id = 0);
+		float getTimeSinceKeyPressed(KeyType::Enum key, uint32_t id = 0);
 
 	private:
 

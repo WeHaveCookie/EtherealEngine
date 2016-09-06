@@ -183,15 +183,15 @@ void Entity::build(const char* path)
 		assert(v.HasMember("State"));
 
 		assert(v.HasMember("Frame"));
-		unsigned int nbrFrame = v["Frame"].GetUint();
+		uint32_t nbrFrame = v["Frame"].GetUint();
 
 		assert(v.HasMember("Time"));
 		anim.m_timePerFrame = v["Time"].GetFloat();
 
 		assert(v.HasMember("Line"));
-		unsigned int line = v["Line"].GetUint() - 1;
+		uint32_t line = v["Line"].GetUint() - 1;
 
-		for (unsigned int column = 0; column < nbrFrame; column++)
+		for (uint32_t column = 0; column < nbrFrame; column++)
 		{
 			spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
 			anim.m_animation.push_back(spr);

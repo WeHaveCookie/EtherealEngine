@@ -20,6 +20,11 @@ SoundComponentPool::SoundComponentPool(int size)
 	m_sounds[m_poolSize - 1]->setNext(NULL);
 }
 
+SoundComponentPool::~SoundComponentPool()
+{
+	m_sounds.clear();
+}
+
 void SoundComponentPool::create(const char* path, bool loop, bool persistent)
 {
 	if(m_firstAvailable == NULL)

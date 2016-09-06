@@ -6,6 +6,7 @@ class MusicComponentPool
 public:
 
 	MusicComponentPool(int size);
+	~MusicComponentPool();
 	void create(const char* path, bool loop, bool persistent);
 	void process(const float dt);
 

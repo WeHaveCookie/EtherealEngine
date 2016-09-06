@@ -6,6 +6,7 @@ class EntityPool
 public:
 
 	EntityPool(int size);
+	~EntityPool();
 	void create(const char* path);
 	void process(const float dt);
 	void paint();

@@ -21,6 +21,11 @@ EntityPool::EntityPool(int size)
 	m_entitys[m_poolSize - 1]->setNext(NULL);
 }
 
+EntityPool::~EntityPool()
+{
+	m_entitys.clear();
+}
+
 void EntityPool::create(const char* path)
 {
 	assert(m_firstAvailable != NULL);

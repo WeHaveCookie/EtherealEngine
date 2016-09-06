@@ -20,6 +20,11 @@ MusicComponentPool::MusicComponentPool(int size)
 	m_music[m_poolSize - 1]->setNext(NULL);
 }
 
+MusicComponentPool::~MusicComponentPool()
+{
+	m_music.clear();
+}
+
 void MusicComponentPool::create(const char* path, bool loop, bool persistent)
 {
 	if (m_firstAvailable == NULL)

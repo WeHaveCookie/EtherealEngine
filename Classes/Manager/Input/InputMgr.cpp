@@ -282,7 +282,7 @@ void InputMgr::end()
 
 }
 
-bool InputMgr::keyIsPressed(KeyType::Enum key, unsigned int id)
+bool InputMgr::keyIsPressed(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -298,7 +298,7 @@ bool InputMgr::keyIsPressed(KeyType::Enum key, unsigned int id)
 	return false;
 }
 
-bool InputMgr::keyIsJustPressed(KeyType::Enum key, unsigned int id)
+bool InputMgr::keyIsJustPressed(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -315,12 +315,12 @@ bool InputMgr::keyIsJustPressed(KeyType::Enum key, unsigned int id)
 	return false;
 }
 
-bool InputMgr::keyIsReleased(KeyType::Enum key, unsigned int id)
+bool InputMgr::keyIsReleased(KeyType::Enum key, uint32_t id)
 {
 	return !keyIsPressed(key, id);
 }
 
-bool InputMgr::keyIsJustReleased(KeyType::Enum key, unsigned int id)
+bool InputMgr::keyIsJustReleased(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -337,7 +337,7 @@ bool InputMgr::keyIsJustReleased(KeyType::Enum key, unsigned int id)
 	return false;
 }
 
-float InputMgr::getPadKeyValue(KeyType::Enum key, unsigned int id)
+float InputMgr::getPadKeyValue(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startMouseKey && key <= KeyType::endMouseKey)
 	{
@@ -356,7 +356,7 @@ float InputMgr::getPadKeyValue(KeyType::Enum key, unsigned int id)
 	return 0.0f;
 }
 
-float InputMgr::getPadKeyLastValue(KeyType::Enum key, unsigned int id)
+float InputMgr::getPadKeyLastValue(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startMouseKey && key <= KeyType::endMouseKey)
 	{
@@ -375,7 +375,7 @@ float InputMgr::getPadKeyLastValue(KeyType::Enum key, unsigned int id)
 	return 0.0f;
 }
 
-float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, unsigned int id)
+float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{

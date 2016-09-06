@@ -51,7 +51,7 @@ void EntityMgr::buildEntity(const char* path)
 	m_entitys->create(path);
 }
 
-Entity* EntityMgr::getEntity(unsigned int id)
+Entity* EntityMgr::getEntity(uint32_t id)
 {
 	return NULL;
 }

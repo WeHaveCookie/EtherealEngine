@@ -18,7 +18,7 @@ class EntityMgr : public Manager
 		void paint();
 
 		void buildEntity(const char* path);
-		Entity* getEntity(unsigned int id);
+		Entity* getEntity(uint32_t id);
 
 	private:
 		EntityPool*				m_entitys;
