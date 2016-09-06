@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EntityPool.h"
+#include "Manager/Engine/PhysicMgr.h"
 
 
 EntityPool::EntityPool(int size)
@@ -34,6 +35,7 @@ void EntityPool::create(const char* path)
 	m_firstAvailable = newEntity->getNext();
 
 	newEntity->build(path);
+	PhysicMgr::getSingleton()->registerEntity(newEntity);
 }
 
 void EntityPool::process(const float dt)
@@ -44,6 +46,7 @@ void EntityPool::process(const float dt)
 		{
 			entity->setNext(m_firstAvailable);
 			m_firstAvailable = entity;
+			PhysicMgr::getSingleton()->unregisterEntity(entity);
 		}
 	}
 }
@@ -54,4 +57,16 @@ void EntityPool::paint()
 	{
 		entity->paint();
 	}
+}
+
+Entity* EntityPool::getEntity(uint32_t id)
+{
+	for (auto& entity : m_entitys)
+	{
+		if (entity->getUID() == id)
+		{
+			return entity;
+		}
+	}
+	return NULL;
 }

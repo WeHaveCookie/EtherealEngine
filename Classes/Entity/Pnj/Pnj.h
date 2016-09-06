@@ -1,7 +1,7 @@
 #pragma once
-#include "Graphics/DrawableObject.h"
+#include "Entity/Entity.h"
 
-class Pnj : public DrawableObject
+class Pnj : public Entity
 {
 
 

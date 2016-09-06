@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Graphics/DrawableObject.h"
-
 #define ERROR_TEXTURE "Data/Texture/error.png"
 
 struct EntityAnimation {
@@ -52,7 +50,7 @@ namespace EntityAnimationState {
 	};
 }
 
-class Entity : public DrawableObject
+class Entity
 {
 	public:
 		Entity();
@@ -68,11 +66,17 @@ class Entity : public DrawableObject
 		void setSpeed(float speed);
 		const char* getId() const { return m_state.m_live.m_name;}
 		const uint32_t getUID() const { return m_uid; }
-		void setPosition(sf::Vector2f pos) { m_position = pos; }
+		void setPosition(sf::Vector2f pos) { m_state.m_live.m_currentPosition = pos; }
 		void setState(EntityAnimationState::Enum state);
 		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 		void setNext(Entity* ent) { m_state.m_next = ent; }
 		Entity* getNext() { return m_state.m_next; }
+		sf::FloatRect getGlobalBounds();
+		bool isCollidable() { return m_state.m_live.m_collidable; }
+
+
+		void addMotion(sf::Vector2f motion) { m_state.m_live.m_motion += motion; }
+		void roolback();
 
 	protected:
 		static uint32_t		newUID;
@@ -81,6 +85,7 @@ class Entity : public DrawableObject
 	private:
 		friend class EntityPool;
 		void build(const char* path);
+		void updatePosition();
 
 		bool m_live;
 
@@ -92,11 +97,15 @@ class Entity : public DrawableObject
 				std::map<EntityAnimationState::Enum, EntityAnimation>	m_animations;
 				float													m_speed;
 				EntityAnimationState::Enum								m_currentState;
-				sf::Vector2f											m_position;
+				sf::Vector2f											m_currentPosition;
+				sf::Vector2f											m_lastPosition;
+				sf::Vector2f											m_lastMotion;
+				sf::Vector2f											m_motion;
 				sf::Texture												m_texture;
 				sf::Texture												m_errorTexture;
 				uint32_t												m_height;
 				uint32_t												m_width;
+				bool													m_collidable;
 
 				void clear()
 				{

@@ -5,6 +5,9 @@
 class RenderMgr : public Manager
 {
 	public:
+
+		static RenderMgr* getSingleton() { return s_singleton; }
+
 		RenderMgr();
 		~RenderMgr();
 
@@ -17,5 +20,7 @@ class RenderMgr : public Manager
 		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
 
 	private:
+		static RenderMgr* s_singleton;
+				
 		sf::RenderWindow* m_mainRenderWindow;
 };

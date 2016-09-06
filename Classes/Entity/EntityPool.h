@@ -10,6 +10,7 @@ public:
 	void create(const char* path);
 	void process(const float dt);
 	void paint();
+	Entity* getEntity(uint32_t id);
 
 private:
 	const int				m_poolSize;

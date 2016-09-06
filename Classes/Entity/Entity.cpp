@@ -5,6 +5,7 @@
 #include "Manager/Render/RenderMgr.h"
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
+#include "Utils/VectorUtils.h"
 
 std::map<std::string, EntityAnimationState::Enum> StateToEnum =
 {
@@ -38,7 +39,7 @@ Entity::~Entity()
 
 void Entity::move(sf::Vector2f motion)
 {
-	m_position += motion;
+	m_state.m_live.m_motion += motion;
 }
 
 void Entity::paint()
@@ -54,9 +55,11 @@ void Entity::paint()
 
 void Entity::update(const float dt)
 {
+	updatePosition();
+
 	m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
-	currentAnim->setPosition(m_position);
+	currentAnim->setPosition(m_state.m_live.m_currentPosition);
 }
 
 bool Entity::process(const float dt)
@@ -94,6 +97,19 @@ EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 	{
 		return NULL;
 	}
+}
+
+sf::FloatRect Entity::getGlobalBounds()
+{
+	return sf::FloatRect(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y, m_state.m_live.m_width, m_state.m_live.m_height);
+}
+
+void Entity::roolback()
+{ 
+	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
+	m_state.m_live.m_motion = RoundDown(m_state.m_live.m_lastMotion * 0.9f, 0.8f);
+	m_state.m_live.m_lastMotion -= m_state.m_live.m_motion;
+	update(0.0f);
 }
 
 void replaceJsonByPng(char* dest, const char* source)
@@ -154,10 +170,10 @@ void Entity::build(const char* path)
 		replaceJsonByPng(entPath, path);
 	}
 
-	assert(m_texture.loadFromFile(entPath));
-	m_texture.setSmooth(true);
+	assert(m_state.m_live.m_texture.loadFromFile(entPath));
+	m_state.m_live.m_texture.setSmooth(true);
 
-	spr.setTexture(m_texture);
+	spr.setTexture(m_state.m_live.m_texture);
 
 	assert(document.HasMember("Name"));
 	setName(document["Name"].GetString());
@@ -173,6 +189,14 @@ void Entity::build(const char* path)
 
 	m_state.m_live.clear();
 	m_state.m_next = NULL;
+
+	if (document.HasMember("Collidable"))
+	{
+		m_state.m_live.m_collidable = document["Collidable"].GetBool();
+	} else
+	{
+		m_state.m_live.m_collidable = true;
+	}
 	
 	assert(document.HasMember("Animation"));
 	const rapidjson::Value& animation = document["Animation"];
@@ -205,7 +229,9 @@ void Entity::build(const char* path)
 		const rapidjson::Value& posArray = document["Position"];
 		assert(posArray.Size() == 2);
 		sf::Vector2f pos;
-		pos.x = randIntBorned(0.0f, posArray[0].GetFloat());
+		
+		//pos.x = randIntBorned(0.0f, posArray[0].GetFloat());
+		pos.x = posArray[0].GetFloat();
 		pos.y = posArray[1].GetFloat();
 		setPosition(pos);
 	}
@@ -214,4 +240,12 @@ void Entity::build(const char* path)
 	setState(StateToEnum[document["State"].GetString()]);
 
 	m_live = true;
+}
+
+void Entity::updatePosition()
+{
+	m_state.m_live.m_lastPosition = m_state.m_live.m_currentPosition;
+	m_state.m_live.m_lastMotion = m_state.m_live.m_motion;
+	m_state.m_live.m_currentPosition += m_state.m_live.m_lastMotion;
+	m_state.m_live.m_motion -= m_state.m_live.m_lastMotion;
 }

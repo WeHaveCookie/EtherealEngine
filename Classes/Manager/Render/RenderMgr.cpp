@@ -5,11 +5,14 @@
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/Level/LevelMgr.h"
 #include "Manager/Game/GameMgr.h"
+#include "Level/Quadtree.h"
+
+RenderMgr* RenderMgr::s_singleton = NULL;
 
 RenderMgr::RenderMgr()
 :Manager(ManagerType::Enum::Render)
 {
-
+	s_singleton = this;
 }
 
 RenderMgr::~RenderMgr()

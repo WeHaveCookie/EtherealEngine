@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Graphics/DrawableObject.h"
+#include "Entity/Entity.h"
 
-class Resources : public DrawableObject
+class Resources : public Entity
 {
     public:
         Resources();
