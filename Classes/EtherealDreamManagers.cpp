@@ -8,7 +8,7 @@
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Event/EventMgr.h"
-#include "Manager/Engine/EngineMgr.h"
+#include "Manager/Engine/PhysicMgr.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/File/FileMgr.h"
@@ -38,7 +38,7 @@ REGISTER_MANAGER(ItemMgr)
 REGISTER_MANAGER(InputMgr)
 REGISTER_MANAGER(GameMgr)
 REGISTER_MANAGER(EventMgr)
-REGISTER_MANAGER(EngineMgr)
+REGISTER_MANAGER(PhysicMgr)
 REGISTER_MANAGER(RenderMgr)
 REGISTER_MANAGER(EntityMgr)
 REGISTER_MANAGER(FileMgr)
@@ -65,7 +65,7 @@ void EtherealDreamManagers::CreateManagers()
 		CREATE_MGR(InputMgr)
 		CREATE_MGR(GameMgr)
 		CREATE_MGR(EventMgr)
-		CREATE_MGR(EngineMgr)
+		CREATE_MGR(PhysicMgr)
 		CREATE_MGR(RenderMgr)
 		CREATE_MGR(EntityMgr)
 		CREATE_MGR(FileMgr)
@@ -83,9 +83,9 @@ void EtherealDreamManagers::InitManagers()
 		INIT_MGR(InputMgr)
 		INIT_MGR(GameMgr)
 		INIT_MGR(EventMgr)
-		INIT_MGR(EngineMgr)
-		INIT_MGR(RenderMgr)
 		INIT_MGR(EntityMgr)
+		INIT_MGR(PhysicMgr)
+		INIT_MGR(RenderMgr)
 		INIT_MGR(FileMgr)
 		INIT_MGR(PersistentMgr)
 }
@@ -107,8 +107,8 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 		PROCESS_MGR(InputMgr)
 		PROCESS_MGR(GameMgr)
 		PROCESS_MGR(EventMgr)
-		PROCESS_MGR(EngineMgr)
 		PROCESS_MGR(EntityMgr)
+		PROCESS_MGR(PhysicMgr)
 
 		PROCESS_MGR(RenderMgr);
 }
@@ -123,9 +123,9 @@ void EtherealDreamManagers::DestroyManagers()
 		END_MGR(InputMgr)
 		END_MGR(GameMgr)
 		END_MGR(EventMgr)
-		END_MGR(EngineMgr)
-		END_MGR(RenderMgr)
+		END_MGR(PhysicMgr)
 		END_MGR(EntityMgr)
+		END_MGR(RenderMgr)
 
 
 		for (int ID = (int)m_managers.size() - 1; ID > 0; --ID)

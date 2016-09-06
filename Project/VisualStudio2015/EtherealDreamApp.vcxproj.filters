@@ -7,12 +7,6 @@
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Entity\Animal">
-      <UniqueIdentifier>{20D36F68-8C3F-2B63-5533-C3C0C15E4DCB}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Entity\Building">
-      <UniqueIdentifier>{BC27BA4A-285F-02E2-3169-66059D1F29DB}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Entity\Character">
       <UniqueIdentifier>{7B5417BD-6779-663D-90C4-4BCD7C48655B}</UniqueIdentifier>
     </Filter>
@@ -22,11 +16,11 @@
     <Filter Include="Classes\Files">
       <UniqueIdentifier>{B5B67FC3-2177-FBF9-EAB1-4477563140D6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Graphics">
-      <UniqueIdentifier>{93407773-7F39-96C5-A86B-7B4A94C375D1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\HUD">
       <UniqueIdentifier>{C33B1A54-2FF1-9249-B8E5-8C20249A894D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Level">
+      <UniqueIdentifier>{BA42EAC3-2603-66FA-EF3D-AF775BBDAAD6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager">
       <UniqueIdentifier>{1D7698AA-8901-066F-9212-8963FE1C626F}</UniqueIdentifier>
@@ -87,12 +81,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Classes\Entity\Animal\Animal.h">
-      <Filter>Classes\Entity\Animal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Building\Building.h">
-      <Filter>Classes\Entity\Building</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
       <Filter>Classes\Entity\Character</Filter>
     </ClInclude>
@@ -111,16 +99,13 @@
     <ClInclude Include="..\..\Classes\Files\Reader.h">
       <Filter>Classes\Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Graphics\DrawableObject.h">
-      <Filter>Classes\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\HUD\Hud.h">
-      <Filter>Classes\HUD</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\HUD\Menu.h">
       <Filter>Classes\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Manager\Engine\EngineMgr.h">
+    <ClInclude Include="..\..\Classes\Level\Quadtree.h">
+      <Filter>Classes\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Engine\PhysicMgr.h">
       <Filter>Classes\Manager\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h">
@@ -192,6 +177,9 @@
     <ClInclude Include="..\..\Classes\Utils\Random.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\VectorUtils.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
@@ -200,12 +188,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Classes\Entity\Animal\Animal.cpp">
-      <Filter>Classes\Entity\Animal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Building\Building.cpp">
-      <Filter>Classes\Entity\Building</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
       <Filter>Classes\Entity\Character</Filter>
     </ClCompile>
@@ -224,16 +206,13 @@
     <ClCompile Include="..\..\Classes\Files\Reader.cpp">
       <Filter>Classes\Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Graphics\DrawableObject.cpp">
-      <Filter>Classes\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\HUD\Hud.cpp">
-      <Filter>Classes\HUD</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
       <Filter>Classes\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Manager\Engine\EngineMgr.cpp">
+    <ClCompile Include="..\..\Classes\Level\Quadtree.cpp">
+      <Filter>Classes\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Engine\PhysicMgr.cpp">
       <Filter>Classes\Manager\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp">
