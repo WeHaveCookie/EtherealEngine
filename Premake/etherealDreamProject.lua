@@ -190,6 +190,7 @@ function EtherealDreamProject(name, etherealDreamPath)
 				etherealDreamPath .. "Classes",
 				etherealDreamPath .. "../External/ImGui",
 				etherealDreamPath .. "../External/rapidjson",
+				etherealDreamPath .. "../External/moodycamel",
 				"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10150.0/ucrt"
 			}
 			

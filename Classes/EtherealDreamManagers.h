@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Manager/Manager.h"
+#include "Thread/Thread.h"
 
 #define DECLARE_MANAGER(ManagerClass)\
 	class ManagerClass; extern ManagerClass* g_##ManagerClass; extern bool g_activate##ManagerClass;
@@ -19,17 +20,27 @@ DECLARE_MANAGER(EventMgr)
 DECLARE_MANAGER(EngineMgr)
 DECLARE_MANAGER(RenderMgr)
 DECLARE_MANAGER(EntityMgr)
+DECLARE_MANAGER(FileMgr)
+DECLARE_MANAGER(PersistentMgr)
 
-#define TIME_MGR	g_TimeMgr;
-#define SOUND_MGR	g_SoundMgr;
-#define LEVEL_MGR	g_LevelMgr;
-#define ITEM_MGR	g_ItemMgr;
-#define INPUT_MGR	g_InputMgr;
-#define GAME_MGR	g_GameMgr;
-#define EVENT_MGR	g_EventMgr;
-#define ENGINE_MGR	g_EngineMgr;
-#define RENDER_MGR	g_RenderMgr;
-#define ENTITY_MGR	g_EntityMgr;
+DECLARE_MANAGER(LoadThread)
+DECLARE_MANAGER(SaveThread)
+
+#define TIME_MGR		g_TimeMgr;
+#define SOUND_MGR		g_SoundMgr;
+#define LEVEL_MGR		g_LevelMgr;
+#define ITEM_MGR		g_ItemMgr;
+#define INPUT_MGR		g_InputMgr;
+#define GAME_MGR		g_GameMgr;
+#define EVENT_MGR		g_EventMgr;
+#define ENGINE_MGR		g_EngineMgr;
+#define RENDER_MGR		g_RenderMgr;
+#define ENTITY_MGR		g_EntityMgr;
+#define FILE_MGR		g_FileMgr;
+#define PERSISTENT_MGR	g_PersistentMgr;
+
+#define LOAD_THREAD	g_LoadThread;
+#define SAVE_THREAD g_SaveThread;
 
 class Manager;
 

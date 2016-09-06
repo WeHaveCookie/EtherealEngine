@@ -40,6 +40,9 @@
     <Filter Include="Classes\Manager\Event">
       <UniqueIdentifier>{2E59B7BF-9AC5-72BA-63B9-0A18CFE49422}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Manager\File">
+      <UniqueIdentifier>{6C7F7291-580E-FC5A-012D-1056ED9A0C01}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Manager\Game">
       <UniqueIdentifier>{E6E97291-D278-FC5A-7B97-105667050D01}</UniqueIdentifier>
     </Filter>
@@ -51,6 +54,9 @@
     </Filter>
     <Filter Include="Classes\Manager\Level">
       <UniqueIdentifier>{64F92CC0-D065-E8BA-9959-801805850A23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Persistent">
+      <UniqueIdentifier>{BD9BA90F-A9AB-55E0-1265-BAFEFE934479}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Render">
       <UniqueIdentifier>{ECB1C6D3-D8AB-EF25-C118-8636ADB15592}</UniqueIdentifier>
@@ -66,6 +72,9 @@
     </Filter>
     <Filter Include="Classes\Sound">
       <UniqueIdentifier>{EB666EC4-5727-EAFA-2062-33788CE12ED7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Thread">
+      <UniqueIdentifier>{FAF50F54-E6C3-035A-CF57-7480BBC4DFBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Utils">
       <UniqueIdentifier>{932295C4-FFE2-10FB-C81D-5A78349D55D7}</UniqueIdentifier>
@@ -120,6 +129,9 @@
     <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h">
       <Filter>Classes\Manager\Event</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\File\FileMgr.h">
+      <Filter>Classes\Manager\File</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Game\GameMgr.h">
       <Filter>Classes\Manager\Game</Filter>
     </ClInclude>
@@ -134,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Manager.h">
       <Filter>Classes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h">
+      <Filter>Classes\Manager\Persistent</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Render\RenderMgr.h">
       <Filter>Classes\Manager\Render</Filter>
@@ -159,10 +174,25 @@
     <ClInclude Include="..\..\Classes\Sound\SoundComponentPool.h">
       <Filter>Classes\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Thread\LoadThread.h">
+      <Filter>Classes\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Thread\SaveThread.h">
+      <Filter>Classes\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Thread\Thread.h">
+      <Filter>Classes\Thread</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\Constante.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\HashUtils.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\Random.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\wcharUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -212,6 +242,9 @@
     <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp">
       <Filter>Classes\Manager\Event</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\File\FileMgr.cpp">
+      <Filter>Classes\Manager\File</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Game\GameMgr.cpp">
       <Filter>Classes\Manager\Game</Filter>
     </ClCompile>
@@ -226,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp">
       <Filter>Classes\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp">
+      <Filter>Classes\Manager\Persistent</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Render\RenderMgr.cpp">
       <Filter>Classes\Manager\Render</Filter>
@@ -250,6 +286,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Sound\SoundComponentPool.cpp">
       <Filter>Classes\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Thread\LoadThread.cpp">
+      <Filter>Classes\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Thread\SaveThread.cpp">
+      <Filter>Classes\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Thread\Thread.cpp">
+      <Filter>Classes\Thread</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Project\VisualStudio2015</Filter>

@@ -11,9 +11,13 @@
 #include "Manager/Engine/EngineMgr.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Entity/EntityMgr.h"
+#include "Manager/File/FileMgr.h"
+#include "Manager/Persistent/PersistentMgr.h"
+#include "Thread/LoadThread.h"
+#include "Thread/SaveThread.h"
 
 EtherealDreamManagers* EtherealDreamManagers::m_instance = NULL;
-unsigned int Entity::newUID = 0;
+uint32_t Entity::newUID = 0;
 
 #define REGISTER_MANAGER(ManagerClass) ManagerClass* g_##ManagerClass = NULL;
 
@@ -37,6 +41,11 @@ REGISTER_MANAGER(EventMgr)
 REGISTER_MANAGER(EngineMgr)
 REGISTER_MANAGER(RenderMgr)
 REGISTER_MANAGER(EntityMgr)
+REGISTER_MANAGER(FileMgr)
+REGISTER_MANAGER(PersistentMgr)
+
+REGISTER_MANAGER(LoadThread)
+REGISTER_MANAGER(SaveThread)
 
 EtherealDreamManagers::EtherealDreamManagers()
 {
@@ -46,6 +55,9 @@ EtherealDreamManagers::EtherealDreamManagers()
 
 void EtherealDreamManagers::CreateManagers()
 {
+	g_LoadThread = new LoadThread();
+	g_SaveThread = new SaveThread();
+
 	CREATE_MGR(TimeMgr)
 		CREATE_MGR(SoundMgr)
 		CREATE_MGR(LevelMgr)
@@ -56,10 +68,14 @@ void EtherealDreamManagers::CreateManagers()
 		CREATE_MGR(EngineMgr)
 		CREATE_MGR(RenderMgr)
 		CREATE_MGR(EntityMgr)
+		CREATE_MGR(FileMgr)
+		CREATE_MGR(PersistentMgr)
 }
 
 void EtherealDreamManagers::InitManagers()
 {
+	g_LoadThread->init();
+
 	INIT_MGR(TimeMgr)
 		INIT_MGR(SoundMgr)
 		INIT_MGR(LevelMgr)
@@ -70,7 +86,8 @@ void EtherealDreamManagers::InitManagers()
 		INIT_MGR(EngineMgr)
 		INIT_MGR(RenderMgr)
 		INIT_MGR(EntityMgr)
-
+		INIT_MGR(FileMgr)
+		INIT_MGR(PersistentMgr)
 }
 
 void EtherealDreamManagers::UpdateManagers(float _dt)
@@ -110,6 +127,7 @@ void EtherealDreamManagers::DestroyManagers()
 		END_MGR(RenderMgr)
 		END_MGR(EntityMgr)
 
+
 		for (int ID = (int)m_managers.size() - 1; ID > 0; --ID)
 		{
 			Manager* manager = m_managers[ID];
@@ -122,7 +140,7 @@ void EtherealDreamManagers::DestroyManagers()
 
 Manager* EtherealDreamManagers::getManager(ManagerType::Enum type)
 {
-	for (unsigned int ID = 0; ID < m_managers.size(); ++ID)
+	for (uint32_t ID = 0; ID < m_managers.size(); ++ID)
 	{
 		if (m_managers[ID]->getType() == type)
 			return m_managers[ID];

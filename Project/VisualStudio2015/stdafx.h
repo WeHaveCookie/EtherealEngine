@@ -15,13 +15,14 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <time.h>
 #include <stack>
 #include <algorithm>
 #include <math.h>
 #include <assert.h>
+#include <cstdint>
 
 // Framework
 #include <SFML/Graphics.hpp>

@@ -11,7 +11,9 @@ namespace ManagerType{
 		Event,
 		Engine,
 		Render,
-		Entity
+		Entity,
+		File,
+		Persistent
 	};
 }
 
