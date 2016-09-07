@@ -30,6 +30,7 @@ uint32_t Entity::newUID = 0;
 float g_DeltaTimeRaw = 0.33f;
 float g_DeltaTime = 0.33f;
 float g_DeltaTimeFactor = 1.f;
+float g_Framerate = 1.0f/60.0f;
 
 REGISTER_MANAGER(TimeMgr)
 REGISTER_MANAGER(SoundMgr)

@@ -107,9 +107,6 @@ sf::FloatRect Entity::getGlobalBounds()
 void Entity::roolback()
 { 
 	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
-	m_state.m_live.m_motion = RoundDown(m_state.m_live.m_lastMotion * 0.9f, 0.8f);
-	m_state.m_live.m_lastMotion -= m_state.m_live.m_motion;
-	update(0.0f);
 }
 
 void replaceJsonByPng(char* dest, const char* source)
@@ -170,9 +167,10 @@ void Entity::build(const char* path)
 		replaceJsonByPng(entPath, path);
 	}
 
-	assert(m_state.m_live.m_texture.loadFromFile(entPath));
+	m_state.m_live.m_texture = sf::Texture();
+	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
+	assert(load);
 	m_state.m_live.m_texture.setSmooth(true);
-
 	spr.setTexture(m_state.m_live.m_texture);
 
 	assert(document.HasMember("Name"));

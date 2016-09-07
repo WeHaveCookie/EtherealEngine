@@ -23,6 +23,8 @@ class PhysicMgr : public Manager
         static bool CollisionAABBAndCircle(sf::FloatRect box1, sf::CircleShape circle);
         static bool CollisionAABBandAABB(sf::FloatRect box1, sf::FloatRect box2);
 
+		sf::Time getProcessTime() { return m_processTime; }
+
         // Inline
     protected:
 	private:
@@ -30,6 +32,6 @@ class PhysicMgr : public Manager
 		void checkValidityOfPosition(Entity* ent);
 
 		std::vector<Entity*>	m_entitys;
-
+		sf::Time				m_processTime;
 		float					m_gravity;
 };

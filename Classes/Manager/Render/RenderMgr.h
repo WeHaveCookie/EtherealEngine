@@ -20,7 +20,9 @@ class RenderMgr : public Manager
 		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
 
 	private:
-		static RenderMgr* s_singleton;
-				
-		sf::RenderWindow* m_mainRenderWindow;
+		static RenderMgr*	s_singleton;
+		sf::Clock			m_timeFrame;
+		sf::RenderWindow*	m_mainRenderWindow;
+		sf::Font			m_font;
+		sf::Text			m_text;
 };

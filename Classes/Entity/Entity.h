@@ -74,9 +74,12 @@ class Entity
 		sf::FloatRect getGlobalBounds();
 		bool isCollidable() { return m_state.m_live.m_collidable; }
 
+		void setLive(bool b) { m_live = b; }
 
 		void addMotion(sf::Vector2f motion) { m_state.m_live.m_motion += motion; }
 		void roolback();
+		bool isAlive() { return m_live; }
+		bool asMoved() { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
 
 	protected:
 		static uint32_t		newUID;

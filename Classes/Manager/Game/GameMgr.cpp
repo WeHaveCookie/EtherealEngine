@@ -6,6 +6,8 @@
 #include "Manager/Sound/SoundMgr.h"
 #include "Thread/LoadThread.h"
 #include "Manager/Persistent/PersistentMgr.h"
+#include "Manager/Engine/PhysicMgr.h"
+#include "Utils/Random.h"
 
 #define GAME_NAME "EtherealDream"
 #define TEST "{\n\
@@ -71,7 +73,8 @@ void GameMgr::init()
 
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
-	
+	auto test = EntityMgr::getSingleton()->buildEntity("Data/Character/player.json");
+	PhysicMgr::getSingleton()->registerEntity(test);
 }
 
 void GameMgr::process(const float dt)
@@ -82,9 +85,51 @@ void GameMgr::process(const float dt)
 	auto loadThread = LOAD_THREAD;
 	sf::Vector2f motion = { 0.0f, 0.0f };
 	static SaveTask save;
-	
+	static std::vector<uint32_t> ids;
 
-	
+	if (inputMgr->keyIsPressed(KeyType::kbNum1))
+	{
+		Entity* ch;
+		int num = randIntBorned(0, 5);
+		switch (num)
+		{
+		case 0:
+			//ch = entityMgr->buildEntity("Data/Character/player.json");
+			break;
+		case 1:
+			ch = entityMgr->buildEntity("Data/Character/chicken.json");
+			break;
+		case 2:
+			ch = entityMgr->buildEntity("Data/Character/cow.json");
+			break;
+		case 3:
+			ch = entityMgr->buildEntity("Data/Character/pig.json");
+			break;
+		case 4:
+			ch = entityMgr->buildEntity("Data/Character/client.json");
+			break;
+		case 5:
+			ch = entityMgr->buildEntity("Data/Character/entrepreneur.json");
+			break;
+		default:
+			break;
+		}
+
+		if (ch != NULL)
+		{
+			ch->setPosition(sf::Vector2f(randFloatBorned(0.0f, 1800.0f), randFloatBorned(0.0f, 900.0f)));
+			ids.push_back(ch->getUID());
+		}
+	}
+
+	if (inputMgr->keyIsPressed(KeyType::kbNum2))
+	{
+		if(ids.size() > 0)
+		{
+			entityMgr->removeEntity(ids[ids.size() - 1]);
+			ids.pop_back();
+		}
+	}
 
 	if (inputMgr->keyIsJustPressed(KeyType::kbT))
 	{
@@ -158,7 +203,7 @@ void GameMgr::process(const float dt)
 	}
 
 
-	auto ent = entityMgr->getEntity(1);
+	auto ent = entityMgr->getEntity(0);
 	
 	if (inputMgr->keyIsJustPressed(KeyType::kbRight))
 	{

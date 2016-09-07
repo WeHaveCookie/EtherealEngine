@@ -1,6 +1,6 @@
 #pragma once
 
-int randIntBorned(int a, int b)
+inline int randIntBorned(int a, int b)
 {
 	if (a == b)
 	{
@@ -9,7 +9,7 @@ int randIntBorned(int a, int b)
 	return rand() % (b - a) + a;
 }
 
-float randFloatBorned(float a, float b)
+inline float randFloatBorned(float a, float b)
 {
 	if (a == b)
 	{

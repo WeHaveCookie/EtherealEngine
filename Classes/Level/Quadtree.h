@@ -25,7 +25,12 @@ class Quadtree
         void paint();
 
         bool isEnable() {return m_enable;}
-		void setNodeCapacity(uint32_t value) { m_quadNodeCapacity = value; }
+		void setNodeCapacity(uint32_t value) { s_quadNodeCapacity = value; }
+
+		static int getRegisterCount() { int tmp = s_registerCount; s_registerCount = 0; return tmp; }
+		static int getUnregisterCount() { int tmp = s_unregisterCount; s_unregisterCount = 0; return tmp; }
+		static int getQueryCount() { int tmp = s_queryCount; s_queryCount = 0; return tmp; }
+		int getMasterRegisterCount() { int tmp = m_masterRegisterCount; m_masterRegisterCount = 0; return tmp; }
 
     protected:
       
@@ -37,6 +42,8 @@ class Quadtree
 		uint32_t nbElement();
 		bool children() {  return m_northWest != NULL && m_northEast != NULL && m_southWest != NULL && m_southEast != NULL; }
 		void insertEntityOnMap(std::vector<Entity*> entitys);
+		void addToRegistrary(Entity* ent);
+		void processRegistrary();
 
 		std::vector<Entity*> getElements();
 		std::vector<uint32_t> getIds();
@@ -50,6 +57,10 @@ class Quadtree
         sf::RectangleShape								m_boundary;
         sf::FloatRect									m_shape;
         bool											m_enable;
-		static uint32_t									m_quadNodeCapacity;
-
+		static uint32_t									s_quadNodeCapacity;
+		static int										s_registerCount;
+		static int										s_unregisterCount;
+		static int										s_queryCount;
+		int												m_masterRegisterCount;
+		std::map<uint32_t, Entity*>						m_registrary;
 };

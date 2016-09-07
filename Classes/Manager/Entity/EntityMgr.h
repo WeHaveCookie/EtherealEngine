@@ -9,6 +9,9 @@ class EntityMgr : public Manager
 {
 
 	public:
+
+		static EntityMgr* getSingleton() { return s_singleton; }
+
 		EntityMgr();
 		~EntityMgr();
 
@@ -17,10 +20,16 @@ class EntityMgr : public Manager
 		void end();
 		void paint();
 
-		void buildEntity(const char* path);
+		Entity* buildEntity(const char* path);
+		void removeEntity(uint32_t id);
 		Entity* getEntity(uint32_t id);
 
-	private:
-		EntityPool*				m_entitys;
+		int getTotalEntity();
 
+		sf::Time getProcessTime() { return m_processTime; }
+
+	private:
+		static EntityMgr*		s_singleton;
+		EntityPool*				m_entitys;
+		sf::Time				m_processTime;
 };

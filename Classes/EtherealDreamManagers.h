@@ -9,6 +9,7 @@
 extern float g_DeltaTimeRaw;
 extern float g_DeltaTime;
 extern float g_DeltaTimeFactor;
+extern float g_Framerate;
 
 DECLARE_MANAGER(TimeMgr)
 DECLARE_MANAGER(SoundMgr)

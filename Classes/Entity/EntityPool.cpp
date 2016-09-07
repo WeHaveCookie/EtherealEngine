@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "EntityPool.h"
 #include "Manager/Engine/PhysicMgr.h"
-
+#include "Manager/Level/LevelMgr.h"
 
 EntityPool::EntityPool(int size)
 	:m_poolSize(size)
@@ -20,6 +20,7 @@ EntityPool::EntityPool(int size)
 	}
 
 	m_entitys[m_poolSize - 1]->setNext(NULL);
+	m_usedEntity = 0;
 }
 
 EntityPool::~EntityPool()
@@ -27,15 +28,22 @@ EntityPool::~EntityPool()
 	m_entitys.clear();
 }
 
-void EntityPool::create(const char* path)
+Entity* EntityPool::create(const char* path)
 {
-	assert(m_firstAvailable != NULL);
-
+	//assert(m_firstAvailable != NULL);
+	if (m_firstAvailable == NULL)
+	{
+		std::cout << "Cannot create new entity" << std::endl;
+		return NULL;
+	}
 	Entity* newEntity = m_firstAvailable;
 	m_firstAvailable = newEntity->getNext();
 
 	newEntity->build(path);
 	PhysicMgr::getSingleton()->registerEntity(newEntity);
+	//LevelMgr::getSingleton()->registerEntity(newEntity);
+	m_usedEntity++;
+	return newEntity;
 }
 
 void EntityPool::process(const float dt)
@@ -44,9 +52,7 @@ void EntityPool::process(const float dt)
 	{
 		if(!entity->process(dt))
 		{
-			entity->setNext(m_firstAvailable);
-			m_firstAvailable = entity;
-			PhysicMgr::getSingleton()->unregisterEntity(entity);
+			release(entity);
 		}
 	}
 }
@@ -69,4 +75,28 @@ Entity* EntityPool::getEntity(uint32_t id)
 		}
 	}
 	return NULL;
+}
+
+void EntityPool::release(uint32_t id)
+{
+	for (auto& entity : m_entitys)
+	{
+		if (entity->getUID() == id)
+		{
+			release(entity);
+			m_usedEntity--;
+		}
+	}
+}
+
+void EntityPool::release(Entity* ent)
+{
+	if (ent->isAlive())
+	{
+		PhysicMgr::getSingleton()->unregisterEntity(ent);
+		//LevelMgr::getSingleton()->unregisterEntity(ent->getUID());
+		ent->setNext(m_firstAvailable);
+		ent->setLive(false);
+		m_firstAvailable = ent;
+	}
 }

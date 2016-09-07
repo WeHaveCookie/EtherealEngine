@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
+#include "Utils/Random.h"
 
 PhysicMgr* PhysicMgr::s_singleton = NULL;
 
@@ -22,11 +23,13 @@ void PhysicMgr::init()
 
 void PhysicMgr::process(const float dt)
 {
+	sf::Clock clock;
 	for (auto& entity : m_entitys)
 	{
-		//entity->addMotion(sf::Vector2f(0.0f, m_gravity * dt));
+		entity->addMotion(sf::Vector2f(0.0f, m_gravity * dt));
 		checkValidityOfPosition(entity);
 	}
+	m_processTime = clock.getElapsedTime();
 }
 
 void PhysicMgr::end()
@@ -48,7 +51,9 @@ void PhysicMgr::unregisterEntity(Entity* ent)
 	auto it = std::find(m_entitys.begin(), m_entitys.end(), ent);
 	if (it != m_entitys.end())
 	{
+		LevelMgr::getSingleton()->unregisterEntity(ent->getUID());
 		m_entitys.erase(it);
+
 	}
 }
 
@@ -74,7 +79,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 	auto entityCollided = LevelMgr::getSingleton()->getEntityAround(ent->getGlobalBounds());
 	for (auto& entity : entityCollided)
 	{
-		while (ent->getUID() != entity->getUID() && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
+		if(ent->getUID() != entity->getUID() && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
 		{
 			ent->roolback();
 			entity->roolback();

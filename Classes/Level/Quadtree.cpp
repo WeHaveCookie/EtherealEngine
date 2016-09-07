@@ -3,7 +3,10 @@
 #include "Entity/Entity.h"
 #include "Manager/Render/RenderMgr.h"
 
-uint32_t Quadtree::m_quadNodeCapacity = 10;
+uint32_t Quadtree::s_quadNodeCapacity = 10;
+int Quadtree::s_registerCount = 0;
+int Quadtree::s_unregisterCount = 0;
+int Quadtree::s_queryCount = 0;
 
 Quadtree::Quadtree(float x, float y, float width, float height, Quadtree* master)
 	:Quadtree()
@@ -14,6 +17,7 @@ Quadtree::Quadtree(float x, float y, float width, float height, Quadtree* master
 
 Quadtree::Quadtree()
 {
+	m_masterRegisterCount = 0;
 	m_boundary.setFillColor(sf::Color(0, 0, 0, 0));
 	m_boundary.setOutlineThickness(1.0f);
 	m_boundary.setOutlineColor(sf::Color::Green);
@@ -53,6 +57,8 @@ void Quadtree::registerEntity(std::vector<Entity*> entitys)
 
 bool Quadtree::registerEntity(Entity* ent)
 {
+	s_registerCount++;
+	m_masterRegisterCount++;
     sf::FloatRect bound = ent->getGlobalBounds();
     if (!m_shape.intersects(bound))
     {
@@ -65,13 +71,13 @@ bool Quadtree::registerEntity(Entity* ent)
 			return true;
 		}
 
-        if (m_entitys.size() < m_quadNodeCapacity && m_enable)
+        if (m_entitys.size() < s_quadNodeCapacity && m_enable)
         {
 			m_entitys[ent->getUID()] = ent;
             return true;
         } else
         {
-            if(m_entitys.size() >= m_quadNodeCapacity && m_enable)
+            if(m_entitys.size() >= s_quadNodeCapacity && m_enable)
             {
                 subdivide();
             }
@@ -145,7 +151,9 @@ void Quadtree::unregisterEntity(std::vector<uint32_t> ids)
 
 void Quadtree::unregisterEntity(uint32_t id)
 {
+	s_unregisterCount++;
 	if (!m_enable)
+
 	{
 		m_northWest->unregisterEntity(id);
 		m_northEast->unregisterEntity(id);
@@ -165,9 +173,10 @@ void Quadtree::update()
 		m_northEast->update();
 		m_southWest->update();
 		m_southEast->update();
+		m_master->processRegistrary();
 		if (m_entitys.empty())
 		{
-			if ((m_northWest->nbElement() + m_northEast->nbElement() + m_southWest->nbElement() + m_southEast->nbElement()) <= m_quadNodeCapacity)
+			if ((m_northWest->nbElement() + m_northEast->nbElement() + m_southWest->nbElement() + m_southEast->nbElement()) <= s_quadNodeCapacity)
 			{
 				merge();
 			}
@@ -177,19 +186,22 @@ void Quadtree::update()
 		std::vector<uint32_t> removedEntity;
 		for (auto& entity : m_entitys)
 		{
-			auto entityBound = entity.second->getGlobalBounds();
-			// Not in shape. We need to erase this entity and register on the master
-			if (!m_shape.intersects(entityBound))
+			if (entity.second->asMoved())
 			{
-				m_master->registerEntity(entity.second);
-				removedEntity.push_back(entity.first);
-			}
-			else if ((entityBound.left + entityBound.width > m_shape.left + m_shape.width) ||
-				(entityBound.left < m_shape.left) ||
-				(entityBound.top + entityBound.height > m_shape.top + m_shape.height) ||
-				(entityBound.top < m_shape.top))
-			{
-				m_master->registerEntity(entity.second);
+				auto entityBound = entity.second->getGlobalBounds();
+				// Not in shape. We need to erase this entity and register on the master
+				if (!m_shape.intersects(entityBound))
+				{
+					m_master->addToRegistrary(entity.second);
+					removedEntity.push_back(entity.first);
+				}
+				else if ((entityBound.left + entityBound.width > m_shape.left + m_shape.width) ||
+					(entityBound.left < m_shape.left) ||
+					(entityBound.top + entityBound.height > m_shape.top + m_shape.height) ||
+					(entityBound.top < m_shape.top))
+				{
+					m_master->addToRegistrary(entity.second);
+				}
 			}
 		}
 
@@ -202,7 +214,8 @@ void Quadtree::update()
 
  std::vector<Entity*> Quadtree::queryRange(sf::FloatRect bound)
 {
-     std::vector<Entity*> answer =  std::vector<Entity*>();
+	s_queryCount++;
+    std::vector<Entity*> answer;
     if(!m_shape.intersects(bound))
     {
         return answer;
@@ -213,7 +226,7 @@ void Quadtree::update()
         return answer;
     } else
     {
-        std::vector<Entity*> tmp = std::vector<Entity*>();
+		std::vector<Entity*> tmp;
         if(m_northWest->getShape().intersects(bound))
         {
             tmp = m_northWest->queryRange(bound);
@@ -234,7 +247,6 @@ void Quadtree::update()
             tmp = m_southEast->queryRange(sf::FloatRect(bound));
             answer.insert(answer.end(),tmp.begin(),tmp.end());
         }
-        tmp.clear();
         return answer;
     }
 }
@@ -339,4 +351,18 @@ void Quadtree::insertEntityOnMap(std::vector<Entity*> entitys)
 	{
 		m_entitys[entity->getUID()] = entity;
 	}
+}
+
+void Quadtree::addToRegistrary(Entity* ent)
+{
+	m_registrary[ent->getUID()] = ent;
+}
+
+void Quadtree::processRegistrary()
+{
+	for (auto& entity : m_registrary)
+	{
+		registerEntity(entity.second);
+	}
+	m_registrary.clear();
 }
