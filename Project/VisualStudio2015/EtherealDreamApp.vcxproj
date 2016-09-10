@@ -192,13 +192,14 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\openal32.dll" "$(OutDir)"
-xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"</Command>
+xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -220,12 +221,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"</Com
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\openal32.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x64\*.dll" "$(OutDir)"
 xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -248,13 +250,14 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\openal32.dll" "$(OutDir)"
-xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"</Command>
+xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|x64'">
@@ -276,12 +279,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Debug\*.dll" "$(OutDir)"</Com
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\openal32.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x64\*.dll" "$(OutDir)"
 xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -309,7 +313,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
@@ -342,12 +346,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\openal32.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x64\*.dll" "$(OutDir)"
 xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -375,7 +380,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
@@ -409,12 +414,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\openal32.dll" "$(OutDir)"
+xcopy /f/y/d "..\..\..\External\DLL\x64\*.dll" "$(OutDir)"
 xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -435,8 +441,10 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Manager\Input\InputMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Item\ItemMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h" />
+    <ClInclude Include="..\..\Classes\Manager\Loading\LoadingMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Manager.h" />
     <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h" />
+    <ClInclude Include="..\..\Classes\Manager\Render\GuiMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Render\RenderMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Sound\SoundMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h" />
@@ -445,11 +453,19 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Sound\MusicComponentPool.h" />
     <ClInclude Include="..\..\Classes\Sound\SoundComponent.h" />
     <ClInclude Include="..\..\Classes\Sound\SoundComponentPool.h" />
-    <ClInclude Include="..\..\Classes\Thread\LoadThread.h" />
+    <ClInclude Include="..\..\Classes\Thread\LoadingThread.h" />
     <ClInclude Include="..\..\Classes\Thread\SaveThread.h" />
     <ClInclude Include="..\..\Classes\Thread\Thread.h" />
     <ClInclude Include="..\..\Classes\Utils\Constante.h" />
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig-SFML.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui-SFML.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui_internal.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_rect_pack.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_textedit.h" />
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_truetype.h" />
     <ClInclude Include="..\..\Classes\Utils\Random.h" />
     <ClInclude Include="..\..\Classes\Utils\VectorUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h" />
@@ -472,8 +488,10 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Manager\Input\InputMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Item\ItemMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp" />
+    <ClCompile Include="..\..\Classes\Manager\Loading\LoadingMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp" />
+    <ClCompile Include="..\..\Classes\Manager\Render\GuiMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Render\RenderMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Sound\SoundMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Time\TimeMgr.cpp" />
@@ -482,9 +500,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Sound\MusicComponentPool.cpp" />
     <ClCompile Include="..\..\Classes\Sound\SoundComponent.cpp" />
     <ClCompile Include="..\..\Classes\Sound\SoundComponentPool.cpp" />
-    <ClCompile Include="..\..\Classes\Thread\LoadThread.cpp" />
+    <ClCompile Include="..\..\Classes\Thread\LoadingThread.cpp" />
     <ClCompile Include="..\..\Classes\Thread\SaveThread.cpp" />
     <ClCompile Include="..\..\Classes\Thread\Thread.cpp" />
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui-SFML.cpp" />
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui.cpp" />
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_draw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -13,7 +13,9 @@ namespace ManagerType{
 		Render,
 		Entity,
 		File,
-		Persistent
+		Persistent,
+		Loading,
+		Gui
 	};
 }
 
@@ -28,6 +30,8 @@ class Manager
 		virtual void init();
 		virtual void process(const float dt);
 		virtual void end();
+
+		virtual void showImGuiWindow(bool* window) {};
 
 		ManagerType::Enum getType() const { return m_type; }
 

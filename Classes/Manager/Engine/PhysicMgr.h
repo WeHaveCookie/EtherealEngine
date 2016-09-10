@@ -15,6 +15,7 @@ class PhysicMgr : public Manager
 		void init();
 		void process(const float dt);
 		void end();
+		void showImGuiWindow(bool* window);
 
 		void registerEntity(Entity* ent);
 		void unregisterEntity(Entity* ent);
@@ -30,8 +31,12 @@ class PhysicMgr : public Manager
 	private:
 		static PhysicMgr* s_singleton;
 		void checkValidityOfPosition(Entity* ent);
+		void processRegisteryQueue();
 
-		std::vector<Entity*>	m_entitys;
-		sf::Time				m_processTime;
-		float					m_gravity;
+		std::vector<Entity*>							m_entitys;
+		class RegisteryQueue;
+		RegisteryQueue*									m_registeryQueue;
+		sf::Time										m_processTime;
+		float											m_gravity;
+		bool											m_enable;
 };

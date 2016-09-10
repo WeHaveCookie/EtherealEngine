@@ -9,6 +9,7 @@ public:
 	~SoundComponentPool();
 	void create(const char* path, bool loop, bool persistent);
 	void process(const float dt);
+	std::vector<SoundComponent*> getSoundsUsed();
 
 private:
 	const int						m_poolSize;

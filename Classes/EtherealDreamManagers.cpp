@@ -13,11 +13,13 @@
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/File/FileMgr.h"
 #include "Manager/Persistent/PersistentMgr.h"
-#include "Thread/LoadThread.h"
+#include "Manager/Loading/LoadingMgr.h"
+#include "Manager/Render/GuiMgr.h"
+
+#include "Thread/LoadingThread.h"
 #include "Thread/SaveThread.h"
 
 EtherealDreamManagers* EtherealDreamManagers::m_instance = NULL;
-uint32_t Entity::newUID = 0;
 
 #define REGISTER_MANAGER(ManagerClass) ManagerClass* g_##ManagerClass = NULL;
 
@@ -44,8 +46,10 @@ REGISTER_MANAGER(RenderMgr)
 REGISTER_MANAGER(EntityMgr)
 REGISTER_MANAGER(FileMgr)
 REGISTER_MANAGER(PersistentMgr)
+REGISTER_MANAGER(LoadingMgr)
+REGISTER_MANAGER(GuiMgr)
 
-REGISTER_MANAGER(LoadThread)
+REGISTER_MANAGER(LoadingThread)
 REGISTER_MANAGER(SaveThread)
 
 EtherealDreamManagers::EtherealDreamManagers()
@@ -56,10 +60,11 @@ EtherealDreamManagers::EtherealDreamManagers()
 
 void EtherealDreamManagers::CreateManagers()
 {
-	g_LoadThread = new LoadThread();
+	g_LoadingThread = new LoadingThread();
 	g_SaveThread = new SaveThread();
 
 	CREATE_MGR(TimeMgr)
+		CREATE_MGR(LoadingMgr)
 		CREATE_MGR(SoundMgr)
 		CREATE_MGR(LevelMgr)
 		CREATE_MGR(ItemMgr)
@@ -71,13 +76,14 @@ void EtherealDreamManagers::CreateManagers()
 		CREATE_MGR(EntityMgr)
 		CREATE_MGR(FileMgr)
 		CREATE_MGR(PersistentMgr)
+		CREATE_MGR(GuiMgr)
 }
 
 void EtherealDreamManagers::InitManagers()
 {
-	g_LoadThread->init();
 
 	INIT_MGR(TimeMgr)
+		INIT_MGR(LoadingMgr)
 		INIT_MGR(SoundMgr)
 		INIT_MGR(LevelMgr)
 		INIT_MGR(ItemMgr)
@@ -89,19 +95,21 @@ void EtherealDreamManagers::InitManagers()
 		INIT_MGR(RenderMgr)
 		INIT_MGR(FileMgr)
 		INIT_MGR(PersistentMgr)
+		INIT_MGR(GuiMgr)
 }
 
 void EtherealDreamManagers::UpdateManagers(float _dt)
 {
 	g_DeltaTimeRaw = _dt;
 	g_DeltaTime = g_DeltaTimeRaw * g_DeltaTimeFactor;
-	g_DeltaTime = std::min(g_DeltaTime, 0.1f);
+	//g_DeltaTime = std::min(g_DeltaTime, 0.1f);
 	_dt = g_DeltaTime;
 
 	// must be first
 	g_RenderMgr->startFrame();
 
 	PROCESS_MGR(TimeMgr)
+		PROCESS_MGR(LoadingMgr)
 		PROCESS_MGR(SoundMgr)
 		PROCESS_MGR(LevelMgr)
 		PROCESS_MGR(ItemMgr)
@@ -111,13 +119,15 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 		PROCESS_MGR(EntityMgr)
 		PROCESS_MGR(PhysicMgr)
 
-		PROCESS_MGR(RenderMgr);
+		PROCESS_MGR(RenderMgr)
+		PROCESS_MGR(GuiMgr)
 }
 
 void EtherealDreamManagers::DestroyManagers()
 {
 
 	END_MGR(TimeMgr)
+		END_MGR(LoadingMgr)
 		END_MGR(SoundMgr)
 		END_MGR(LevelMgr)
 		END_MGR(ItemMgr)
@@ -127,6 +137,9 @@ void EtherealDreamManagers::DestroyManagers()
 		END_MGR(PhysicMgr)
 		END_MGR(EntityMgr)
 		END_MGR(RenderMgr)
+		END_MGR(GuiMgr)
+		delete g_LoadingThread;
+	delete g_SaveThread;
 
 
 		for (int ID = (int)m_managers.size() - 1; ID > 0; --ID)

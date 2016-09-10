@@ -51,3 +51,16 @@ void SoundComponentPool::process(const float dt)
 		}
 	}
 }
+
+std::vector<SoundComponent*> SoundComponentPool::getSoundsUsed()
+{
+	std::vector<SoundComponent*> res;
+	for (auto& sound : m_sounds)
+	{
+		if (sound->isUsed())
+		{
+			res.push_back(sound);
+		}
+	}
+	return res;
+}

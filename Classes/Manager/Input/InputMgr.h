@@ -193,12 +193,17 @@ class InputMgr : public Manager
 	};
 
 	public:
+
+		static InputMgr* getSingleton() { return s_singleton; }
+
 		InputMgr();
 		~InputMgr();
 
 		void init();
 		void process(const float dt);
 		void end();
+
+		void setUpdateWhenNoFocus(bool b) { m_updateWhenNoFocus = b; }
 
 		bool keyIsPressed(KeyType::Enum key, uint32_t id = 0);
 		bool keyIsJustPressed(KeyType::Enum key, uint32_t id = 0);
@@ -209,9 +214,14 @@ class InputMgr : public Manager
 		float getPadKeyLastValue(KeyType::Enum key, uint32_t id = 0);
 		float getTimeSinceKeyPressed(KeyType::Enum key, uint32_t id = 0);
 
+		void showImGuiWindow(bool* window);
+
 	private:
 
-		std::map<KeyType::Enum, Keyboard> m_keyboard;
-		std::map<KeyType::Enum, Mouse> m_mouse;
-		std::vector<std::map<KeyType::Enum, Pad>> m_pads;
+		static InputMgr*							s_singleton;
+
+		std::map<KeyType::Enum, Keyboard>			m_keyboard;
+		std::map<KeyType::Enum, Mouse>				m_mouse;
+		std::vector<std::map<KeyType::Enum, Pad>>	m_pads;
+		bool										m_updateWhenNoFocus;
 };

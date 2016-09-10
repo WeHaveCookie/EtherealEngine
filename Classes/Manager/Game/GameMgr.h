@@ -14,16 +14,19 @@ class GameMgr : public Manager
 		void process(const float dt);
 		void end();
 		void paint();
+		void showImGuiWindow(bool* window);
+
 		bool isRunning();
 		void setFrameRate(uint32_t frameRate);
 		sf::RenderWindow* getMainRenderWindow() const { return m_mainRenderWindow; }
-
+		sf::Time getProcessTime() { return m_processTime; }
 		const char* getGameName() { return m_gameName; }
 
     protected:
     private:
         // Function
-		static GameMgr* s_singleton;
-		sf::RenderWindow* m_mainRenderWindow;
-		char m_gameName[128];
+		static GameMgr*		s_singleton;
+		sf::RenderWindow*	m_mainRenderWindow;
+		sf::Time			m_processTime;
+		char				m_gameName[128];
 };

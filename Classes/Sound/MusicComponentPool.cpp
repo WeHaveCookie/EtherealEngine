@@ -49,12 +49,17 @@ void MusicComponentPool::process(const float dt)
 			m_firstAvailable = m_music[i];
 		}
 	}
-// 	for (auto& music : m_music)
-// 	{
-// 		if (!music->process(dt) && !music->isPersistent())
-// 		{
-// 			music->setNext(m_firstAvailable);
-// 			m_firstAvailable = music;
-// 		}
-// 	}
+}
+
+std::vector<MusicComponent*> MusicComponentPool::getMusicsUsed()
+{
+	std::vector<MusicComponent*> res;
+	for (auto& music : m_music)
+	{
+		if (music->isUsed())
+		{
+			res.push_back(music);
+		}
+	}
+	return res;
 }

@@ -4,9 +4,12 @@
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/Sound/SoundMgr.h"
-#include "Thread/LoadThread.h"
+#include "Thread/LoadingThread.h"
 #include "Manager/Persistent/PersistentMgr.h"
 #include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Level/LevelMgr.h"
+#include "Manager/Loading/LoadingMgr.h"
+
 #include "Utils/Random.h"
 
 #define GAME_NAME "EtherealDream"
@@ -58,6 +61,7 @@ GameMgr::~GameMgr()
 
 void GameMgr::init()
 {
+	m_processTime = sf::Time::Zero;
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
 	std::cout << vm.height << " " << vm.width << std::endl;
 	if (vm.height > 1080 || vm.width > 1920)
@@ -73,12 +77,23 @@ void GameMgr::init()
 
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
-	auto test = EntityMgr::getSingleton()->buildEntity("Data/Character/player.json");
-	PhysicMgr::getSingleton()->registerEntity(test);
+	//auto test = EntityMgr::getSingleton()->buildEntity("Data/Character/player.json");
+// 	while (!EntityMgr::getSingleton()->entityIsLoaded(test))
+// 	{
+// 
+// 	}
+// 	auto player = EntityMgr::getSingleton()->getEntity(test);
+// 	player->setPosition(sf::Vector2f(300.0f, 300.0f));
+
+// 	EntityMgr::getSingleton()->entityIsLoaded(test);
+// 
+// 	PhysicMgr::getSingleton()->registerEntity(test);
 }
 
 void GameMgr::process(const float dt)
 {
+	sf::Clock clock;
+
 	auto inputMgr = INPUT_MGR;
 	auto entityMgr = ENTITY_MGR;
 	auto soundMgr = SOUND_MGR;
@@ -87,47 +102,55 @@ void GameMgr::process(const float dt)
 	static SaveTask save;
 	static std::vector<uint32_t> ids;
 
-	if (inputMgr->keyIsPressed(KeyType::kbNum1))
-	{
-		Entity* ch;
-		int num = randIntBorned(0, 5);
-		switch (num)
-		{
-		case 0:
-			//ch = entityMgr->buildEntity("Data/Character/player.json");
-			break;
-		case 1:
-			ch = entityMgr->buildEntity("Data/Character/chicken.json");
-			break;
-		case 2:
-			ch = entityMgr->buildEntity("Data/Character/cow.json");
-			break;
-		case 3:
-			ch = entityMgr->buildEntity("Data/Character/pig.json");
-			break;
-		case 4:
-			ch = entityMgr->buildEntity("Data/Character/client.json");
-			break;
-		case 5:
-			ch = entityMgr->buildEntity("Data/Character/entrepreneur.json");
-			break;
-		default:
-			break;
-		}
 
-		if (ch != NULL)
+	if (inputMgr->keyIsJustPressed(KeyType::kbNum1))
+	{
+		// Move to loading thread for more perf !!!
+		for (int i = 0; i < 1; i++)
 		{
-			ch->setPosition(sf::Vector2f(randFloatBorned(0.0f, 1800.0f), randFloatBorned(0.0f, 900.0f)));
-			ids.push_back(ch->getUID());
+			uint32_t ch;
+			int num = randIntBorned(1, 5);
+			switch (num)
+			{
+			case 0:
+				//ch = entityMgr->buildEntity("Data/Character/player.json");
+				break;
+			case 1:
+				ch = entityMgr->buildEntity("Data/Character/chicken.json");
+				break;
+			case 2:
+				ch = entityMgr->buildEntity("Data/Character/cow.json");
+				break;
+			case 3:
+				ch = entityMgr->buildEntity("Data/Character/pig.json");
+				break;
+			case 4:
+				ch = entityMgr->buildEntity("Data/Character/client.json");
+				break;
+			case 5:
+				ch = entityMgr->buildEntity("Data/Character/entrepreneur.json");
+				break;
+			default:
+				break;
+			}
+
+			if (ch != NULL)
+			{
+				//ch->setPosition(sf::Vector2f(randFloatBorned(0.0f, 1800.0f), randFloatBorned(0.0f, 900.0f)));
+				ids.push_back(ch);
+			}
 		}
 	}
 
-	if (inputMgr->keyIsPressed(KeyType::kbNum2))
+	if (inputMgr->keyIsJustPressed(KeyType::kbNum2))
 	{
-		if(ids.size() > 0)
+		for (int i = 0; i < 1; i++)
 		{
-			entityMgr->removeEntity(ids[ids.size() - 1]);
-			ids.pop_back();
+			if (ids.size() > 0)
+			{
+				entityMgr->removeEntity(ids[ids.size() - 1]);
+				ids.pop_back();
+			}
 		}
 	}
 
@@ -167,52 +190,16 @@ void GameMgr::process(const float dt)
 		}
 	}
 
-	if (inputMgr->keyIsJustPressed(KeyType::kbA))
-	{
-		soundMgr->addSound("Data/Sound/FX/build.ogg");
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbZ))
-	{
-		soundMgr->addSound("Data/Sound/FX/mumu.ogg");
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbE))
-	{
-		soundMgr->addSound("Data/Sound/FX/upgrade.ogg");
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbQ))
-	{
-		soundMgr->addSound("Data/Sound/FX/workDone.ogg");
-	}	
-	
-	if (inputMgr->keyIsJustPressed(KeyType::kbS))
-	{
-		soundMgr->addSound("Data/Sound/FX/test.ogg");
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbM))
-	{
-		soundMgr->addMusic("Data/Sound/Ambiant/theme.ogg");
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbL))
-	{
-		soundMgr->addMusic("Data/Sound/Ambiant/theme.ogg", true);
-	}
-
-
 	auto ent = entityMgr->getEntity(0);
 	
 	if (inputMgr->keyIsJustPressed(KeyType::kbRight))
 	{
-		motion.x++;
+		motion.x += 10;
 		ent->setState(EntityAnimationState::Right);
 	}
 	if (inputMgr->keyIsPressed(KeyType::kbRight))
 	{
-		motion.x++;
+		motion.x += 10;
 	}
 
 	if (inputMgr->keyIsJustReleased(KeyType::kbRight))
@@ -222,12 +209,12 @@ void GameMgr::process(const float dt)
 
 	if (inputMgr->keyIsJustPressed(KeyType::kbLeft))
 	{
-		motion.x--;
+		motion.x -= 10;
 		ent->setState(EntityAnimationState::Left);
 	}
 	if (inputMgr->keyIsPressed(KeyType::kbLeft))
 	{
-		motion.x--;
+		motion.x -= 10;
 	}
 
 	if (inputMgr->keyIsJustReleased(KeyType::kbLeft))
@@ -237,15 +224,16 @@ void GameMgr::process(const float dt)
 
 	if (inputMgr->keyIsPressed(KeyType::kbUp))
 	{
-		motion.y--;
+		motion.y -= 10;
 	}
 
 	if (inputMgr->keyIsPressed(KeyType::kbDown))
 	{
-		motion.y++;
+		motion.y += 10;
 	}
 	ent->move(motion);
 	
+	m_processTime = clock.getElapsedTime();
 
 }
 
@@ -255,6 +243,26 @@ void GameMgr::end()
 
 void GameMgr::paint()
 {
+}
+
+void GameMgr::showImGuiWindow(bool* window)
+{
+	if (ImGui::Begin("GameMgr", window))
+	{
+		ImGui::Text("Framerate : %f fps", g_Framerate);
+		ImGui::Text("Time per frame : %f ms", g_DeltaTime * 1000);
+
+		if (ImGui::CollapsingHeader("Manager"))
+		{
+			ImGui::Text("EntityMgr : %f ms", EntityMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
+			ImGui::Text("PhysicMgr : %f ms", PhysicMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
+			ImGui::Text("LevelMgr : %f ms", LevelMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
+			ImGui::Text("LoadingMgr : %f ms", LoadingMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
+			ImGui::Text("GameMgr : %f ms", getProcessTime().asMicroseconds() / 1000.0f);
+			ImGui::Text("SoundMgr : %f ms", SoundMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
+		}
+		ImGui::End();
+	}
 }
 
 bool GameMgr::isRunning()

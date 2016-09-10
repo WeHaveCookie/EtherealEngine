@@ -45,6 +45,10 @@ function linkEtherealDreamLibs(etherealDreamPath)
 			etherealDreamPath .. "../External/SFML-2.3.2/include",
 		}
 		
+		links{
+			"opengl32.lib"
+		}
+		
 		
 -- //////////// WIN32 SETTINGS ////////////
 
@@ -69,6 +73,7 @@ function linkEtherealDreamLibs(etherealDreamPath)
 		
 		postbuildcommands {
 				"xcopy /f/y/d \"..\\..\\..\\External\\SFML-2.3.2\\bin\\x32\\Debug\\*.dll\" \"$(OutDir)\"",
+				"xcopy /f/y/d \"..\\..\\..\\External\\DLL\\x86\\*.dll\" \"$(OutDir)\"",
 			}
 
 		filter { "platforms:Win32", "configurations:Release or Final" }
@@ -90,6 +95,7 @@ function linkEtherealDreamLibs(etherealDreamPath)
 	filter { "platforms:x64"}
 		postbuildcommands {
 				"xcopy /f/y/d \"..\\..\\..\\External\\SFML-2.3.2\\bin\\x64\\openal32.dll\" \"$(OutDir)\"",
+				"xcopy /f/y/d \"..\\..\\..\\External\\DLL\\x64\\*.dll\" \"$(OutDir)\"",
 			}
 		
 		libdirs {
@@ -191,6 +197,7 @@ function EtherealDreamProject(name, etherealDreamPath)
 				etherealDreamPath .. "../External/ImGui",
 				etherealDreamPath .. "../External/rapidjson",
 				etherealDreamPath .. "../External/moodycamel",
+				
 				"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10150.0/ucrt"
 			}
 			

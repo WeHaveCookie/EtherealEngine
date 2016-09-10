@@ -17,6 +17,7 @@ class LevelMgr : public Manager
 		void process(const float dt);
 		void end();
 		void paint();
+		void showImGuiWindow(bool* window);
 
 		void registerEntity(Entity* ent);
 		void unregisterEntity(uint32_t id);

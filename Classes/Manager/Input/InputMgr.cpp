@@ -2,7 +2,8 @@
 #include "InputMgr.h"
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
-#include "imgui.h"
+
+InputMgr* InputMgr::s_singleton = NULL;
 
 int KeyToSFML[] = {
 	-1, // none
@@ -123,6 +124,8 @@ int KeyToSFML[] = {
 InputMgr::InputMgr()
 :Manager(ManagerType::Enum::Input)
 {
+	s_singleton = this;
+	m_updateWhenNoFocus = false;
 }
 
 InputMgr::~InputMgr()
@@ -165,116 +168,119 @@ void InputMgr::init()
 
 void InputMgr::process(const float dt)
 {
-
-	for (auto& keyboard : m_keyboard)
+	if (RenderMgr::getSingleton()->getMainRenderWindow()->hasFocus() || m_updateWhenNoFocus)
 	{
-		keyboard.second.m_lastPressed = keyboard.second.m_pressed;
-	}
-
-	for (auto& mouse : m_mouse)
-	{
-		mouse.second.m_lastPressed = mouse.second.m_pressed;
-		mouse.second.m_lastValue = mouse.second.m_value;
-	}
-
-	for (auto& padID : m_pads)
-	{
-		for (auto& pad : padID)
+		for (auto& keyboard : m_keyboard)
 		{
-			pad.second.m_lastPressed = pad.second.m_pressed;
-			pad.second.m_lastValue = pad.second.m_value;
+			keyboard.second.m_lastPressed = keyboard.second.m_pressed;
 		}
-	}
 
-	sf::Event event;
-	auto renderMgr = RENDER_MGR;
-	auto rdrWin = renderMgr->getMainRenderWindow();
-	while (rdrWin->pollEvent(event))
-	{
+		for (auto& mouse : m_mouse)
+		{
+			mouse.second.m_lastPressed = mouse.second.m_pressed;
+			mouse.second.m_lastValue = mouse.second.m_value;
+		}
 
-		switch (event.type)
+		for (auto& padID : m_pads)
 		{
-		case sf::Event::Closed:
-			rdrWin->close();
-			break;
-		case sf::Keyboard::Escape:
-			rdrWin->close();
-			break;
-		case sf::Event::KeyPressed:
-		{
-			switch (event.key.code)
+			for (auto& pad : padID)
 			{
+				pad.second.m_lastPressed = pad.second.m_pressed;
+				pad.second.m_lastValue = pad.second.m_value;
+			}
+		}
+
+		sf::Event event;
+		auto renderMgr = RENDER_MGR;
+		auto rdrWin = renderMgr->getMainRenderWindow();
+		while (rdrWin->pollEvent(event))
+		{
+			ImGui::SFML::ProcessEvent(event);
+			switch (event.type)
+			{
+			case sf::Event::Closed:
+				rdrWin->close();
+				break;
 			case sf::Keyboard::Escape:
 				rdrWin->close();
 				break;
+			case sf::Event::KeyPressed:
+			{
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Escape:
+					rdrWin->close();
+					break;
+				default:
+					break;
+				}
+			}
+			break;
 			default:
 				break;
 			}
 		}
-		break;
-		default:
-			break;
-		}
-	}
 
-	for (int i = KeyType::startKbKey; i <= KeyType::endKbKey; i++)
-	{
-		KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-		m_keyboard[keyType].m_pressed = sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(KeyToSFML[keyType]));
-		if (m_keyboard[keyType].m_pressed)
-		{
-			m_keyboard[keyType].m_timeSincePressed += dt;
-		}
-		else
-		{
-			m_keyboard[keyType].m_timeSincePressed = 0.0f;
-		}
-	}
-
-	for (int i = KeyType::startMouseKey; i <= KeyType::endMouseKey; i++)
-	{
-		KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-		if (i >= KeyType::startValueMouseKey && i <= KeyType::endValueMouseKey)
-		{
-			// Not manage yet
-		}
-		else
-		{
-			m_mouse[keyType].m_pressed = sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(KeyToSFML[keyType]));
-		}
-		if (m_mouse[keyType].m_pressed)
-		{
-			m_mouse[keyType].m_timeSincePressed += dt;
-		}
-		else
-		{
-			m_mouse[keyType].m_timeSincePressed = 0.0f;
-		}
-	}
-
-	for (int padID = 0; padID < sf::Joystick::Count; padID++)
-	{
-		for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
+		for (int i = KeyType::startKbKey; i <= KeyType::endKbKey; i++)
 		{
 			KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-			if (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey)
+			m_keyboard[keyType].m_pressed = sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(KeyToSFML[keyType]));
+			if (m_keyboard[keyType].m_pressed)
 			{
-				m_pads[padID][keyType].m_value = sf::Joystick::getAxisPosition(padID, static_cast<sf::Joystick::Axis>(KeyToSFML[keyType]));
+				m_keyboard[keyType].m_timeSincePressed += dt;
 			}
 			else
 			{
-				m_pads[padID][keyType].m_pressed = sf::Joystick::isButtonPressed(padID, KeyToSFML[keyType]);
+				m_keyboard[keyType].m_timeSincePressed = 0.0f;
 			}
-			if (m_pads[padID][keyType].m_pressed)
+		}
+
+		for (int i = KeyType::startMouseKey; i <= KeyType::endMouseKey; i++)
+		{
+			KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+			if (i >= KeyType::startValueMouseKey && i <= KeyType::endValueMouseKey)
 			{
-				m_pads[padID][keyType].m_timeSincePressed += dt;
+				// Not manage yet
 			}
 			else
 			{
-				m_pads[padID][keyType].m_timeSincePressed = 0.0f;
+				m_mouse[keyType].m_pressed = sf::Mouse::isButtonPressed(static_cast<sf::Mouse::Button>(KeyToSFML[keyType]));
+			}
+			if (m_mouse[keyType].m_pressed)
+			{
+				m_mouse[keyType].m_timeSincePressed += dt;
+			}
+			else
+			{
+				m_mouse[keyType].m_timeSincePressed = 0.0f;
+			}
+		}
+
+		for (int padID = 0; padID < sf::Joystick::Count; padID++)
+		{
+			for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
+			{
+				KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+				if (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey)
+				{
+					m_pads[padID][keyType].m_value = sf::Joystick::getAxisPosition(padID, static_cast<sf::Joystick::Axis>(KeyToSFML[keyType]));
+				}
+				else
+				{
+					m_pads[padID][keyType].m_pressed = sf::Joystick::isButtonPressed(padID, KeyToSFML[keyType]);
+				}
+				if (m_pads[padID][keyType].m_pressed)
+				{
+					m_pads[padID][keyType].m_timeSincePressed += dt;
+				}
+				else
+				{
+					m_pads[padID][keyType].m_timeSincePressed = 0.0f;
+				}
 			}
 		}
 	}
+	ImGui::SFML::Update(dt);
 }
 
 void InputMgr::end()
@@ -390,4 +396,14 @@ float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, uint32_t id)
 		return m_pads[id][key].m_timeSincePressed;
 	}
 	return 0.0f;
+}
+
+void InputMgr::showImGuiWindow(bool* window)
+{
+
+	if (ImGui::Begin("EntityMgr", window))
+	{
+		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
+		ImGui::End();
+	}
 }

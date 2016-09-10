@@ -9,6 +9,7 @@ LevelMgr::LevelMgr()
 :Manager(ManagerType::Enum::Level)
 {
 	s_singleton = this;
+	m_queryCount = 0.0f;
 }
 
 LevelMgr::~LevelMgr()
@@ -17,9 +18,10 @@ LevelMgr::~LevelMgr()
 
 void LevelMgr::init()
 {
+	m_processTime = sf::Time::Zero;
 	m_quadtree = new Quadtree();
 	m_quadtree->init(0.0f, 0.0f, 1920.0f, 1080.0f);
-	m_quadtree->setNodeCapacity(30);
+	m_quadtree->setNodeCapacity(50);
 }
 
 void LevelMgr::process(const float dt)
@@ -31,12 +33,20 @@ void LevelMgr::process(const float dt)
 
 void LevelMgr::end()
 {
-
 }
 
 void LevelMgr::paint()
 {
 	m_quadtree->paint();
+}
+
+void LevelMgr::showImGuiWindow(bool* window)
+{
+	if (ImGui::Begin("LevelMgr", window))
+	{
+
+		ImGui::End();
+	}
 }
 
 void LevelMgr::registerEntity(Entity* ent)

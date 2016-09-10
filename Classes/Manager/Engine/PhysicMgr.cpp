@@ -2,14 +2,19 @@
 #include "PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
 #include "Utils/Random.h"
+#include "blockingconcurrentqueue.h"
 
 PhysicMgr* PhysicMgr::s_singleton = NULL;
+
+class PhysicMgr::RegisteryQueue : public moodycamel::BlockingConcurrentQueue<Entity*> {};
 
 PhysicMgr::PhysicMgr()
 :Manager(ManagerType::Enum::Engine)
 {
 	s_singleton = this;
+	m_enable = true;
 	m_gravity = 9.81f; // m/sec
+	m_registeryQueue = new RegisteryQueue();
 }
 
 PhysicMgr::~PhysicMgr()
@@ -18,16 +23,20 @@ PhysicMgr::~PhysicMgr()
 
 void PhysicMgr::init()
 {
-
+	m_processTime = sf::Time::Zero;
 }
 
 void PhysicMgr::process(const float dt)
 {
 	sf::Clock clock;
-	for (auto& entity : m_entitys)
+	processRegisteryQueue();
+	if (m_enable)
 	{
-		entity->addMotion(sf::Vector2f(0.0f, m_gravity * dt));
-		checkValidityOfPosition(entity);
+		for (auto& entity : m_entitys)
+		{
+			entity->addMotion(sf::Vector2f(0.0f, m_gravity * dt));
+			checkValidityOfPosition(entity);
+		}
 	}
 	m_processTime = clock.getElapsedTime();
 }
@@ -37,13 +46,27 @@ void PhysicMgr::end()
 
 }
 
+void PhysicMgr::showImGuiWindow(bool* window)
+{
+	if (ImGui::Begin("PhysicMgr", window))
+	{
+		ImGui::Checkbox("Enable Phys", &m_enable);
+		ImGui::Text("Registery entity : %i", m_entitys.size());
+		for (auto& entity : m_entitys)
+		{
+			ImGui::Text("%i : %s", entity->getUID(), entity->getName());
+			if (ImGui::IsItemClicked())
+			{
+				entity->showInfo();
+			}
+		}
+		ImGui::End();
+	}
+}
+
 void PhysicMgr::registerEntity(Entity* ent)
 {
-	m_entitys.push_back(ent);
-	if (ent->isCollidable())
-	{
-		LevelMgr::getSingleton()->registerEntity(ent);
-	}
+	m_registeryQueue->enqueue(ent);
 }
 
 void PhysicMgr::unregisterEntity(Entity* ent)
@@ -84,5 +107,20 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 			ent->roolback();
 			entity->roolback();
 		}
+	}
+}
+
+void PhysicMgr::processRegisteryQueue()
+{
+	Entity* ent;
+	bool dequeue = m_registeryQueue->try_dequeue(ent);
+	while (dequeue)
+	{
+		m_entitys.push_back(ent);
+		if (ent->isCollidable())
+		{
+			LevelMgr::getSingleton()->registerEntity(ent);
+		}
+		dequeue = m_registeryQueue->try_dequeue(ent);
 	}
 }

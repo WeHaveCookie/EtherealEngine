@@ -49,6 +49,9 @@
     <Filter Include="Classes\Manager\Level">
       <UniqueIdentifier>{64F92CC0-D065-E8BA-9959-801805850A23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Manager\Loading">
+      <UniqueIdentifier>{8AEB2795-F622-702C-FF2C-D44F6BE39625}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Manager\Persistent">
       <UniqueIdentifier>{BD9BA90F-A9AB-55E0-1265-BAFEFE934479}</UniqueIdentifier>
     </Filter>
@@ -72,6 +75,9 @@
     </Filter>
     <Filter Include="Classes\Utils">
       <UniqueIdentifier>{932295C4-FFE2-10FB-C81D-5A78349D55D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Utils\ImGui">
+      <UniqueIdentifier>{FDF91F03-695B-FD10-F2C8-43C35E2934D0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Project">
       <UniqueIdentifier>{5C2CF323-C80B-72BF-D123-FD953D82D820}</UniqueIdentifier>
@@ -129,11 +135,17 @@
     <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h">
       <Filter>Classes\Manager\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Loading\LoadingMgr.h">
+      <Filter>Classes\Manager\Loading</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Manager.h">
       <Filter>Classes\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h">
       <Filter>Classes\Manager\Persistent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Render\GuiMgr.h">
+      <Filter>Classes\Manager\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Render\RenderMgr.h">
       <Filter>Classes\Manager\Render</Filter>
@@ -159,7 +171,7 @@
     <ClInclude Include="..\..\Classes\Sound\SoundComponentPool.h">
       <Filter>Classes\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Thread\LoadThread.h">
+    <ClInclude Include="..\..\Classes\Thread\LoadingThread.h">
       <Filter>Classes\Thread</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Thread\SaveThread.h">
@@ -173,6 +185,30 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h">
       <Filter>Classes\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig-SFML.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui-SFML.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\imgui_internal.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_rect_pack.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_textedit.h">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\ImGui\stb_truetype.h">
+      <Filter>Classes\Utils\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\Random.h">
       <Filter>Classes\Utils</Filter>
@@ -236,11 +272,17 @@
     <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp">
       <Filter>Classes\Manager\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Loading\LoadingMgr.cpp">
+      <Filter>Classes\Manager\Loading</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp">
       <Filter>Classes\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp">
       <Filter>Classes\Manager\Persistent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Render\GuiMgr.cpp">
+      <Filter>Classes\Manager\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Render\RenderMgr.cpp">
       <Filter>Classes\Manager\Render</Filter>
@@ -266,7 +308,7 @@
     <ClCompile Include="..\..\Classes\Sound\SoundComponentPool.cpp">
       <Filter>Classes\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Thread\LoadThread.cpp">
+    <ClCompile Include="..\..\Classes\Thread\LoadingThread.cpp">
       <Filter>Classes\Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Thread\SaveThread.cpp">
@@ -274,6 +316,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Thread\Thread.cpp">
       <Filter>Classes\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui-SFML.cpp">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui.cpp">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_demo.cpp">
+      <Filter>Classes\Utils\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_draw.cpp">
+      <Filter>Classes\Utils\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Project\VisualStudio2015</Filter>

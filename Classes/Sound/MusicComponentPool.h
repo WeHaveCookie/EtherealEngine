@@ -9,6 +9,7 @@ public:
 	~MusicComponentPool();
 	void create(const char* path, bool loop, bool persistent);
 	void process(const float dt);
+	std::vector<MusicComponent*> getMusicsUsed();
 
 private:
 	const int						m_poolSize;
