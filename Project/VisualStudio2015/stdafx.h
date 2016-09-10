@@ -25,11 +25,16 @@
 #include <cstdint>
 
 // Framework
+#include "SFML/Main.hpp"
+#include <SFML/OpenGL.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
+
+#include "Utils/ImGui/imgui.h"
+#include "Utils/ImGui/imgui-sfml.h"
 
 // Game
 #include "Utils/Constante.h"
