@@ -19,12 +19,13 @@ class EntityMgr : public Manager
 		void process(const float dt);
 		void end();
 		void paint();
+		void showImGuiWindow(bool* window);
 
-		Entity* buildEntity(const char* path);
+		uint32_t buildEntity(const char* path);
 		void removeEntity(uint32_t id);
 		Entity* getEntity(uint32_t id);
-
-		int getTotalEntity();
+		bool entityIsLoaded(uint32_t id);
+		int getNumberUsedEntity();
 
 		sf::Time getProcessTime() { return m_processTime; }
 

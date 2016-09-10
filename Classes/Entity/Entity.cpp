@@ -3,6 +3,7 @@
 
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
+#include "Manager/Engine/PhysicMgr.h"
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
 #include "Utils/VectorUtils.h"
@@ -27,7 +28,10 @@ std::vector<const char*> EnumToString = {
 Entity::Entity()
 	:m_uid(newUID++)
 {
-	m_live = false;
+	setLive(false);
+	m_loaded = false;
+	m_onLoading = false;
+	m_displayInfo = false;
 	m_state.m_live.m_errorTexture.loadFromFile(ERROR_TEXTURE);
 	m_state.m_live.m_errorTexture.setRepeated(true);
 }
@@ -51,6 +55,7 @@ void Entity::paint()
 		sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 		rdrWin->draw(*currentAnim);
 	}
+	displayInfo();
 }
 
 void Entity::update(const float dt)
@@ -151,8 +156,10 @@ void Entity::build(const char* path)
 
 	rapidjson::Document document;
 	document.Parse(json);
-	assert(!document.HasParseError());
-	assert(document.IsObject());
+	auto error = document.HasParseError();
+	auto object = document.IsObject();
+	assert(!error);
+	assert(object);
 
 	sf::Sprite spr;
 	char entPath[128];
@@ -166,26 +173,30 @@ void Entity::build(const char* path)
 	{
 		replaceJsonByPng(entPath, path);
 	}
-
+	m_state.m_live.m_texturePath = entPath;
 	m_state.m_live.m_texture = sf::Texture();
 	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
 	assert(load);
 	m_state.m_live.m_texture.setSmooth(true);
 	spr.setTexture(m_state.m_live.m_texture);
 
-	assert(document.HasMember("Name"));
+	auto member = document.HasMember("Name");
+	assert(member);
 	setName(document["Name"].GetString());
 
-	assert(document.HasMember("Speed"));
+	member = document.HasMember("Speed");
+	assert(member);
 	setSpeed(document["Speed"].GetFloat());
 
-	assert(document.HasMember("Width"));
+	member = document.HasMember("Width");
+	assert(member);
 	m_state.m_live.m_width = document["Width"].GetUint();
 
-	assert(document.HasMember("Height"));
+	member = document.HasMember("Height");
+	assert(member);
 	m_state.m_live.m_height = document["Height"].GetUint();
 
-	m_state.m_live.clear();
+	
 	m_state.m_next = NULL;
 
 	if (document.HasMember("Collidable"))
@@ -195,22 +206,31 @@ void Entity::build(const char* path)
 	{
 		m_state.m_live.m_collidable = true;
 	}
+	if (m_state.m_live.m_collidable)
+	{
+		PhysicMgr::getSingleton()->registerEntity(this);
+	}
 	
-	assert(document.HasMember("Animation"));
+	member = document.HasMember("Animation");
+	assert(member);
 	const rapidjson::Value& animation = document["Animation"];
 
 	for (auto& v : animation.GetArray())
 	{
 		EntityAnimation anim;
-		assert(v.HasMember("State"));
+		member = v.HasMember("State");
+		assert(member);
 
-		assert(v.HasMember("Frame"));
+		member = v.HasMember("Frame");
+		assert(member);
 		uint32_t nbrFrame = v["Frame"].GetUint();
 
-		assert(v.HasMember("Time"));
+		member = v.HasMember("Time");
+		assert(member);
 		anim.m_timePerFrame = v["Time"].GetFloat();
 
-		assert(v.HasMember("Line"));
+		member = v.HasMember("Line");
+		assert(member);
 		uint32_t line = v["Line"].GetUint() - 1;
 
 		for (uint32_t column = 0; column < nbrFrame; column++)
@@ -234,10 +254,13 @@ void Entity::build(const char* path)
 		setPosition(pos);
 	}
 
-	assert(document.HasMember("State"));
+	member = document.HasMember("State");
+	assert(member);
 	setState(StateToEnum[document["State"].GetString()]);
 
-	m_live = true;
+	setLive(true);
+	m_onLoading = false;
+	m_loaded = true;
 }
 
 void Entity::updatePosition()
@@ -246,4 +269,56 @@ void Entity::updatePosition()
 	m_state.m_live.m_lastMotion = m_state.m_live.m_motion;
 	m_state.m_live.m_currentPosition += m_state.m_live.m_lastMotion;
 	m_state.m_live.m_motion -= m_state.m_live.m_lastMotion;
+}
+
+void Entity::release()
+{
+	if (m_state.m_live.m_collidable)
+	{
+		PhysicMgr::getSingleton()->unregisterEntity(this);
+	}
+	m_state.m_live.clear();
+	m_loaded = false;
+	setLive(false);
+}
+
+void Entity::displayInfo()
+{
+	if (m_displayInfo)
+	{
+		bool collidable = m_state.m_live.m_collidable;
+		std::string name = std::to_string(getUID()) + " : " + m_state.m_live.m_name;
+		if (ImGui::Begin(name.c_str(), &m_displayInfo))
+		{
+			sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
+			ImGui::Image(*currentAnim);
+			ImGui::InputFloat("Speed", &m_state.m_live.m_speed);
+			ImGui::Checkbox("IsCollidable", &m_state.m_live.m_collidable);
+			
+			ImGui::Text("Position");
+			ImGui::SliderFloat("x", &m_state.m_live.m_currentPosition.x, 0.0f, 1920.0f);
+			ImGui::SliderFloat("y", &m_state.m_live.m_currentPosition.y, 0.0f, 1080.0f);
+			ImGui::Text("Texture : %s", m_state.m_live.m_texturePath.c_str());
+			if (ImGui::IsItemHovered())
+			{
+				ImGui::BeginTooltip();
+				ImGui::Image(m_state.m_live.m_texture);
+				ImGui::EndTooltip();
+			}
+		}
+		ImGui::End();
+
+		if (collidable != m_state.m_live.m_collidable)
+		{
+			if (m_state.m_live.m_collidable)
+			{
+				PhysicMgr::getSingleton()->registerEntity(this);
+			}
+			else
+			{
+				PhysicMgr::getSingleton()->unregisterEntity(this);
+			}
+		}
+	}
+	
 }

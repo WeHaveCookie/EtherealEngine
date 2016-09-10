@@ -8,7 +8,8 @@ struct EntityAnimation {
 	uint32_t				m_currentFrame;
 	float					m_timeElapsedSinceUdpate = 0.0f;
 
-	sf::Sprite* getCurrentAnimation() {
+	sf::Sprite* getCurrentAnimation() 
+	{
 		if (m_timeElapsedSinceUdpate >= m_timePerFrame)
 		{
 			nextFrame();
@@ -36,6 +37,11 @@ struct EntityAnimation {
 		m_currentFrame = 0;
 	}
 
+	~EntityAnimation()
+	{
+		m_animation.clear();
+	}
+
 };
 
 namespace EntityAnimationState {
@@ -61,10 +67,10 @@ class Entity
 		virtual void update(const float dt);
 		bool process(const float dt);
 
-		void setName(const char* name) { strcpy(m_state.m_live.m_name, name); }
+		void setName(const char* name) { m_state.m_live.m_name = name; }
 		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
 		void setSpeed(float speed);
-		const char* getId() const { return m_state.m_live.m_name;}
+		const char* getName() const { return m_state.m_live.m_name.c_str();}
 		const uint32_t getUID() const { return m_uid; }
 		void setPosition(sf::Vector2f pos) { m_state.m_live.m_currentPosition = pos; }
 		void setState(EntityAnimationState::Enum state);
@@ -81,22 +87,32 @@ class Entity
 		bool isAlive() { return m_live; }
 		bool asMoved() { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
 
+		void release();
+		void build(const char* path);
+		void load() { m_onLoading = true; };
+
+		void showInfo() { m_displayInfo = !m_displayInfo; }
+		void closeInfo() { m_displayInfo = false; }
+
 	protected:
 		static uint32_t		newUID;
 		const uint32_t		m_uid;
 
 	private:
-		friend class EntityPool;
-		void build(const char* path);
 		void updatePosition();
+		void displayInfo();
 
 		bool m_live;
+		bool m_loaded;
+		bool m_onLoading;
+		bool m_displayInfo;
 
 		union State
 		{
 			struct
 			{
-				char													m_name[128];
+				std::string												m_name;
+				std::string												m_texturePath;
 				std::map<EntityAnimationState::Enum, EntityAnimation>	m_animations;
 				float													m_speed;
 				EntityAnimationState::Enum								m_currentState;
@@ -112,6 +128,7 @@ class Entity
 
 				void clear()
 				{
+					m_animations.clear();
 					for (int i = EntityAnimationState::startEnum; i <= EntityAnimationState::endEnum; i++)
 					{
 						auto ste = static_cast<EntityAnimationState::Enum>(i);

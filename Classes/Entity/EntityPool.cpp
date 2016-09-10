@@ -2,6 +2,7 @@
 #include "EntityPool.h"
 #include "Manager/Engine/PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
+#include "Thread/LoadingThread.h"
 
 EntityPool::EntityPool(int size)
 	:m_poolSize(size)
@@ -28,6 +29,19 @@ EntityPool::~EntityPool()
 	m_entitys.clear();
 }
 
+Entity* EntityPool::getNextEntity()
+{
+	if (m_firstAvailable == NULL)
+	{
+		std::cout << "Cannot create new entity" << std::endl;
+		return NULL;
+	}
+	Entity* newEntity = m_firstAvailable;
+	m_firstAvailable = newEntity->getNext();
+	m_usedEntity++;
+	return newEntity;
+}
+
 Entity* EntityPool::create(const char* path)
 {
 	//assert(m_firstAvailable != NULL);
@@ -40,8 +54,6 @@ Entity* EntityPool::create(const char* path)
 	m_firstAvailable = newEntity->getNext();
 
 	newEntity->build(path);
-	PhysicMgr::getSingleton()->registerEntity(newEntity);
-	//LevelMgr::getSingleton()->registerEntity(newEntity);
 	m_usedEntity++;
 	return newEntity;
 }
@@ -93,10 +105,8 @@ void EntityPool::release(Entity* ent)
 {
 	if (ent->isAlive())
 	{
-		PhysicMgr::getSingleton()->unregisterEntity(ent);
-		//LevelMgr::getSingleton()->unregisterEntity(ent->getUID());
+		ent->release();
 		ent->setNext(m_firstAvailable);
-		ent->setLive(false);
 		m_firstAvailable = ent;
 	}
 }

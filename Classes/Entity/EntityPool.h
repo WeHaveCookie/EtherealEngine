@@ -7,13 +7,15 @@ public:
 
 	EntityPool(int size);
 	~EntityPool();
+	Entity* getNextEntity();
 	Entity* create(const char* path);
 	void process(const float dt);
 	void paint();
 	Entity* getEntity(uint32_t id);
 	void release(uint32_t id);
 
-	int getUsedEntity() { return m_usedEntity; }
+	int getNumberUsedEntity() { return m_usedEntity; }
+	std::vector<Entity*> getEntitys() { return m_entitys; }
 
 private:
 	void release(Entity* ent);
