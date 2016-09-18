@@ -1,7 +1,5 @@
 #pragma once
 
-#define ERROR_TEXTURE "Data/Texture/error.png"
-
 struct EntityAnimation {
 	std::vector<sf::Sprite> m_animation;
 	float					m_timePerFrame;
@@ -62,30 +60,42 @@ class Entity
 		Entity();
 		~Entity();
 
-		virtual void move(sf::Vector2f motion);
 		virtual void paint();
 		virtual void update(const float dt);
-		bool process(const float dt);
+		const bool process(const float dt);
 
 		void setName(const char* name) { m_state.m_live.m_name = name; }
 		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
 		void setSpeed(float speed);
 		const char* getName() const { return m_state.m_live.m_name.c_str();}
 		const uint32_t getUID() const { return m_uid; }
-		void setPosition(sf::Vector2f pos) { m_state.m_live.m_currentPosition = pos; }
+		void setPosition(sf::Vector2f pos);
+		const sf::Vector2f getPosition() const { return m_state.m_live.m_currentPosition; }
+		void setAngle(float rad) { m_state.m_live.m_angle = rad * RADTODEG; }
+		const float getAngle() const { return m_state.m_live.m_angle * DEGTORAD; }
+		const float getMass() const { return m_state.m_live.m_mass; }
 		void setState(EntityAnimationState::Enum state);
-		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
+		const EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 		void setNext(Entity* ent) { m_state.m_next = ent; }
-		Entity* getNext() { return m_state.m_next; }
-		sf::FloatRect getGlobalBounds();
-		bool isCollidable() { return m_state.m_live.m_collidable; }
+		Entity* getNext() const { return m_state.m_next; }
+		const sf::FloatRect getGlobalBounds() const;
+		const bool isCollidable() const { return m_state.m_live.m_collidable; }
 
 		void setLive(bool b) { m_live = b; }
 
 		void addMotion(sf::Vector2f motion) { m_state.m_live.m_motion += motion; }
-		void roolback();
-		bool isAlive() { return m_live; }
-		bool asMoved() { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
+		const sf::Vector2f getMotion() const { return m_state.m_live.m_motion; }
+		void rollbackXAxis();
+		void rollbackYAxis();
+		void rollBackAllAxis();
+
+		void retry();
+		void editable() { m_editable = !m_editable; };
+
+		const sf::FloatRect getLastPosition() const { return sf::FloatRect(m_state.m_live.m_lastPosition, sf::Vector2f(m_state.m_live.m_width, m_state.m_live.m_height)); }
+		const bool isAlive() const { return m_live; }
+		const bool asMoved() const { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
+		const bool isEditable() const { return m_editable; }
 
 		void release();
 		void build(const char* path);
@@ -106,6 +116,7 @@ class Entity
 		bool m_loaded;
 		bool m_onLoading;
 		bool m_displayInfo;
+		bool m_editable;
 
 		union State
 		{
@@ -125,6 +136,9 @@ class Entity
 				uint32_t												m_height;
 				uint32_t												m_width;
 				bool													m_collidable;
+				bool													m_animate;
+				float													m_angle;
+				float													m_mass;
 
 				void clear()
 				{
@@ -137,6 +151,7 @@ class Entity
 						spr.setTextureRect(sf::IntRect(0 , 0, m_width, m_height));
 						m_animations[ste].m_animation.push_back(spr);
 					}
+					m_animate = true;
 				}
 			} m_live;
 

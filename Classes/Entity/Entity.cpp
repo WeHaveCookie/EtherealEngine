@@ -4,9 +4,12 @@
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Input/InputMgr.h"
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
 #include "Utils/VectorUtils.h"
+
+#define ERROR_TEXTURE "Data/Texture/error.png"
 
 std::map<std::string, EntityAnimationState::Enum> StateToEnum =
 {
@@ -32,6 +35,7 @@ Entity::Entity()
 	m_loaded = false;
 	m_onLoading = false;
 	m_displayInfo = false;
+	m_editable = false;
 	m_state.m_live.m_errorTexture.loadFromFile(ERROR_TEXTURE);
 	m_state.m_live.m_errorTexture.setRepeated(true);
 }
@@ -39,11 +43,6 @@ Entity::Entity()
 Entity::~Entity()
 {
 
-}
-
-void Entity::move(sf::Vector2f motion)
-{
-	m_state.m_live.m_motion += motion;
 }
 
 void Entity::paint()
@@ -62,12 +61,16 @@ void Entity::update(const float dt)
 {
 	updatePosition();
 
-	m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
+	if (m_state.m_live.m_animate)
+	{
+		m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
+	}
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 	currentAnim->setPosition(m_state.m_live.m_currentPosition);
+	currentAnim->setRotation(m_state.m_live.m_angle);
 }
 
-bool Entity::process(const float dt)
+const bool Entity::process(const float dt)
 {
 	if (m_live)
 	{
@@ -92,7 +95,7 @@ void Entity::setState(EntityAnimationState::Enum state)
 	m_state.m_live.m_currentState = state;
 }
 
-EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
+const EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 {
 	if (m_state.m_live.m_animations[state].m_animation.size() != 0)
 	{
@@ -104,14 +107,70 @@ EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 	}
 }
 
-sf::FloatRect Entity::getGlobalBounds()
+const sf::FloatRect Entity::getGlobalBounds() const
 {
-	return sf::FloatRect(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y, m_state.m_live.m_width, m_state.m_live.m_height);
+	return sf::FloatRect(m_state.m_live.m_currentPosition.x, 
+							m_state.m_live.m_currentPosition.y, 
+							m_state.m_live.m_width, 
+							m_state.m_live.m_height);
 }
 
-void Entity::roolback()
+void Entity::rollbackXAxis()
 { 
 	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
+	m_state.m_live.m_motion = m_state.m_live.m_lastMotion;
+	if (m_state.m_live.m_lastMotion.x < 1.0f && m_state.m_live.m_lastMotion.x > -1.0f)
+	{
+		m_state.m_live.m_motion.x = 0.0f;
+		return;
+	}
+	else
+	{
+		m_state.m_live.m_motion.x = m_state.m_live.m_lastMotion.x * 0.90; // Get only 90% of the previous motion
+	}
+}
+
+void Entity::rollbackYAxis()
+{
+	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
+	m_state.m_live.m_motion = m_state.m_live.m_lastMotion;
+	if (m_state.m_live.m_lastMotion.y < 1.0f && m_state.m_live.m_lastMotion.y > -1.0f)
+	{
+		m_state.m_live.m_motion.y = 0.0f;
+		return;
+	}
+	else
+	{
+		m_state.m_live.m_motion.y = m_state.m_live.m_lastMotion.y * 0.90; // Get only 90% of the previous motion
+	}
+}
+
+void Entity::rollBackAllAxis()
+{
+	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
+	m_state.m_live.m_motion = m_state.m_live.m_lastMotion;
+	if (m_state.m_live.m_lastMotion.y < 1.0f && m_state.m_live.m_lastMotion.y > -1.0f)
+	{
+		m_state.m_live.m_motion.y = 0.0f;
+	}
+	else
+	{
+		m_state.m_live.m_motion.y = m_state.m_live.m_lastMotion.y * 0.90; // Get only 90% of the previous motion
+	}
+	if (m_state.m_live.m_lastMotion.x < 1.0f && m_state.m_live.m_lastMotion.x > -1.0f)
+	{
+		m_state.m_live.m_motion.x = 0.0f;
+	}
+	else
+	{
+		m_state.m_live.m_motion.x = m_state.m_live.m_lastMotion.x * 0.90; // Get only 90% of the previous motion
+	}
+
+}
+
+void Entity::retry()
+{
+	update(0.0f);
 }
 
 void replaceJsonByPng(char* dest, const char* source)
@@ -161,6 +220,16 @@ void Entity::build(const char* path)
 	assert(!error);
 	assert(object);
 
+	auto member = document.HasMember("Width");
+	assert(member);
+	m_state.m_live.m_width = document["Width"].GetUint();
+
+	member = document.HasMember("Height");
+	assert(member);
+	m_state.m_live.m_height = document["Height"].GetUint();
+	
+	m_state.m_live.clear();
+
 	sf::Sprite spr;
 	char entPath[128];
 	if (document.HasMember("Textures"))
@@ -174,13 +243,12 @@ void Entity::build(const char* path)
 		replaceJsonByPng(entPath, path);
 	}
 	m_state.m_live.m_texturePath = entPath;
-	m_state.m_live.m_texture = sf::Texture();
 	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
 	assert(load);
 	m_state.m_live.m_texture.setSmooth(true);
 	spr.setTexture(m_state.m_live.m_texture);
 
-	auto member = document.HasMember("Name");
+	member = document.HasMember("Name");
 	assert(member);
 	setName(document["Name"].GetString());
 
@@ -188,15 +256,6 @@ void Entity::build(const char* path)
 	assert(member);
 	setSpeed(document["Speed"].GetFloat());
 
-	member = document.HasMember("Width");
-	assert(member);
-	m_state.m_live.m_width = document["Width"].GetUint();
-
-	member = document.HasMember("Height");
-	assert(member);
-	m_state.m_live.m_height = document["Height"].GetUint();
-
-	
 	m_state.m_next = NULL;
 
 	if (document.HasMember("Collidable"))
@@ -254,6 +313,15 @@ void Entity::build(const char* path)
 		setPosition(pos);
 	}
 
+	if (document.HasMember("Mass"))
+	{
+		m_state.m_live.m_mass = document["Mass"].GetFloat();
+	}
+	else
+	{
+		m_state.m_live.m_mass = 1.0f;
+	}
+	m_state.m_live.m_angle = 0.0f;
 	member = document.HasMember("State");
 	assert(member);
 	setState(StateToEnum[document["State"].GetString()]);
@@ -288,23 +356,66 @@ void Entity::displayInfo()
 	{
 		bool collidable = m_state.m_live.m_collidable;
 		std::string name = std::to_string(getUID()) + " : " + m_state.m_live.m_name;
-		if (ImGui::Begin(name.c_str(), &m_displayInfo))
+		if (ImGui::Begin(name.c_str(), &m_displayInfo, ImGuiWindowFlags_AlwaysAutoResize))
 		{
-			sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
-			ImGui::Image(*currentAnim);
 			ImGui::InputFloat("Speed", &m_state.m_live.m_speed);
 			ImGui::Checkbox("IsCollidable", &m_state.m_live.m_collidable);
-			
+			ImGui::Checkbox("Is Editable", &m_editable);
 			ImGui::Text("Position");
-			ImGui::SliderFloat("x", &m_state.m_live.m_currentPosition.x, 0.0f, 1920.0f);
-			ImGui::SliderFloat("y", &m_state.m_live.m_currentPosition.y, 0.0f, 1080.0f);
-			ImGui::Text("Texture : %s", m_state.m_live.m_texturePath.c_str());
+			float x = m_state.m_live.m_currentPosition.x;
+			float y = m_state.m_live.m_currentPosition.y;
+			ImGui::SliderFloat("x", &x, 0.0f, 1920.0f);
+			ImGui::SliderFloat("y", &y, 0.0f, 1080.0f);
+			float rot = m_state.m_live.m_angle * DEGTORAD;
+			ImGui::SliderAngle("Rotation", &rot);
+
+			m_state.m_live.m_currentPosition = sf::Vector2f(x, y);
+			m_state.m_live.m_angle = rot * RADTODEG;
+
+			char** items;
+			items = (char**)malloc(sizeof(char*) * EnumToString.size());
+			int i = 0;
+			for (auto& state : EnumToString)
+			{
+				items[i] = (char*)malloc(sizeof(char) * strlen(state));
+				strcpy(items[i], state);
+				i++;
+			}
+
+			int currentState = m_state.m_live.m_currentState;
+
+			ImGui::Combo("Animation state", &currentState, (const char**)items, EnumToString.size());
+			free(items);
+			
+			m_state.m_live.m_currentState = (EntityAnimationState::Enum)currentState;
+			sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
+			ImGui::Image(*currentAnim);
 			if (ImGui::IsItemHovered())
 			{
 				ImGui::BeginTooltip();
-				ImGui::Image(m_state.m_live.m_texture);
+				auto textRect = currentAnim->getTextureRect();
+				ImGui::Text("Text rect x : %i | y : %i | w : %i | h : %i", textRect.left, textRect.top, textRect.width, textRect.height);
+				ImGui::Text("Global Bound top : %f | Left : %f | Widht : %f | Heigth : %f", getGlobalBounds().top, getGlobalBounds().left, getGlobalBounds().width, getGlobalBounds().height);
+				ImGui::Text("Texture : %s", m_state.m_live.m_texturePath.c_str());
+				ImGui::Image(*(currentAnim->getTexture()));
 				ImGui::EndTooltip();
 			}
+			int current = m_state.m_live.m_animations[m_state.m_live.m_currentState].m_currentFrame;
+			ImGui::SliderInt("Current", &current, 0, m_state.m_live.m_animations[m_state.m_live.m_currentState].m_animation.size() - 1);
+			m_state.m_live.m_animations[m_state.m_live.m_currentState].m_currentFrame = current;
+
+			if (ImGui::Button("Play"))
+			{
+				m_state.m_live.m_animate = true;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Pause"))
+			{
+				m_state.m_live.m_animate = false;
+			}
+			ImGui::InputFloat("Time between frame", &m_state.m_live.m_animations[m_state.m_live.m_currentState].m_timePerFrame, 0.01f, 1.0f);
+
+
 		}
 		ImGui::End();
 
@@ -321,4 +432,9 @@ void Entity::displayInfo()
 		}
 	}
 	
+}
+
+void Entity::setPosition(sf::Vector2f pos)
+{
+	m_state.m_live.m_currentPosition = pos;
 }
