@@ -180,9 +180,6 @@
     <ClInclude Include="..\..\Classes\Thread\Thread.h">
       <Filter>Classes\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Utils\Constante.h">
-      <Filter>Classes\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>

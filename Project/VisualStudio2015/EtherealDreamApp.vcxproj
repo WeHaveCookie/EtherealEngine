@@ -456,7 +456,6 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Thread\LoadingThread.h" />
     <ClInclude Include="..\..\Classes\Thread\SaveThread.h" />
     <ClInclude Include="..\..\Classes\Thread\Thread.h" />
-    <ClInclude Include="..\..\Classes\Utils\Constante.h" />
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig-SFML.h" />
     <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig.h" />
