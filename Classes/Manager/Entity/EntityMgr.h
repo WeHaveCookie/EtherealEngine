@@ -21,16 +21,20 @@ class EntityMgr : public Manager
 		void paint();
 		void showImGuiWindow(bool* window);
 
-		uint32_t buildEntity(const char* path);
+		Entity* createEntity(const char* path) const;
+		uint32_t createAsyncEntity(const char* path) const;
 		void removeEntity(uint32_t id);
-		Entity* getEntity(uint32_t id);
-		bool entityIsLoaded(uint32_t id);
+		Entity* getEntity(uint32_t id) const;
+		Entity* getMainCharacter() const { return getEntity(m_mainCharacterID); }
+		void setMainCharacter(uint32_t id) { m_mainCharacterID = id; }
+		const bool entityIsLoaded(uint32_t id) const;
 		int getNumberUsedEntity();
-
+		
 		sf::Time getProcessTime() { return m_processTime; }
 
 	private:
 		static EntityMgr*		s_singleton;
 		EntityPool*				m_entitys;
 		sf::Time				m_processTime;
+		uint32_t				m_mainCharacterID;
 };

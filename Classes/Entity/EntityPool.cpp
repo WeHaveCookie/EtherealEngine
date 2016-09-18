@@ -2,6 +2,7 @@
 #include "EntityPool.h"
 #include "Manager/Engine/PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
+#include "Manager/Input/InputMgr.h"
 #include "Thread/LoadingThread.h"
 
 EntityPool::EntityPool(int size)
@@ -62,6 +63,14 @@ void EntityPool::process(const float dt)
 {
 	for (auto& entity : m_entitys)
 	{
+		if (entity->isEditable())
+		{
+			auto currentMousePosition = InputMgr::getSingleton()->getMousePosition();
+			auto entityBound = entity->getGlobalBounds();
+			entity->addMotion(currentMousePosition - sf::Vector2f(entityBound.left + (entityBound.width / 2.0f),
+				entityBound.top + (entityBound.height / 2.0f)));
+		}
+
 		if(!entity->process(dt))
 		{
 			release(entity);
@@ -107,6 +116,20 @@ void EntityPool::release(Entity* ent)
 	{
 		ent->release();
 		ent->setNext(m_firstAvailable);
+		ent->closeInfo();
 		m_firstAvailable = ent;
 	}
+}
+
+const std::vector<Entity*> EntityPool::getUsedEntitys() const
+{
+	std::vector<Entity*> res;
+	for (auto& entity : m_entitys)
+	{
+		if (entity->isAlive())
+		{
+			res.push_back(entity);
+		}
+	}
+	return res;
 }

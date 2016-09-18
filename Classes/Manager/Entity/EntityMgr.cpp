@@ -4,6 +4,8 @@
 #include "../../External/rapidjson/document.h"
 #include "Entity/EntityPool.h"
 #include "Manager/Loading/LoadingMgr.h"
+#include "Manager/File/FileMgr.h"
+#include "Utils/wcharUtils.h"
 
 EntityMgr* EntityMgr::s_singleton = NULL;
 uint32_t Entity::newUID = 0;
@@ -23,6 +25,7 @@ EntityMgr::~EntityMgr()
 void EntityMgr::init()
 {
 	m_processTime = sf::Time::Zero;
+	m_mainCharacterID = 1;
 }
 
 void EntityMgr::process(const float dt)
@@ -49,35 +52,104 @@ void EntityMgr::showImGuiWindow(bool* window)
 	{
 		ImGui::Checkbox("Show all entity", &showAll);
 		ImGui::SameLine();
-		if(ImGui::Button("Close All"))
+		if (ImGui::Button("Close All"))
 		{
 			for (auto& entity : m_entitys->getEntitys())
 			{
 				entity->closeInfo();
 			}
 		}
-		ImGui::Text("Used entitys : %i", getNumberUsedEntity());
-		for (auto& entity : m_entitys->getEntitys())
+		ImGui::SameLine();
+		if (ImGui::Button("Open All"))
 		{
-			if (!entity->isAlive() && showAll)
+			for (auto& entity : m_entitys->getUsedEntitys())
 			{
-				ImGui::Text("%i : unused", entity->getUID());
+				entity->closeInfo();
+				entity->showInfo();
 			}
-			else if (entity->isAlive())
+		}
+		ImGui::Text("Used entitys : %i", getNumberUsedEntity());
+
+		std::vector<std::wstring> files;
+		FileMgr::GetFilesInDirectory(files, L"Data/Character", L".json");
+
+		char** filesLabel = (char**) malloc(sizeof(char*) * files.size());
+		
+		for (unsigned int i = 0; i < files.size(); i++)
+		{
+			filesLabel[i] = (char*)malloc(sizeof(char) * files[i].size() + 1); // +1 for null terminated
+			strcpy(filesLabel[i], WideChartoAscii(files[i]).c_str());
+		}
+
+		static int itemID = 0;
+
+		ImGui::Combo("Entity", &itemID, (const char**)filesLabel, files.size());
+		ImGui::SameLine();
+		if (ImGui::Button("Create"))
+		{
+			createAsyncEntity(filesLabel[itemID]);
+		}
+
+
+		for (unsigned int i = 0; i < files.size(); i++)
+		{
+			free(filesLabel[i]);
+		}
+		free(filesLabel);
+
+		ImGui::Text("Main character : %i", getMainCharacter()->getUID());
+		if (ImGui::IsItemClicked())
+		{
+			getMainCharacter()->showInfo();
+		}
+
+		if(ImGui::CollapsingHeader("Entitys"))
+		{
+			int mainID = getMainCharacter()->getUID();
+			int previousMainID = mainID;
+			ImGui::InputInt("Main Character", &mainID);
+			if (mainID != previousMainID)
 			{
-				ImGui::Text("%i : %s", entity->getUID(), entity->getName());
-				if(ImGui::IsItemClicked())
+				if (mainID >= 0 && mainID < m_entitys->getPoolSize())
 				{
-					entity->showInfo();
+					setMainCharacter(mainID);
+				}
+			}
+			ImGui::Text("Main character : %i | %s", getMainCharacter()->getUID(), getMainCharacter()->getName());
+			for (auto& entity : m_entitys->getEntitys())
+			{
+				if (!entity->isAlive() && showAll)
+				{
+					ImGui::Text("%i : unused", entity->getUID());
+				}
+				else if (entity->isAlive())
+				{
+					ImGui::Text("%i : %s", entity->getUID(), entity->getName());
+					if (ImGui::IsItemClicked())
+					{
+						entity->showInfo();
+					}
+					std::string label = "Delete###" + std::to_string(entity->getUID());
+					ImGui::SameLine();
+					if (ImGui::Button(label.c_str()))
+					{
+						removeEntity(entity->getUID());
+					}
 				}
 			}
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
+Entity* EntityMgr::createEntity(const char* path)  const
+{
+	Entity* newEntity = m_entitys->getNextEntity();
+	LoadingMgr::getSingleton()->load(newEntity, path);
+	return newEntity;
+}
 
-uint32_t EntityMgr::buildEntity(const char* path)
+uint32_t EntityMgr::createAsyncEntity(const char* path)  const
 {
 	return LoadingMgr::getSingleton()->loadAsync(m_entitys->getNextEntity(), path);
 }
@@ -87,7 +159,7 @@ void EntityMgr::removeEntity(uint32_t id)
 	m_entitys->release(id);
 }
 
-Entity* EntityMgr::getEntity(uint32_t id)
+Entity* EntityMgr::getEntity(uint32_t id)  const
 {
 	return m_entitys->getEntity(id);
 }
@@ -97,7 +169,7 @@ int EntityMgr::getNumberUsedEntity()
 	return m_entitys->getNumberUsedEntity();
 }
 
-bool EntityMgr::entityIsLoaded(uint32_t id)
+const bool EntityMgr::entityIsLoaded(uint32_t id) const
 {
 	return LoadingMgr::getSingleton()->isLoaded(id);
 }

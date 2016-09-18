@@ -14,8 +14,11 @@ public:
 	Entity* getEntity(uint32_t id);
 	void release(uint32_t id);
 
-	int getNumberUsedEntity() { return m_usedEntity; }
-	std::vector<Entity*> getEntitys() { return m_entitys; }
+	const int getNumberUsedEntity() const { return m_usedEntity; }
+	const std::vector<Entity*> getEntitys() const { return m_entitys; }
+	const std::vector<Entity*> getUsedEntitys() const;
+
+	const int getPoolSize() const { return m_poolSize; }
 
 private:
 	void release(Entity* ent);
