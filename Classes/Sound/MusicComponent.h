@@ -7,28 +7,32 @@ public:
 	~MusicComponent();
 
 	void loadMusic(const char* path, bool loop, bool persistent);
-	bool process(const float dt);
+	bool process();
 	void setPlay(bool play) { m_play = play; }
-	bool isPersistent() { return m_persistent; }
-	void setNext(MusicComponent* sound) { m_used = false; m_state.m_next = sound; }
+	const bool isPersistent() const { return m_persistent; }
+	void setNext(MusicComponent* sound) { stop(); m_displayInfo = false; m_used = false; m_state.m_next = sound; }
 	MusicComponent* getNext() { return m_state.m_next; }
 	uint32_t getUID() { return m_uid; }
 	const char* getName() { return m_state.m_live.m_name.c_str(); }
 	void stop() { m_music.stop(); }
-	void used(bool b) { m_used = b; }
-	bool isUsed() { return m_used; }
+	void setUsed(bool b) { m_used = b; }
+	const bool isUsed() const { return m_used; }
 	void setLoop(bool b) { m_music.setLoop(b); }
-	bool isLoop() { return m_music.getLoop(); }
+	const bool isLoop() const{ return m_music.getLoop(); }
+	void showInfo() { m_displayInfo = !m_displayInfo; }
+	void closeInfo() { m_displayInfo = false; }
 
 protected:
 	static uint32_t		newUID;
 	const uint32_t		m_uid;
 
 private:
+	void displayInfo();
 	bool				m_persistent;
 	sf::Music			m_music;
 	bool				m_play;
 	bool				m_used;
+	bool				m_displayInfo;
 
 	union State
 	{

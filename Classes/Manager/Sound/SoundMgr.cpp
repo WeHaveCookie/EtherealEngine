@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "SoundMgr.h"
+#include "Manager/File/FileMgr.h"
+#include "Utils/wcharUtils.h"
 
 SoundMgr* SoundMgr::s_singleton = NULL;
 
@@ -39,69 +41,127 @@ void SoundMgr::showImGuiWindow(bool* window)
 {
 	if (ImGui::Begin("SoundMgr", window))
 	{
-		static char buffer[128];
-		ImGui::InputText("Name", buffer, 128);
-		ImGui::SameLine();
-		std::string path;
-		if (ImGui::Button("Music"))
+		std::vector<std::wstring> files;
+		FileMgr::GetFilesInDirectory(files, L"Data/Sound/Ambiant", L".ogg");
+		char** musicsLabel = (char**)malloc(sizeof(char*) * files.size());
+		static int musicID = 0;
+		for (unsigned int i = 0; i < files.size(); i++)
 		{
-			path = "Data/Sound/Ambiant" + std::string(buffer) + ".ogg";
-			SoundMgr::getSingleton()->addMusic(path.c_str(), false, true);
+			musicsLabel[i] = (char*)malloc(sizeof(char) * files[i].size() + 1); // +1 for null terminated
+			strcpy(musicsLabel[i], WideChartoAscii(files[i]).c_str());
 		}
+
+		ImGui::Combo("Music", &musicID, (const char**)musicsLabel, files.size());
 		ImGui::SameLine();
-		if (ImGui::Button("Sound"))
+		if (ImGui::Button("Create###1"))
 		{
-			path = "Data/Sound/FX/" + std::string(buffer) + ".ogg";
-			SoundMgr::getSingleton()->addSound(path.c_str(), false, true);
+			SoundMgr::getSingleton()->addMusic(musicsLabel[musicID], false, true);
+		}
+		free(musicsLabel);
+		
+
+		{
+			std::vector<std::wstring> files;
+			FileMgr::GetFilesInDirectory(files, L"Data/Sound/FX", L".ogg");
+			char** soundsLabel = (char**)malloc(sizeof(char*) * files.size());
+			static int soundID = 0;
+
+			for (unsigned int i = 0; i < files.size(); i++)
+			{
+				soundsLabel[i] = (char*)malloc(sizeof(char) * files[i].size() + 1); // +1 for null terminated
+				strcpy(soundsLabel[i], WideChartoAscii(files[i]).c_str());
+			}
+
+
+			ImGui::Combo("Sound", &soundID, (const char**)soundsLabel, files.size());
+			ImGui::SameLine();
+			if (ImGui::Button("Create###2"))
+			{
+				SoundMgr::getSingleton()->addSound(soundsLabel[soundID], false, true);
+			}
+			free(soundsLabel);
+
 		}
 
 		if(ImGui::CollapsingHeader("Musics"))
 		{
+
 			for (auto& music : m_musics->getMusicsUsed())
 			{
 				ImGui::Text("%i : %s", music->getUID(), music->getName());
+				if (ImGui::IsItemClicked())
+				{
+					music->showInfo();
+				}
 				ImGui::SameLine();
-				if (ImGui::Button("Play"))
+				std::string label = "Play###MP" + std::to_string(music->getUID());
+				if (ImGui::Button(label.c_str()))
 				{
 					music->setPlay(true);
 				}
 				ImGui::SameLine();
-				if (ImGui::Button("Stop"))
+				label = "Stop###MS" + std::to_string(music->getUID());
+				if (ImGui::Button(label.c_str()))
 				{
 					music->stop();
 				}
+
 				ImGui::SameLine();
 				bool loop = music->isLoop();
-				ImGui::Checkbox("Loop", &loop);
+				label = "Loop###ML" + std::to_string(music->getUID());
+				ImGui::Checkbox(label.c_str(), &loop);
 				music->setLoop(loop);
+
+				ImGui::SameLine();
+				label = "Delete###MD" + std::to_string(music->getUID());
+				if (ImGui::Button(label.c_str()))
+				{
+					removeMusic(music->getUID());
+				}
+
 			}
 
 		}
 
+		
 		if (ImGui::CollapsingHeader("Sounds"))
 		{
+
 			for (auto& sound : m_sounds->getSoundsUsed())
 			{
 				ImGui::Text("%i : %s", sound->getUID(), sound->getName());
+				if (ImGui::IsItemClicked())
+				{
+					sound->showInfo();
+				}
 				ImGui::SameLine();
-				if (ImGui::Button("Play"))
+				std::string label = "Play###SP" + std::to_string(sound->getUID());
+				if (ImGui::Button(label.c_str()))
 				{
 					sound->setPlay(true);
 				}
 				ImGui::SameLine();
-				if (ImGui::Button("Stop"))
+				label = "Stop###SS" + std::to_string(sound->getUID());
+				if (ImGui::Button(label.c_str()))
 				{
 					sound->stop();
 				}
 				ImGui::SameLine();
 				bool loop = sound->isLoop();
-				ImGui::Checkbox("Loop", &loop);
+				label = "Loop###SL" + std::to_string(sound->getUID());
+				ImGui::Checkbox(label.c_str(), &loop);
 				sound->setLoop(loop);
+
+				ImGui::SameLine();
+				label = "Delete###SD" + std::to_string(sound->getUID());
+				if (ImGui::Button(label.c_str()))
+				{
+					removeSound(sound->getUID());
+				}
 			}
 		}
-
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void SoundMgr::addSound(const char* path, bool loop, bool persistent)
@@ -114,3 +174,12 @@ void SoundMgr::addMusic(const char* path, bool loop, bool persistent)
 	m_musics->create(path, loop, persistent);
 }
 
+void SoundMgr::removeSound(uint32_t id)
+{
+	m_sounds->release(id);
+}
+
+void SoundMgr::removeMusic(uint32_t id)
+{
+	m_musics->release(id);
+}

@@ -42,14 +42,20 @@ void SoundComponentPool::create(const char* path, bool loop, bool persistent)
 
 void SoundComponentPool::process(const float dt)
 {
-	for (int i = 0; i < m_poolSize - 1; i++)
+	for (auto& sound : m_sounds)
 	{
-		if (!m_sounds[i]->process(dt) && !m_sounds[i]->isPersistent())
+		if (!sound->process(dt) && !sound->isPersistent() && sound->isUsed())
 		{
-			m_sounds[i]->setNext(m_firstAvailable);
-			m_firstAvailable = m_sounds[i];
+			release(sound);
 		}
 	}
+// 	for (int i = 0; i < m_poolSize - 1; i++)
+// 	{
+// 		if (!m_sounds[i]->process(dt) && !m_sounds[i]->isPersistent())
+// 		{
+// 			release(m_sounds[i]);
+// 		}
+// 	}
 }
 
 std::vector<SoundComponent*> SoundComponentPool::getSoundsUsed()
@@ -63,4 +69,21 @@ std::vector<SoundComponent*> SoundComponentPool::getSoundsUsed()
 		}
 	}
 	return res;
+}
+
+void SoundComponentPool::release(uint32_t id)
+{
+	for (auto& sound : m_sounds)
+	{
+		if (sound->getUID() == id)
+		{
+			release(sound);
+		}
+	}
+}
+
+void SoundComponentPool::release(SoundComponent* sound)
+{
+	sound->setNext(m_firstAvailable);
+	m_firstAvailable = sound;
 }

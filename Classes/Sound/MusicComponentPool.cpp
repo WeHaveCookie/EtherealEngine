@@ -41,12 +41,11 @@ void MusicComponentPool::create(const char* path, bool loop, bool persistent)
 
 void MusicComponentPool::process(const float dt)
 {
-	for (int i = 0; i < m_poolSize - 1; i++)
+	for (auto& music : m_music)
 	{
-		if (!m_music[i]->process(dt) && !m_music[i]->isPersistent())
+		if (!music->process() && !music->isPersistent() && music->isUsed())
 		{
-			m_music[i]->setNext(m_firstAvailable);
-			m_firstAvailable = m_music[i];
+			release(music);
 		}
 	}
 }
@@ -62,4 +61,21 @@ std::vector<MusicComponent*> MusicComponentPool::getMusicsUsed()
 		}
 	}
 	return res;
+}
+
+void MusicComponentPool::release(uint32_t id)
+{
+	for (auto& music : m_music)
+	{
+		if (music->getUID() == id)
+		{
+			release(music);
+		}
+	}
+}
+
+void MusicComponentPool::release(MusicComponent* music)
+{
+	music->setNext(m_firstAvailable);
+	m_firstAvailable = music;
 }

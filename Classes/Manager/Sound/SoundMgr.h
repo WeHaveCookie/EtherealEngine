@@ -20,6 +20,8 @@ class SoundMgr : public Manager
 
 		void addSound(const char* path, bool loop = false, bool persistent = false);
 		void addMusic(const char* path, bool loop = false, bool persistent = false);
+		void removeSound(uint32_t id);
+		void removeMusic(uint32_t id);
 
 		sf::Time getProcessTime() { return m_processTime; }
 
