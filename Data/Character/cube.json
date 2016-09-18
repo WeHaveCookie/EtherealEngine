@@ -1,0 +1,17 @@
+{
+	"Name" : "Cube",
+	"Width" : 16,
+	"Height" : 16,
+	"Speed" : 1.0,
+	"Position" : [300.0, 500.0],
+	"State" : "IDLE_RIGHT",	
+	"Animation" : [
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.1
+		}
+	]
+
+}

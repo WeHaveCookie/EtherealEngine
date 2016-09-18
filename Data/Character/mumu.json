@@ -1,0 +1,28 @@
+{
+	"Name" : "Gosth",
+	"Width" : 64,
+	"Height" : 64,
+	"Speed" : 1.0,
+	"Position" : [500.0, 900.0],
+	"State" : "RIGHT",
+	"Animation" : [
+		{	
+			"State" : "RIGHT",
+			"Frame" : 8,
+			"Line" : 3,
+			"Time" : 0.1
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 8,
+			"Line" : 4,
+			"Time" : 0.1
+		},
+		{
+			"State" : "IDLE",
+			"Frame" : 5,
+			"Line" : 1,
+			"Time" : 0.1
+		}
+	]
+}
