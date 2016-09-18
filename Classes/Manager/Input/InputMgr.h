@@ -205,14 +205,17 @@ class InputMgr : public Manager
 
 		void setUpdateWhenNoFocus(bool b) { m_updateWhenNoFocus = b; }
 
-		bool keyIsPressed(KeyType::Enum key, uint32_t id = 0);
-		bool keyIsJustPressed(KeyType::Enum key, uint32_t id = 0);
-		bool keyIsReleased(KeyType::Enum key, uint32_t id = 0);
-		bool keyIsJustReleased(KeyType::Enum key, uint32_t id = 0);
+		const bool keyIsPressed(KeyType::Enum key, uint32_t id = 0);
+		const bool keyIsJustPressed(KeyType::Enum key, uint32_t id = 0);
+		const bool keyIsReleased(KeyType::Enum key, uint32_t id = 0);
+		const bool keyIsJustReleased(KeyType::Enum key, uint32_t id = 0);
 
-		float getPadKeyValue(KeyType::Enum key, uint32_t id = 0);
-		float getPadKeyLastValue(KeyType::Enum key, uint32_t id = 0);
-		float getTimeSinceKeyPressed(KeyType::Enum key, uint32_t id = 0);
+		const float getPadKeyValue(KeyType::Enum key, uint32_t id = 0);
+		const float getPadKeyLastValue(KeyType::Enum key, uint32_t id = 0);
+		const float getTimeSinceKeyPressed(KeyType::Enum key, uint32_t id = 0);
+
+		const sf::Vector2f getMousePosition() const;
+		const sf::Vector2f getMouseLastPosition() const { return m_lastMousePosition; }
 
 		void showImGuiWindow(bool* window);
 
@@ -223,5 +226,7 @@ class InputMgr : public Manager
 		std::map<KeyType::Enum, Keyboard>			m_keyboard;
 		std::map<KeyType::Enum, Mouse>				m_mouse;
 		std::vector<std::map<KeyType::Enum, Pad>>	m_pads;
+		sf::Vector2f								m_lastMousePosition;
+		sf::Vector2f								m_currentMousePosition;
 		bool										m_updateWhenNoFocus;
 };

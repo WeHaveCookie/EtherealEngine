@@ -189,6 +189,7 @@ void InputMgr::process(const float dt)
 				pad.second.m_lastValue = pad.second.m_value;
 			}
 		}
+		m_lastMousePosition = getMousePosition();
 
 		sf::Event event;
 		auto renderMgr = RENDER_MGR;
@@ -216,6 +217,10 @@ void InputMgr::process(const float dt)
 				}
 			}
 			break;
+			case sf::Event::MouseMoved:
+				m_currentMousePosition.x = event.mouseMove.x;
+				m_currentMousePosition.y = event.mouseMove.y;
+				break;
 			default:
 				break;
 			}
@@ -279,6 +284,8 @@ void InputMgr::process(const float dt)
 				}
 			}
 		}
+
+		
 	}
 	ImGui::SFML::Update(dt);
 }
@@ -288,7 +295,7 @@ void InputMgr::end()
 
 }
 
-bool InputMgr::keyIsPressed(KeyType::Enum key, uint32_t id)
+const bool InputMgr::keyIsPressed(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -304,7 +311,7 @@ bool InputMgr::keyIsPressed(KeyType::Enum key, uint32_t id)
 	return false;
 }
 
-bool InputMgr::keyIsJustPressed(KeyType::Enum key, uint32_t id)
+const bool InputMgr::keyIsJustPressed(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -321,12 +328,12 @@ bool InputMgr::keyIsJustPressed(KeyType::Enum key, uint32_t id)
 	return false;
 }
 
-bool InputMgr::keyIsReleased(KeyType::Enum key, uint32_t id)
+const bool InputMgr::keyIsReleased(KeyType::Enum key, uint32_t id)
 {
 	return !keyIsPressed(key, id);
 }
 
-bool InputMgr::keyIsJustReleased(KeyType::Enum key, uint32_t id)
+const bool InputMgr::keyIsJustReleased(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -343,7 +350,7 @@ bool InputMgr::keyIsJustReleased(KeyType::Enum key, uint32_t id)
 	return false;
 }
 
-float InputMgr::getPadKeyValue(KeyType::Enum key, uint32_t id)
+const float InputMgr::getPadKeyValue(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startMouseKey && key <= KeyType::endMouseKey)
 	{
@@ -362,7 +369,7 @@ float InputMgr::getPadKeyValue(KeyType::Enum key, uint32_t id)
 	return 0.0f;
 }
 
-float InputMgr::getPadKeyLastValue(KeyType::Enum key, uint32_t id)
+const float InputMgr::getPadKeyLastValue(KeyType::Enum key, uint32_t id)
 {
 	if (key >= KeyType::startMouseKey && key <= KeyType::endMouseKey)
 	{
@@ -381,7 +388,7 @@ float InputMgr::getPadKeyLastValue(KeyType::Enum key, uint32_t id)
 	return 0.0f;
 }
 
-float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, uint32_t id)
+const float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, uint32_t id)
 {
 	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
 	{
@@ -401,9 +408,15 @@ float InputMgr::getTimeSinceKeyPressed(KeyType::Enum  key, uint32_t id)
 void InputMgr::showImGuiWindow(bool* window)
 {
 
-	if (ImGui::Begin("EntityMgr", window))
+	if (ImGui::Begin("InputMgr", window))
 	{
 		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
-		ImGui::End();
+		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
 	}
+	ImGui::End();
+}
+
+const sf::Vector2f InputMgr::getMousePosition() const
+{
+	return m_currentMousePosition;
 }

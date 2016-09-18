@@ -23,8 +23,9 @@ class PhysicMgr : public Manager
         // Function
         static bool CollisionAABBAndCircle(sf::FloatRect box1, sf::CircleShape circle);
         static bool CollisionAABBandAABB(sf::FloatRect box1, sf::FloatRect box2);
-
 		sf::Time getProcessTime() { return m_processTime; }
+
+
 
         // Inline
     protected:
@@ -37,6 +38,6 @@ class PhysicMgr : public Manager
 		class RegisteryQueue;
 		RegisteryQueue*									m_registeryQueue;
 		sf::Time										m_processTime;
-		float											m_gravity;
 		bool											m_enable;
+		sf::Vector2f									m_gravity;
 };
