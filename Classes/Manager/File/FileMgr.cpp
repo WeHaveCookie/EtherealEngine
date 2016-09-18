@@ -45,15 +45,39 @@ void FileMgr::CreateDirectories(const wchar_t* path)
 	}
 }
 
-
-/*
-File* FileMgr::createFile(const char* fileName)
+void FileMgr::GetFilesInDirectory(std::vector<std::wstring> &out, const std::wstring &directory, const std::wstring extention)
 {
-	return new WinFile(fileName);
+	HANDLE dir;
+	WIN32_FIND_DATA file_data;
+
+	if ((dir = FindFirstFile((directory + L"/*").c_str(), &file_data)) == INVALID_HANDLE_VALUE)
+		return; /* No files found */
+
+	do {
+		const std::wstring file_name = file_data.cFileName;
+		const std::wstring full_file_name = directory + L"/" + file_name;
+		const bool is_directory = (file_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+
+		if (file_name[0] == '.')
+			continue;
+
+		if (is_directory)
+			continue;
+
+		if (extention != L"")
+		{
+			std::string::size_type found = full_file_name.find(extention);
+			if (found != std::string::npos)
+			{
+				out.push_back(full_file_name);
+			}
+		}
+		else
+		{
+			out.push_back(full_file_name);
+		}
+
+	} while (FindNextFile(dir, &file_data));
+
+	FindClose(dir);
 }
-
-File* FileMgr::createFile(const char* filePath, const char* resourceRootPath)
-{
-	std::string finalPath = convertResourcePath(resourceRootPath, filePath);
-	return new WinFile(finalPath.c_str(), false);
-}*/
