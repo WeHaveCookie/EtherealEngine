@@ -40,4 +40,3 @@
 #define PI 3.14159265359
 #define RADTODEG 180/PI
 #define DEGTORAD PI/180
-#define IM_ARRAYSIZE(_ARR)  ((int)(sizeof(_ARR)/sizeof(*_ARR)))
