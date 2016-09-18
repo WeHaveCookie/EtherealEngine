@@ -73,10 +73,10 @@ void GuiMgr::init()
 
 void GuiMgr::process(const float dt)
 {
-// 	if (InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseRight))
-// 	{
-// 		m_displayGui = !m_displayGui;
-// 	}
+	if (InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseRight))
+	{
+		m_displayGui = !m_displayGui;
+	}
 }
 
 void GuiMgr::paint()

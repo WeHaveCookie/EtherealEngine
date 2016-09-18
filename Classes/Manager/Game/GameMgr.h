@@ -28,5 +28,6 @@ class GameMgr : public Manager
 		static GameMgr*		s_singleton;
 		sf::RenderWindow*	m_mainRenderWindow;
 		sf::Time			m_processTime;
+		int					m_framerate;
 		char				m_gameName[128];
 };

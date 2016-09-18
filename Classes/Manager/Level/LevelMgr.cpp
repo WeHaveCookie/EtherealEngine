@@ -45,8 +45,8 @@ void LevelMgr::showImGuiWindow(bool* window)
 	if (ImGui::Begin("LevelMgr", window))
 	{
 
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 void LevelMgr::registerEntity(Entity* ent)

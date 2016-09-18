@@ -77,17 +77,10 @@ void GameMgr::init()
 
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
-	//auto test = EntityMgr::getSingleton()->buildEntity("Data/Character/player.json");
-// 	while (!EntityMgr::getSingleton()->entityIsLoaded(test))
-// 	{
-// 
-// 	}
-// 	auto player = EntityMgr::getSingleton()->getEntity(test);
-// 	player->setPosition(sf::Vector2f(300.0f, 300.0f));
 
-// 	EntityMgr::getSingleton()->entityIsLoaded(test);
-// 
-// 	PhysicMgr::getSingleton()->registerEntity(test);
+
+	
+
 }
 
 void GameMgr::process(const float dt)
@@ -102,95 +95,7 @@ void GameMgr::process(const float dt)
 	static SaveTask save;
 	static std::vector<uint32_t> ids;
 
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbNum1))
-	{
-		// Move to loading thread for more perf !!!
-		for (int i = 0; i < 1; i++)
-		{
-			uint32_t ch;
-			int num = randIntBorned(1, 5);
-			switch (num)
-			{
-			case 0:
-				//ch = entityMgr->buildEntity("Data/Character/player.json");
-				break;
-			case 1:
-				ch = entityMgr->buildEntity("Data/Character/chicken.json");
-				break;
-			case 2:
-				ch = entityMgr->buildEntity("Data/Character/cow.json");
-				break;
-			case 3:
-				ch = entityMgr->buildEntity("Data/Character/pig.json");
-				break;
-			case 4:
-				ch = entityMgr->buildEntity("Data/Character/client.json");
-				break;
-			case 5:
-				ch = entityMgr->buildEntity("Data/Character/entrepreneur.json");
-				break;
-			default:
-				break;
-			}
-
-			if (ch != NULL)
-			{
-				//ch->setPosition(sf::Vector2f(randFloatBorned(0.0f, 1800.0f), randFloatBorned(0.0f, 900.0f)));
-				ids.push_back(ch);
-			}
-		}
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbNum2))
-	{
-		for (int i = 0; i < 1; i++)
-		{
-			if (ids.size() > 0)
-			{
-				entityMgr->removeEntity(ids[ids.size() - 1]);
-				ids.pop_back();
-			}
-		}
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbT))
-	{
-		save.init(SaveOpenMode::Write);
-
-		save.addWriteTask("Character", TEST, sizeof(TEST));
-		save.submit();
-		std::cout << "Save : " << save.isFinished() << std::endl;
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbY))
-	{
-		save.init(SaveOpenMode::Read);
-
-		save.addReadTask("Character");
-		save.submit();
-		std::cout << "Save : " << save.isFinished() << std::endl;
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbU))
-	{
-		if (save.isFinished())
-		{
-			uint8_t* data;
-			int sizeRead = -1;
-			save.getResult(0, (void**)&data, &sizeRead);
-
-			if (sizeRead > 0)
-			{
-				std::cout << "Size Read : " << sizeRead << std::endl;
-				std::cout << "Content : \n" << data << std::endl;
-			}
-
-			PersistentMgr::getSingleton()->releaseData(data);
-		}
-	}
-
-	auto ent = entityMgr->getEntity(0);
+	auto ent = entityMgr->getMainCharacter();
 	
 	if (inputMgr->keyIsJustPressed(KeyType::kbRight))
 	{
@@ -231,7 +136,7 @@ void GameMgr::process(const float dt)
 	{
 		motion.y += 10;
 	}
-	ent->move(motion);
+	ent->addMotion(motion);
 	
 	m_processTime = clock.getElapsedTime();
 
@@ -251,6 +156,9 @@ void GameMgr::showImGuiWindow(bool* window)
 	{
 		ImGui::Text("Framerate : %f fps", g_Framerate);
 		ImGui::Text("Time per frame : %f ms", g_DeltaTime * 1000);
+		int framerate = m_framerate;
+		ImGui::InputInt("Framerate", &framerate);
+		setFrameRate(framerate);
 
 		if (ImGui::CollapsingHeader("Manager"))
 		{
@@ -261,8 +169,8 @@ void GameMgr::showImGuiWindow(bool* window)
 			ImGui::Text("GameMgr : %f ms", getProcessTime().asMicroseconds() / 1000.0f);
 			ImGui::Text("SoundMgr : %f ms", SoundMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 bool GameMgr::isRunning()
@@ -272,6 +180,7 @@ bool GameMgr::isRunning()
 
 void GameMgr::setFrameRate(uint32_t frameRate)
 {
+	m_framerate = frameRate;
 	m_mainRenderWindow->setFramerateLimit(frameRate);
 	g_DeltaTime = 1.0f / (float)frameRate;
 }

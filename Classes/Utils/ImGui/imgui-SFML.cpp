@@ -142,7 +142,7 @@ void Update(const float dt)
 
     // update mouse
     assert(s_window);
-    if (s_windowHasFocus) {
+    if (s_window->hasFocus()) {
         io.MousePos = sf::Mouse::getPosition(*s_window);
         io.MouseDown[0] = s_mousePressed[0] || sf::Mouse::isButtonPressed(sf::Mouse::Left);
         io.MouseDown[1] = s_mousePressed[1] || sf::Mouse::isButtonPressed(sf::Mouse::Right);
