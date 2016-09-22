@@ -267,6 +267,61 @@ void InputMgr::Key::executeCommand(uint32_t id)
 	}
 }
 
+void InputMgr::Key::showInfo()
+{
+	m_showInfo = !m_showInfo;
+}
+
+void InputMgr::Key::displayWindow()
+{
+	if (m_showInfo)
+	{
+		std::string label = "Key - " + std::string(KeyTypeToString[m_key]) + "###" + std::to_string(m_padID) + std::string(KeyTypeToString[m_key]);
+		if (ImGui::Begin(label.c_str(), &m_showInfo, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			ImGui::Text("Pressed : %s", (m_pressed) ? "True" : "False");
+			ImGui::Text("JustPressed : %s", (!m_lastPressed && m_pressed) ? "True" : "False");
+			ImGui::Text("Released : %s", (!m_pressed) ? "True" : "False");
+			ImGui::Text("Just Released : %s", (m_lastPressed && !m_pressed) ? "True" : "False");
+			ImGui::Text("Time since pressed : %f", m_timeSincePressed);
+			if (m_hasValue)
+			{
+				ImGui::Text("Key Value : %f", m_value);
+			}
+			ImGui::Separator();
+
+			int commandLabelsSize;
+			char** commandLabels = CommandMgr::getSingleton()->getCommandsLabel(&commandLabelsSize);
+			int lastID = m_commandID;
+			ImGui::Combo("Command", &m_commandID, (const char**)commandLabels, commandLabelsSize);
+			if (lastID != m_commandID)
+			{
+				free(m_command);
+				m_command = CommandMgr::getSingleton()->getCommand(m_commandID);
+			}
+			for (int i = 0; i < commandLabelsSize; i++)
+			{
+				free(commandLabels[i]);
+			}
+			free(commandLabels);
+
+		}
+		ImGui::End();
+	}
+}
+
+KeyType::Enum			m_key;
+bool					m_pressed;
+bool					m_lastPressed;
+float					m_timeSincePressed;
+Command*				m_command;
+bool					m_hasValue;
+float					m_value;
+float					m_lastValue;
+int						m_commandID;
+bool					m_showInfo;
+int						m_padID;
+
 InputMgr::InputMgr()
 :Manager(ManagerType::Enum::Input)
 {
@@ -276,11 +331,21 @@ InputMgr::InputMgr()
 
 InputMgr::~InputMgr()
 {
-
+	for (int i = 0; i < KeyType::endPadKey + 1; i++)
+	{
+		free(m_keyName[i]);
+	}
 }
 
 void InputMgr::init()
 {
+	for (int i = 0; i < KeyType::endPadKey + 1; i++)
+	{
+		m_keyName[i] = (char*)malloc(sizeof(char)*strlen(KeyTypeToString[i]));
+		strcpy(m_keyName[i], KeyTypeToString[i]);
+	}
+
+	m_displayNullKey = false;
 	sf::Joystick::update();
 	char* json;
 	int sizeRead;
@@ -305,7 +370,7 @@ void InputMgr::init()
 		{
 			std::string cmd = "Command";
 			cmd += document[KeyTypeToString[keyType]].GetString();
-			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str(), &key.m_commandID);
 		}
 		
 		m_keyboard[keyType] = key;
@@ -323,7 +388,7 @@ void InputMgr::init()
 		{
 			std::string cmd = "Command";
 			cmd += document[KeyTypeToString[keyType]].GetString();
-			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str(), &key.m_commandID);
 		}
 
 		m_mouse[keyType] = key;
@@ -339,12 +404,13 @@ void InputMgr::init()
 			Key key;
 			key.m_key = keyType;
 			key.m_hasValue = (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey);
+			key.m_padID = j;
 
 			if (document.HasMember(KeyTypeToString[keyType]))
 			{
 				std::string cmd = "Command";
 				cmd += document[KeyTypeToString[keyType]].GetString();
-				key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+				key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str(), &key.m_commandID);
 			}
 
 			m_pads[j][keyType] = key;
@@ -627,19 +693,42 @@ void InputMgr::showImGuiWindow(bool* window)
 		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
 		ImGui::Separator();
 		int i = 0;
-		for (auto& padStatus : m_padsStatus)
+		
+		if (ImGui::CollapsingHeader("Pad Status"))
 		{
-			ImGui::Text("Pad %i - %s", i++, (padStatus) ? "Connected" : "Disconnected");
+			for (auto& padStatus : m_padsStatus)
+			{
+				ImGui::Text("Pad %i - %s", i++, (padStatus) ? "Connected" : "Disconnected");
+			}
 		}
 		ImGui::Separator();
+
+		m_filter.Draw();
 		if(ImGui::CollapsingHeader("Keyboard"))
 		{
+			ImGui::Checkbox("Display no binding key###KB", &m_displayNullKey);
 			for (int i = KeyType::startKbKey; i <= KeyType::endKbKey; i++)
 			{
-				KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-				if (m_keyboard[keyType].m_command != NULL)
+				if (m_filter.PassFilter(m_keyName[i]))
 				{
-					ImGui::Text("%s - %s - %i", KeyTypeToString[keyType], m_keyboard[keyType].m_command->getName(), m_keyboard[keyType].m_command);
+					KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+					if (m_keyboard[keyType].m_command != NULL)
+					{
+						ImGui::Text("%s - %s", KeyTypeToString[keyType], m_keyboard[keyType].m_command->getName());
+						if (ImGui::IsItemClicked())
+						{
+							m_keyboard[keyType].showInfo();
+						}
+					}
+					else if (m_displayNullKey)
+					{
+						ImGui::Text("%s", KeyTypeToString[keyType]);
+						if (ImGui::IsItemClicked())
+						{
+							m_keyboard[keyType].showInfo();
+						}
+					}
+					m_keyboard[keyType].displayWindow();
 				}
 			}
 		}
@@ -650,15 +739,36 @@ void InputMgr::showImGuiWindow(bool* window)
 			{
 				if (m_padsStatus[padID])
 				{
-					for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
+					std::string label = "Pads " + std::to_string(padID);
+					ImGui::Indent();
+					if (ImGui::CollapsingHeader(label.c_str()))
 					{
-						KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-						if (m_pads[padID][keyType].m_command != NULL)
+						for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
 						{
-							ImGui::Text("%s - %s - %i", KeyTypeToString[keyType], m_pads[padID][keyType].m_command->getName(), m_pads[padID][keyType].m_command);
+							if (m_filter.PassFilter(m_keyName[i]))
+							{
+								KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+								if (m_pads[padID][keyType].m_command != NULL)
+								{
+									ImGui::Text("%s - %s", KeyTypeToString[keyType], m_pads[padID][keyType].m_command->getName());
+									if (ImGui::IsItemClicked())
+									{
+										m_pads[padID][keyType].showInfo();
+									}
+								}
+								else
+								{
+									ImGui::Text("%s", KeyTypeToString[keyType]);
+									if (ImGui::IsItemClicked())
+									{
+										m_pads[padID][keyType].showInfo();
+									}
+								}
+								m_pads[padID][keyType].displayWindow();
+							}
 						}
 					}
-					ImGui::Separator();
+					ImGui::Unindent();
 				}
 			}
 		}

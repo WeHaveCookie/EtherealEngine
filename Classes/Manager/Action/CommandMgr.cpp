@@ -21,6 +21,17 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandMoveYAxis", CommandType::MoveYAxis }
 };
 
+std::vector<const char*> CommandTypeToString =
+{
+	"None",
+	"MoveRight",
+	"MoveUp",
+	"MoveLeft",
+	"MoveDown",
+	"MoveXAxis",
+	"MoveYAxis"
+};
+
 CommandMgr::CommandMgr()
 	:Manager(ManagerType::Command)
 {
@@ -66,9 +77,20 @@ void CommandMgr::addCommand(Command* command)
 	m_CommandQueue->enqueue(command);
 }
 
-Command* CommandMgr::getCommand(const char* cmd)
+Command* CommandMgr::getCommand(const char* cmd, int* id)
 {
 	auto command = m_commands[StringToCommandType[cmd]];
+	*id = StringToCommandType[cmd];
+	if (command != NULL)
+	{
+		return (Command*)command->makeCopy();
+	}
+	return NULL;
+}
+
+Command* CommandMgr::getCommand(int id)
+{
+	auto command = m_commands[static_cast<CommandType::Enum>(id)];
 	if (command != NULL)
 	{
 		return (Command*)command->makeCopy();
@@ -83,4 +105,20 @@ void CommandMgr::showImGuiWindow(bool* window)
 
 	}
 	ImGui::End();
+}
+
+char** CommandMgr::getCommandsLabel(int* size) const
+{
+	*size = CommandTypeToString.size();
+	char** label = (char**)malloc(sizeof(char*)*CommandTypeToString.size());
+
+	int i = 0;
+	for (auto& key : CommandTypeToString)
+	{
+		label[i] = (char*)malloc(sizeof(char)*strlen(key)+ 1); // For null terminated
+		strcpy(label[i], key);
+		i++;
+	}
+
+	return label;
 }

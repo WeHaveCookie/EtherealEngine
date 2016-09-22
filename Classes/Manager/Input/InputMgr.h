@@ -146,6 +146,9 @@ class InputMgr : public Manager
 		bool					m_hasValue;
 		float					m_value;
 		float					m_lastValue;
+		int						m_commandID;
+		bool					m_showInfo;
+		int						m_padID;
 
 		Key()
 		{
@@ -157,9 +160,14 @@ class InputMgr : public Manager
 			m_hasValue = false;
 			m_value = 0.0f;
 			m_lastValue = m_value;
+			m_commandID = 0;
+			m_showInfo = false;
+			m_padID = 0;
 		}
 
 		void executeCommand(uint32_t id = 0);
+		void showInfo();
+		void displayWindow();
 		
 	};
 
@@ -204,4 +212,7 @@ class InputMgr : public Manager
 		sf::Vector2f								m_lastMousePosition;
 		sf::Vector2f								m_currentMousePosition;
 		bool										m_updateWhenNoFocus;
+		bool										m_displayNullKey;
+		char*										m_keyName[KeyType::endPadKey + 1];
+		ImGuiTextFilter								m_filter;
 };

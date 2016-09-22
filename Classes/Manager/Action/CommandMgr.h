@@ -31,9 +31,11 @@ public:
 	void process(const float dt);
 	void end();
 	void addCommand(Command* command);
-	Command* getCommand(const char* cmd);
+	Command* getCommand(const char* cmd, int* id);
+	Command* getCommand(int id);
 
 	void showImGuiWindow(bool* window);
+	char** getCommandsLabel(int* size) const;
 
 private:
 	static CommandMgr*						s_singleton;
