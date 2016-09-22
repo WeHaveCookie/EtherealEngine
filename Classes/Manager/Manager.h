@@ -9,13 +9,14 @@ namespace ManagerType{
 		Input,
 		Game,
 		Event,
-		Engine,
+		Physic,
 		Render,
 		Entity,
 		File,
 		Persistent,
 		Loading,
-		Gui
+		Gui,
+		Command
 	};
 }
 

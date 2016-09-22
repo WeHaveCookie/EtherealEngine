@@ -4,6 +4,9 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{F3F6462C-5FD6-C5C7-68EE-509ED44C2C29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Actions">
+      <UniqueIdentifier>{9307F913-FF92-66D8-08A4-E9CC74AEC2D8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
     </Filter>
@@ -25,8 +28,8 @@
     <Filter Include="Classes\Manager">
       <UniqueIdentifier>{1D7698AA-8901-066F-9212-8963FE1C626F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Manager\Engine">
-      <UniqueIdentifier>{02BE12B6-EEB7-3B08-D724-D218C3BDA174}</UniqueIdentifier>
+    <Filter Include="Classes\Manager\Action">
+      <UniqueIdentifier>{0A2FFEAB-F628-27FE-DF95-BD0ECB2E8D6A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Entity">
       <UniqueIdentifier>{C9DF19B6-B5D9-4208-9E46-D9188ADFA874}</UniqueIdentifier>
@@ -54,6 +57,9 @@
     </Filter>
     <Filter Include="Classes\Manager\Persistent">
       <UniqueIdentifier>{BD9BA90F-A9AB-55E0-1265-BAFEFE934479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Physic">
+      <UniqueIdentifier>{9CF258CF-88EC-8121-7159-18325DF2E78D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Render">
       <UniqueIdentifier>{ECB1C6D3-D8AB-EF25-C118-8636ADB15592}</UniqueIdentifier>
@@ -87,6 +93,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Classes\Actions\Command.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandMove.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
       <Filter>Classes\Entity\Character</Filter>
     </ClInclude>
@@ -111,8 +123,8 @@
     <ClInclude Include="..\..\Classes\Level\Quadtree.h">
       <Filter>Classes\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Manager\Engine\PhysicMgr.h">
-      <Filter>Classes\Manager\Engine</Filter>
+    <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h">
+      <Filter>Classes\Manager\Action</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h">
       <Filter>Classes\Manager\Entity</Filter>
@@ -143,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h">
       <Filter>Classes\Manager\Persistent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Physic\PhysicMgr.h">
+      <Filter>Classes\Manager\Physic</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Render\GuiMgr.h">
       <Filter>Classes\Manager\Render</Filter>
@@ -221,6 +236,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Classes\Actions\Command.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
       <Filter>Classes\Entity\Character</Filter>
     </ClCompile>
@@ -245,8 +266,8 @@
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp">
       <Filter>Classes\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Manager\Engine\PhysicMgr.cpp">
-      <Filter>Classes\Manager\Engine</Filter>
+    <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp">
+      <Filter>Classes\Manager\Action</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp">
       <Filter>Classes\Manager\Entity</Filter>
@@ -277,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp">
       <Filter>Classes\Manager\Persistent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Physic\PhysicMgr.cpp">
+      <Filter>Classes\Manager\Physic</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Render\GuiMgr.cpp">
       <Filter>Classes\Manager\Render</Filter>

@@ -25,6 +25,7 @@ DECLARE_MANAGER(EntityMgr)
 DECLARE_MANAGER(FileMgr)
 DECLARE_MANAGER(PersistentMgr)
 DECLARE_MANAGER(GuiMgr)
+DECLARE_MANAGER(CommandMgr)
 
 DECLARE_MANAGER(LoadingThread)
 DECLARE_MANAGER(SaveThread)
@@ -43,6 +44,8 @@ DECLARE_MANAGER(SaveThread)
 #define FILE_MGR		g_FileMgr;
 #define PERSISTENT_MGR	g_PersistentMgr;
 #define GUI_MGR			g_GuiMgr;
+#define COMMAND_MGR		g_CommandMgr;
+
 
 #define LOAD_THREAD	g_LoadingThread;
 #define SAVE_THREAD g_SaveThread;

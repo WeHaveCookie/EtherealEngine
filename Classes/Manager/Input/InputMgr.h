@@ -132,64 +132,35 @@ namespace KeyType
 	};
 }
 
+class Command;
+
 class InputMgr : public Manager
 {
-	struct Keyboard
+	struct Key
 	{
+		KeyType::Enum			m_key;
+		bool					m_pressed;
+		bool					m_lastPressed;
+		float					m_timeSincePressed;
+		Command*				m_command;
+		bool					m_hasValue;
+		float					m_value;
+		float					m_lastValue;
+
+		Key()
+		{
+			m_key = KeyType::none;
+			m_pressed = false;
+			m_lastPressed = false;
+			m_lastPressed = m_pressed;
+			m_command = NULL;
+			m_hasValue = false;
+			m_value = 0.0f;
+			m_lastValue = m_value;
+		}
+
+		void executeCommand(uint32_t id = 0);
 		
-		KeyType::Enum	m_key;
-		bool			m_pressed;
-		bool			m_lastPressed;
-		float			m_timeSincePressed;
-
-		Keyboard()
-		{
-			m_key = KeyType::none;
-			m_pressed = false;
-			m_lastPressed = m_pressed;
-		}
-	};
-
-	struct Mouse
-	{
-		KeyType::Enum	m_key;
-		bool			m_hasValue;
-		bool			m_pressed;
-		bool			m_lastPressed;
-		float			m_value;
-		float			m_lastValue;
-		float			m_timeSincePressed;
-
-		Mouse()
-		{
-			m_key = KeyType::none;
-			m_pressed = false;
-			m_lastPressed = m_pressed;
-			m_hasValue = false;
-			m_value = 0.0f;
-			m_lastValue = m_value;
-		}
-	};
-
-	struct Pad
-	{
-		KeyType::Enum	m_key;
-		bool			m_hasValue;
-		bool			m_pressed;
-		bool			m_lastPressed;
-		float			m_value;
-		float			m_lastValue;
-		float			m_timeSincePressed;
-
-		Pad()
-		{
-			m_key = KeyType::none;
-			m_pressed = false;
-			m_lastPressed = m_pressed;
-			m_hasValue = false;
-			m_value = 0.0f;
-			m_lastValue = m_value;
-		}
 	};
 
 	public:
@@ -204,6 +175,9 @@ class InputMgr : public Manager
 		void end();
 
 		void setUpdateWhenNoFocus(bool b) { m_updateWhenNoFocus = b; }
+
+
+		Command* getKeyCommand(KeyType::Enum key, uint32_t id = 0);
 
 		const bool keyIsPressed(KeyType::Enum key, uint32_t id = 0);
 		const bool keyIsJustPressed(KeyType::Enum key, uint32_t id = 0);
@@ -220,12 +194,13 @@ class InputMgr : public Manager
 		void showImGuiWindow(bool* window);
 
 	private:
-
 		static InputMgr*							s_singleton;
 
-		std::map<KeyType::Enum, Keyboard>			m_keyboard;
-		std::map<KeyType::Enum, Mouse>				m_mouse;
-		std::vector<std::map<KeyType::Enum, Pad>>	m_pads;
+		std::map<KeyType::Enum, Key>			m_keyboard;
+		std::map<KeyType::Enum, Key>				m_mouse;
+		std::vector<std::map<KeyType::Enum, Key>>	m_pads;
+		std::vector<bool>							m_padsStatus;
+		std::map<KeyType::Enum, Command*>			m_binds;
 		sf::Vector2f								m_lastMousePosition;
 		sf::Vector2f								m_currentMousePosition;
 		bool										m_updateWhenNoFocus;

@@ -6,9 +6,11 @@
 #include "Manager/Sound/SoundMgr.h"
 #include "Thread/LoadingThread.h"
 #include "Manager/Persistent/PersistentMgr.h"
-#include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
 #include "Manager/Loading/LoadingMgr.h"
+#include "Manager/Action/CommandMgr.h"
+#include "Actions/CommandMove.h"
 
 #include "Utils/Random.h"
 
@@ -53,17 +55,18 @@ GameMgr::GameMgr()
 :Manager(ManagerType::Enum::Game)
 {
 	s_singleton = this;
+	m_nbrPlayers = 0;
 }
 
 GameMgr::~GameMgr()
 {
+	delete m_mainRenderWindow;
 }
 
 void GameMgr::init()
 {
 	m_processTime = sf::Time::Zero;
 	sf::VideoMode vm = sf::VideoMode::getDesktopMode();
-	std::cout << vm.height << " " << vm.width << std::endl;
 	if (vm.height > 1080 || vm.width > 1920)
 	{
 		vm = sf::VideoMode(1920, 1080);
@@ -73,14 +76,10 @@ void GameMgr::init()
 	m_mainRenderWindow->setVerticalSyncEnabled(true);
 	srand(time(NULL));
 
-	sf::Joystick::update();
-
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
-
-
-	
-
+	m_movementSpeed = 10;
+	setNumberPlayer(1);
 }
 
 void GameMgr::process(const float dt)
@@ -96,50 +95,8 @@ void GameMgr::process(const float dt)
 	static std::vector<uint32_t> ids;
 
 	auto ent = entityMgr->getMainCharacter();
-	
-	if (inputMgr->keyIsJustPressed(KeyType::kbRight))
-	{
-		motion.x += 10;
-		ent->setState(EntityAnimationState::Right);
-	}
-	if (inputMgr->keyIsPressed(KeyType::kbRight))
-	{
-		motion.x += 10;
-	}
 
-	if (inputMgr->keyIsJustReleased(KeyType::kbRight))
-	{
-		ent->setState(EntityAnimationState::IdleRight);
-	}
-
-	if (inputMgr->keyIsJustPressed(KeyType::kbLeft))
-	{
-		motion.x -= 10;
-		ent->setState(EntityAnimationState::Left);
-	}
-	if (inputMgr->keyIsPressed(KeyType::kbLeft))
-	{
-		motion.x -= 10;
-	}
-
-	if (inputMgr->keyIsJustReleased(KeyType::kbLeft))
-	{
-		ent->setState(EntityAnimationState::IdleLeft);
-	}
-
-	if (inputMgr->keyIsPressed(KeyType::kbUp))
-	{
-		motion.y -= 10;
-	}
-
-	if (inputMgr->keyIsPressed(KeyType::kbDown))
-	{
-		motion.y += 10;
-	}
-	ent->addMotion(motion);
-	
 	m_processTime = clock.getElapsedTime();
-
 }
 
 void GameMgr::end()
@@ -159,7 +116,10 @@ void GameMgr::showImGuiWindow(bool* window)
 		int framerate = m_framerate;
 		ImGui::InputInt("Framerate", &framerate);
 		setFrameRate(framerate);
-
+		ImGui::InputInt("Movement Speed", &m_movementSpeed);
+		int nbrPlayers = m_nbrPlayers;
+		ImGui::InputInt("Number Player", &nbrPlayers);
+		setNumberPlayer(nbrPlayers);
 		if (ImGui::CollapsingHeader("Manager"))
 		{
 			ImGui::Text("EntityMgr : %f ms", EntityMgr::getSingleton()->getProcessTime().asMicroseconds() / 1000.0f);
@@ -173,14 +133,46 @@ void GameMgr::showImGuiWindow(bool* window)
 	ImGui::End();
 }
 
-bool GameMgr::isRunning()
+const bool GameMgr::isRunning() const
 {
 	return m_mainRenderWindow->isOpen();
 }
 
 void GameMgr::setFrameRate(uint32_t frameRate)
 {
-	m_framerate = frameRate;
-	m_mainRenderWindow->setFramerateLimit(frameRate);
-	g_DeltaTime = 1.0f / (float)frameRate;
+	if (frameRate >= 10)
+	{
+		m_framerate = frameRate;
+		m_mainRenderWindow->setFramerateLimit(frameRate);
+		g_DeltaTime = 1.0f / (float)frameRate;
+	}
+}
+
+Entity* GameMgr::getEntityPlayer(uint32_t id)
+{
+	return EntityMgr::getSingleton()->getEntity(m_playersId[id]);
+}
+
+void GameMgr::setNumberPlayer(uint32_t nbr)
+{
+	if (m_nbrPlayers != nbr && nbr > 0 && nbr <= sf::Joystick::Count)
+	{
+		if (m_nbrPlayers < nbr)
+		{
+			for (uint32_t i = m_nbrPlayers; i < nbr; i++)
+			{
+				m_playersId.push_back(EntityMgr::getSingleton()->createEntity("Data/Character/Player.json")->getUID());
+			}
+		}
+		else
+		{
+			for (uint32_t i = m_nbrPlayers - 1; i >= nbr; i--)
+			{
+				auto ent = m_playersId[i];
+				EntityMgr::getSingleton()->deleteEntity(ent);
+				m_playersId.pop_back();
+			}
+		}
+		m_nbrPlayers = nbr;
+	}
 }

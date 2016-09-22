@@ -2,6 +2,11 @@
 #include "InputMgr.h"
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
+#include "Manager/File/FileMgr.h"
+#include "Manager/Action/CommandMgr.h"
+#include "Manager/Game/GameMgr.h"
+#include "Actions/Command.h"
+#include "../../External/rapidjson/document.h"
 
 InputMgr* InputMgr::s_singleton = NULL;
 
@@ -121,6 +126,147 @@ int KeyToSFML[] = {
 	7, // padStart
 };
 
+std::vector<const char*> KeyTypeToString = {
+	"none",
+	"kbA",
+	"kbB",
+	"kbC",
+	"kbD",
+	"kbE",
+	"kbF",
+	"kbG",
+	"kbH",
+	"kbI",
+	"kbJ",
+	"kbK",
+	"kbL",
+	"kbM",
+	"kbN",
+	"kbO",
+	"kbP",
+	"kbQ",
+	"kbR",
+	"kbS",
+	"kbT",
+	"kbU",
+	"kbV",
+	"kbW",
+	"kbX",
+	"kbY",
+	"kbZ",
+	"kbRight",
+	"kbUp",
+	"kbLeft",
+	"kbDown",
+	"kbLeftCtlr",
+	"kbRightCtlr",
+	"kbLeftAlt",
+	"kbRightAlt",
+	"kbLeftShift",
+	"kbRightShift",
+	"kbLeftSystem",
+	"kbRightSystem",
+	"kbReturn",
+	"kbSpace",
+	"kbNumpad0",
+	"kbNumpad1",
+	"kbNumpad2",
+	"kbNumpad3",
+	"kbNumpad4",
+	"kbNumpad5",
+	"kbNumpad6",
+	"kbNumpad7",
+	"kbNumpad8",
+	"kbNumpad9",
+	"kbNum0",
+	"kbNum1",
+	"kbNum2",
+	"kbNum3",
+	"kbNum4",
+	"kbNum5",
+	"kbNum6",
+	"kbNum7",
+	"kbNum8",
+	"kbNum9",
+	"kbNum10",
+	"kbNum11",
+	"kbBackSpace",
+	"kbEscape",
+	"kbSlash",
+	"kbMultiply",
+	"kbSubstract",
+	"kbAdd",
+	"kbDivide",
+	"kbDot",
+	"kbComma",
+	"kbSemicolon",
+	"kbF1",
+	"kbF2",
+	"kbF3",
+	"kbF4",
+	"kbF5",
+	"kbF6",
+	"kbF7",
+	"kbF8",
+	"kbF9",
+	"kbF10",
+	"kbF11",
+	"kbF12",
+	"kbEnd",
+	"kbInsert",
+	"kbDelete",
+
+	"mouseRight",
+	"mouseLeft",
+	"mouseWheelButton",
+	"mouseWheel",
+	"mouseBack",
+	"mouseForward",
+
+	"padButtonA",
+	"padButtonB",
+	"padButtonX",
+	"padButtonY",
+	"padLB",
+	"padRB",
+	"padBack",
+	"padX",
+	"padY",
+	"padZ",
+	"padR",
+	"padU",
+	"padV",
+	"padPovX",
+	"padPovY",
+	"padStart",
+};
+
+void InputMgr::Key::executeCommand(uint32_t id)
+{
+	if (m_command != NULL)
+	{
+		auto exeType = m_command->getExeType();
+		if (!m_lastPressed && m_pressed && exeType == CommandExeType::JustPressed ||
+			m_lastPressed && !m_pressed && exeType == CommandExeType::JustReleased ||
+			m_pressed && exeType == CommandExeType::Pressed ||
+			!m_pressed && exeType == CommandExeType::Released ||
+			m_hasValue && (m_value >= 30.0f || m_value <= -30.0f))
+		{
+			if (m_hasValue)
+			{
+				float value = m_value * 0.1f;
+				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id), (void*)&value);
+			}
+			else
+			{
+				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id));
+			}
+			//m_command->execute();
+			CommandMgr::getSingleton()->addCommand(m_command);
+		}
+	}
+}
+
 InputMgr::InputMgr()
 :Manager(ManagerType::Enum::Input)
 {
@@ -135,32 +281,72 @@ InputMgr::~InputMgr()
 
 void InputMgr::init()
 {
+	sf::Joystick::update();
+	char* json;
+	int sizeRead;
+	FileMgr::ReadFile("Data/Config/input.json", (void**)&json, &sizeRead);
+
+	json[sizeRead] = 0;
+
+	rapidjson::Document document;
+	document.Parse((char*)json);
+	auto error = document.HasParseError();
+	auto object = document.IsObject();
+	assert(!error);
+	assert(object);
+
 	for (int i = KeyType::startKbKey; i <= KeyType::endKbKey; i++)
 	{
 		KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-		Keyboard key;
+		Key key;
 		key.m_key = keyType;
+		
+		if (document.HasMember(KeyTypeToString[keyType]))
+		{
+			std::string cmd = "Command";
+			cmd += document[KeyTypeToString[keyType]].GetString();
+			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+		}
+		
 		m_keyboard[keyType] = key;
+
 	}
 
 	for (int i = KeyType::startMouseKey; i <= KeyType::endMouseKey; i++)
 	{
 		KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-		Mouse key;
+		Key key;
 		key.m_key = keyType;
 		key.m_hasValue =  (i >= KeyType::startValueMouseKey && i <= KeyType::endValueMouseKey);
+
+		if (document.HasMember(KeyTypeToString[keyType]))
+		{
+			std::string cmd = "Command";
+			cmd += document[KeyTypeToString[keyType]].GetString();
+			key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+		}
+
 		m_mouse[keyType] = key;
 	}
 
 	for (int j = 0; j < sf::Joystick::Count; j++)
 	{
-		m_pads.push_back(std::map<KeyType::Enum, Pad>());
+		m_pads.push_back(std::map<KeyType::Enum, Key>());
+		m_padsStatus.push_back(sf::Joystick::isConnected(j));
 		for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
 		{
 			KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-			Pad key;
+			Key key;
 			key.m_key = keyType;
 			key.m_hasValue = (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey);
+
+			if (document.HasMember(KeyTypeToString[keyType]))
+			{
+				std::string cmd = "Command";
+				cmd += document[KeyTypeToString[keyType]].GetString();
+				key.m_command = CommandMgr::getSingleton()->getCommand(cmd.c_str());
+			}
+
 			m_pads[j][keyType] = key;
 		}
 	}
@@ -221,6 +407,12 @@ void InputMgr::process(const float dt)
 				m_currentMousePosition.x = event.mouseMove.x;
 				m_currentMousePosition.y = event.mouseMove.y;
 				break;
+			case sf::Event::JoystickConnected:
+				m_padsStatus[event.joystickConnect.joystickId] = true;
+				break;
+			case sf::Event::JoystickDisconnected:
+				m_padsStatus[event.joystickConnect.joystickId] = false;
+				break;
 			default:
 				break;
 			}
@@ -238,6 +430,7 @@ void InputMgr::process(const float dt)
 			{
 				m_keyboard[keyType].m_timeSincePressed = 0.0f;
 			}
+			m_keyboard[keyType].executeCommand();
 		}
 
 		for (int i = KeyType::startMouseKey; i <= KeyType::endMouseKey; i++)
@@ -259,33 +452,36 @@ void InputMgr::process(const float dt)
 			{
 				m_mouse[keyType].m_timeSincePressed = 0.0f;
 			}
+			m_mouse[keyType].executeCommand();
 		}
 
 		for (int padID = 0; padID < sf::Joystick::Count; padID++)
 		{
-			for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
+			if (m_padsStatus[padID])
 			{
-				KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
-				if (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey)
+				for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
 				{
-					m_pads[padID][keyType].m_value = sf::Joystick::getAxisPosition(padID, static_cast<sf::Joystick::Axis>(KeyToSFML[keyType]));
-				}
-				else
-				{
-					m_pads[padID][keyType].m_pressed = sf::Joystick::isButtonPressed(padID, KeyToSFML[keyType]);
-				}
-				if (m_pads[padID][keyType].m_pressed)
-				{
-					m_pads[padID][keyType].m_timeSincePressed += dt;
-				}
-				else
-				{
-					m_pads[padID][keyType].m_timeSincePressed = 0.0f;
+					KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+					if (i >= KeyType::startValuePadKey && i <= KeyType::endValuePadKey)
+					{
+						m_pads[padID][keyType].m_value = sf::Joystick::getAxisPosition(padID, static_cast<sf::Joystick::Axis>(KeyToSFML[keyType]));
+					}
+					else
+					{
+						m_pads[padID][keyType].m_pressed = sf::Joystick::isButtonPressed(padID, KeyToSFML[keyType]);
+					}
+					if (m_pads[padID][keyType].m_pressed)
+					{
+						m_pads[padID][keyType].m_timeSincePressed += dt;
+					}
+					else
+					{
+						m_pads[padID][keyType].m_timeSincePressed = 0.0f;
+					}
+					m_pads[padID][keyType].executeCommand(padID);
 				}
 			}
 		}
-
-		
 	}
 	ImGui::SFML::Update(dt);
 }
@@ -293,6 +489,23 @@ void InputMgr::process(const float dt)
 void InputMgr::end()
 {
 
+}
+
+Command* InputMgr::getKeyCommand(KeyType::Enum key, uint32_t id)
+{
+	if (key >= KeyType::startKbKey && key <= KeyType::endKbKey)
+	{
+		return m_keyboard[key].m_command;
+	}
+	else if (key >= KeyType::startMouseKey && key <= KeyType::endMouseKey)
+	{
+		return m_mouse[key].m_command;
+	}
+	else if (key >= KeyType::startPadKey && key <= KeyType::endPadKey)
+	{
+		return m_pads[id][key].m_command;
+	}
+	return NULL;
 }
 
 const bool InputMgr::keyIsPressed(KeyType::Enum key, uint32_t id)
@@ -412,6 +625,44 @@ void InputMgr::showImGuiWindow(bool* window)
 	{
 		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
 		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
+		ImGui::Separator();
+		int i = 0;
+		for (auto& padStatus : m_padsStatus)
+		{
+			ImGui::Text("Pad %i - %s", i++, (padStatus) ? "Connected" : "Disconnected");
+		}
+		ImGui::Separator();
+		if(ImGui::CollapsingHeader("Keyboard"))
+		{
+			for (int i = KeyType::startKbKey; i <= KeyType::endKbKey; i++)
+			{
+				KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+				if (m_keyboard[keyType].m_command != NULL)
+				{
+					ImGui::Text("%s - %s - %i", KeyTypeToString[keyType], m_keyboard[keyType].m_command->getName(), m_keyboard[keyType].m_command);
+				}
+			}
+		}
+		
+		if (ImGui::CollapsingHeader("Pads"))
+		{
+			for (int padID = 0; padID < sf::Joystick::Count; padID++)
+			{
+				if (m_padsStatus[padID])
+				{
+					for (int i = KeyType::startPadKey; i <= KeyType::endPadKey; i++)
+					{
+						KeyType::Enum keyType = static_cast<KeyType::Enum>(i);
+						if (m_pads[padID][keyType].m_command != NULL)
+						{
+							ImGui::Text("%s - %s - %i", KeyTypeToString[keyType], m_pads[padID][keyType].m_command->getName(), m_pads[padID][keyType].m_command);
+						}
+					}
+					ImGui::Separator();
+				}
+			}
+		}
+		
 	}
 	ImGui::End();
 }
