@@ -4,11 +4,18 @@
 	"Height" : 147,
 	"Speed" : 0.0,
 	"Position" : [0.0, 933.0],
-	"State" : "IDLE",
+	"State" : "IDLE_RIGHT",
 	"Collidable" : false,
+	"Anchor" : true,
 	"Animation" : [
 		{
-			"State" : "IDLE",
+			"State" : "IDLE_RIGHT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "IDLE_LEFT",
 			"Frame" : 1,
 			"Line" : 1,
 			"Time" : 0.0
