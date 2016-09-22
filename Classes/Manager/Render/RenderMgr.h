@@ -23,6 +23,4 @@ class RenderMgr : public Manager
 		static RenderMgr*	s_singleton;
 		sf::Clock			m_timeFrame;
 		sf::RenderWindow*	m_mainRenderWindow;
-		sf::Font			m_font;
-		sf::Text			m_text;
 };

@@ -22,6 +22,10 @@ SoundComponentPool::SoundComponentPool(int size)
 
 SoundComponentPool::~SoundComponentPool()
 {
+	for (auto& sound : m_sounds)
+	{
+		delete sound;
+	}
 	m_sounds.clear();
 }
 
@@ -49,13 +53,6 @@ void SoundComponentPool::process(const float dt)
 			release(sound);
 		}
 	}
-// 	for (int i = 0; i < m_poolSize - 1; i++)
-// 	{
-// 		if (!m_sounds[i]->process(dt) && !m_sounds[i]->isPersistent())
-// 		{
-// 			release(m_sounds[i]);
-// 		}
-// 	}
 }
 
 std::vector<SoundComponent*> SoundComponentPool::getSoundsUsed()

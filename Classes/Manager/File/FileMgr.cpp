@@ -81,3 +81,17 @@ void FileMgr::GetFilesInDirectory(std::vector<std::wstring> &out, const std::wst
 
 	FindClose(dir);
 }
+
+void FileMgr::ReadFile(const char* path, void** buffer, int* bufferSize)
+{
+	FILE *f = fopen(path, "rb");
+	fseek(f, 0, SEEK_END);
+	long fsize = ftell(f);
+	*bufferSize = fsize;
+	fseek(f, 0, SEEK_SET);
+
+	*buffer = (void*)malloc(fsize + 1);
+	int res = fread(*buffer, fsize, 1, f);
+	assert(res == 1);
+	fclose(f);
+}

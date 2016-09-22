@@ -4,25 +4,29 @@
 MusicComponentPool::MusicComponentPool(int size)
 	:m_poolSize(size)
 {
-	m_music.reserve(size);
+	m_musics.reserve(size);
 	for (int i = 0; i < size; i++)
 	{
-		m_music.push_back(new MusicComponent());
+		m_musics.push_back(new MusicComponent());
 	}
 
-	m_firstAvailable = m_music[0];
+	m_firstAvailable = m_musics[0];
 
 	for (int i = 0; i < m_poolSize - 1; i++)
 	{
-		m_music[i]->setNext(m_music[i + 1]);
+		m_musics[i]->setNext(m_musics[i + 1]);
 	}
 
-	m_music[m_poolSize - 1]->setNext(NULL);
+	m_musics[m_poolSize - 1]->setNext(NULL);
 }
 
 MusicComponentPool::~MusicComponentPool()
 {
-	m_music.clear();
+	for (auto& music : m_musics)
+	{
+		delete music;
+	}
+	m_musics.clear();
 }
 
 void MusicComponentPool::create(const char* path, bool loop, bool persistent)
@@ -41,7 +45,7 @@ void MusicComponentPool::create(const char* path, bool loop, bool persistent)
 
 void MusicComponentPool::process(const float dt)
 {
-	for (auto& music : m_music)
+	for (auto& music : m_musics)
 	{
 		if (!music->process() && !music->isPersistent() && music->isUsed())
 		{
@@ -53,7 +57,7 @@ void MusicComponentPool::process(const float dt)
 std::vector<MusicComponent*> MusicComponentPool::getMusicsUsed()
 {
 	std::vector<MusicComponent*> res;
-	for (auto& music : m_music)
+	for (auto& music : m_musics)
 	{
 		if (music->isUsed())
 		{
@@ -65,7 +69,7 @@ std::vector<MusicComponent*> MusicComponentPool::getMusicsUsed()
 
 void MusicComponentPool::release(uint32_t id)
 {
-	for (auto& music : m_music)
+	for (auto& music : m_musics)
 	{
 		if (music->getUID() == id)
 		{

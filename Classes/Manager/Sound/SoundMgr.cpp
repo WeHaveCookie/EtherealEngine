@@ -13,7 +13,8 @@ SoundMgr::SoundMgr()
 
 SoundMgr::~SoundMgr()
 {
-
+	delete m_musics;
+	delete m_sounds;
 }
 
 void SoundMgr::init()
@@ -57,6 +58,10 @@ void SoundMgr::showImGuiWindow(bool* window)
 		{
 			SoundMgr::getSingleton()->addMusic(musicsLabel[musicID], false, true);
 		}
+		for (unsigned int i = 0; i < files.size(); i++)
+		{
+			free(musicsLabel[i]);
+		}
 		free(musicsLabel);
 		
 
@@ -78,6 +83,10 @@ void SoundMgr::showImGuiWindow(bool* window)
 			if (ImGui::Button("Create###2"))
 			{
 				SoundMgr::getSingleton()->addSound(soundsLabel[soundID], false, true);
+			}
+			for (unsigned int i = 0; i < files.size(); i++)
+			{
+				free(soundsLabel[i]);
 			}
 			free(soundsLabel);
 

@@ -14,6 +14,7 @@ LevelMgr::LevelMgr()
 
 LevelMgr::~LevelMgr()
 {
+	delete m_quadtree;
 }
 
 void LevelMgr::init()

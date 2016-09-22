@@ -8,7 +8,7 @@
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Event/EventMgr.h"
-#include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/File/FileMgr.h"
@@ -62,7 +62,7 @@ GuiMgr::GuiMgr()
 
 GuiMgr::~GuiMgr()
 {
-
+	delete m_flags;
 }
 
 void GuiMgr::init()

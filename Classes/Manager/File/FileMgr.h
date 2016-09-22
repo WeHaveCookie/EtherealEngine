@@ -10,13 +10,10 @@ public:
 	virtual ~FileMgr();
 	void init() {}
 
-// 	File* createFile(const char* fileName);
-// 	File* createFile(const char* filePath, const char* resourceRootPath);
-
 	static void CreateDirectories(const char* path);
 	static void CreateDirectories(const wchar_t* path);
 	static void GetFilesInDirectory(std::vector<std::wstring> &out, const std::wstring &directory, const std::wstring extention = L"");
-
+	static void ReadFile(const char* path, void** buffer, int* bufferSize);
 
 private:
 	static FileMgr* s_singleton;

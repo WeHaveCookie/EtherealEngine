@@ -158,7 +158,6 @@ void LoadingTask::wait()
 	{
 		volatile int i = 0; // Use to prevent the compiler optimization
 	}
-	std::cout << m_state.m_live.m_path << "  " << m_state.m_live.m_counter << std::endl;
 	m_state.m_live.m_counter = INVALID_SYNC_COUNTER_ID;
 }
 
@@ -204,6 +203,10 @@ LoadingTaskPool::LoadingTaskPool(int size)
 
 LoadingTaskPool::~LoadingTaskPool()
 {
+	for (auto& task : m_tasks)
+	{
+		delete task;
+	}
 	m_tasks.clear();
 }
 
@@ -211,7 +214,7 @@ void LoadingTaskPool::load(Entity* ent, const char* path)
 {
 	if (m_firstAvailable == NULL)
 	{
-		std::cout << "Cannot create new loading task" << std::endl;
+		return;
 	}
 	LoadingTask* newTask = m_firstAvailable;
 	m_firstAvailable = newTask->getNext();
@@ -225,7 +228,7 @@ void LoadingTaskPool::loadAsync(Entity* ent, const char* path)
 {
 	if (m_firstAvailable == NULL)
 	{
-		std::cout << "Cannot create new loading task" << std::endl;
+		return;
 	}
 	LoadingTask* newTask = m_firstAvailable;
 	m_firstAvailable = newTask->getNext();

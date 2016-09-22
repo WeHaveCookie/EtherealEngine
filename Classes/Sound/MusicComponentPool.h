@@ -15,6 +15,6 @@ public:
 private:
 	void release(MusicComponent* music);
 	const int						m_poolSize;
-	std::vector<MusicComponent*>	m_music;
+	std::vector<MusicComponent*>	m_musics;
 	MusicComponent*					m_firstAvailable;
 };

@@ -9,7 +9,7 @@ Thread::Thread()
 
 Thread::~Thread()
 {
-
+	delete m_thread;
 }
 
 void Thread::process()
