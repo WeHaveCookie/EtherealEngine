@@ -3,15 +3,16 @@
 
 #include "EtherealDreamManagers.h"
 #include "Manager/Render/RenderMgr.h"
-#include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Input/InputMgr.h"
+#include "Manager/File/FileMgr.h"
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
 #include "Utils/VectorUtils.h"
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
 
-std::map<std::string, EntityAnimationState::Enum> StateToEnum =
+std::map<std::string, EntityAnimationState::Enum> StringToEntityAnimationState =
 {
 	{ "RIGHT", EntityAnimationState::Right },
 	{ "LEFT", EntityAnimationState::Left },
@@ -20,7 +21,7 @@ std::map<std::string, EntityAnimationState::Enum> StateToEnum =
 	{ "IDLE_LEFT", EntityAnimationState::IdleLeft }
 };
 
-std::vector<const char*> EnumToString = {
+std::vector<const char*> EntityAnimationStateToString = {
 	"RIGHT",
 	"LEFT",
 	"IDLE",
@@ -59,7 +60,31 @@ void Entity::paint()
 
 void Entity::update(const float dt)
 {
-	updatePosition();
+
+	if (m_state.m_live.m_motion.x < 0.0f)
+	{
+		setState(EntityAnimationState::Left);
+	}
+	else if (m_state.m_live.m_motion.x > 0.0f)
+	{
+		setState(EntityAnimationState::Right);
+	}
+	else
+	{
+		if (m_state.m_live.m_lastMotion.x < 0.0f)
+		{
+			setState(EntityAnimationState::IdleLeft);
+		}
+		else if (m_state.m_live.m_lastMotion.x > 0.0f)
+		{
+			setState(EntityAnimationState::IdleRight);
+		}
+	}
+
+	if (!m_state.m_live.m_anchor)
+	{
+		updatePosition();
+	}
 
 	if (m_state.m_live.m_animate)
 	{
@@ -91,8 +116,11 @@ void Entity::setSpeed(float speed)
 
 void Entity::setState(EntityAnimationState::Enum state)
 {
-	m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
-	m_state.m_live.m_currentState = state;
+	if (m_state.m_live.m_currentState != state)
+	{
+		m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
+		m_state.m_live.m_currentState = state;
+	}
 }
 
 const EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
@@ -113,6 +141,24 @@ const sf::FloatRect Entity::getGlobalBounds() const
 							m_state.m_live.m_currentPosition.y, 
 							m_state.m_live.m_width, 
 							m_state.m_live.m_height);
+}
+
+void Entity::addMotion(sf::Vector2f motion)
+{
+	if (!m_state.m_live.m_anchor)
+	{
+		if (!m_state.m_live.m_movable)
+		{
+			m_state.m_live.m_collisionState = CollisionState::All;
+		}
+		else
+		{
+			m_state.m_live.m_collisionState = CollisionState::None;
+		}
+
+		m_state.m_live.m_collisionResolved = false;
+		m_state.m_live.m_motion += motion;
+	}
 }
 
 void Entity::rollbackXAxis()
@@ -170,7 +216,30 @@ void Entity::rollBackAllAxis()
 
 void Entity::retry()
 {
+	auto lastMotion = m_state.m_live.m_lastMotion;
+	auto lastPosition = m_state.m_live.m_lastPosition;
 	update(0.0f);
+	m_state.m_live.m_lastMotion = lastMotion;
+	m_state.m_live.m_lastPosition = lastPosition;
+}
+
+void Entity::setCollisionState(CollisionState::Enum state)
+{
+	m_state.m_live.m_collisionState = (CollisionState::Enum)(m_state.m_live.m_collisionState | state);
+}
+
+void Entity::resetCollisionState()
+{ 
+	if (m_state.m_live.m_movable)
+	{
+		m_state.m_live.m_collisionState = CollisionState::None; 
+	}
+	else
+	{
+		m_state.m_live.m_collisionState = CollisionState::All;
+	}
+	m_state.m_live.m_collisionResolved = true; 
+	m_state.m_live.m_collisionProceed = false; 
 }
 
 void replaceJsonByPng(char* dest, const char* source)
@@ -201,20 +270,15 @@ void replaceName(char* dest, const char* name, int sizeName)
 
 void Entity::build(const char* path)
 {
+	char* json;
+	int jsonSize;
 
-	FILE *f = fopen(path, "rb");
-	fseek(f, 0, SEEK_END);
-	long fsize = ftell(f);
-	fseek(f, 0, SEEK_SET);
+	FileMgr::ReadFile(path, (void**)&json, &jsonSize);
 
-	char *json = (char *)malloc(fsize + 1);
-	fread(json, fsize, 1, f);
-	fclose(f);
-
-	json[fsize] = 0;
+	json[jsonSize] = 0;
 
 	rapidjson::Document document;
-	document.Parse(json);
+	document.Parse((char*)json);
 	auto error = document.HasParseError();
 	auto object = document.IsObject();
 	assert(!error);
@@ -269,6 +333,24 @@ void Entity::build(const char* path)
 	{
 		PhysicMgr::getSingleton()->registerEntity(this);
 	}
+
+	if (document.HasMember("Movable"))
+	{
+		m_state.m_live.m_movable = document["Movable"].GetBool();
+	}
+	else
+	{
+		m_state.m_live.m_movable = false;
+	}
+
+	if (document.HasMember("Anchor"))
+	{
+		m_state.m_live.m_anchor = document["Anchor"].GetBool();
+	}
+	else
+	{
+		m_state.m_live.m_anchor = false;
+	}
 	
 	member = document.HasMember("Animation");
 	assert(member);
@@ -298,7 +380,7 @@ void Entity::build(const char* path)
 			anim.m_animation.push_back(spr);
 		}
 		anim.m_currentFrame = 0;
-		addAnimation(StateToEnum[v["State"].GetString()], anim);
+		addAnimation(StringToEntityAnimationState[v["State"].GetString()], anim);
 	}
 
 	if (document.HasMember("Position"))
@@ -324,11 +406,12 @@ void Entity::build(const char* path)
 	m_state.m_live.m_angle = 0.0f;
 	member = document.HasMember("State");
 	assert(member);
-	setState(StateToEnum[document["State"].GetString()]);
+	setState(StringToEntityAnimationState[document["State"].GetString()]);
 
 	setLive(true);
 	m_onLoading = false;
 	m_loaded = true;
+	free(json);
 }
 
 void Entity::updatePosition()
@@ -359,8 +442,11 @@ void Entity::displayInfo()
 		if (ImGui::Begin(name.c_str(), &m_displayInfo, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::InputFloat("Speed", &m_state.m_live.m_speed);
-			ImGui::Checkbox("IsCollidable", &m_state.m_live.m_collidable);
-			ImGui::Checkbox("Is Editable", &m_editable);
+			ImGui::Checkbox("Collidable", &m_state.m_live.m_collidable);
+			ImGui::Checkbox("Editable", &m_editable);
+			ImGui::Checkbox("Movable", &m_state.m_live.m_movable);
+			ImGui::Checkbox("Anchor", &m_state.m_live.m_anchor);
+			ImGui::Text("Collision : %i", m_state.m_live.m_collisionState);
 			ImGui::Text("Position");
 			float x = m_state.m_live.m_currentPosition.x;
 			float y = m_state.m_live.m_currentPosition.y;
@@ -372,19 +458,20 @@ void Entity::displayInfo()
 			m_state.m_live.m_currentPosition = sf::Vector2f(x, y);
 			m_state.m_live.m_angle = rot * RADTODEG;
 
-			char** items;
-			items = (char**)malloc(sizeof(char*) * EnumToString.size());
-			int i = 0;
-			for (auto& state : EnumToString)
+			char** items = (char**)malloc(sizeof(char*) * EntityAnimationStateToString.size());
+			for (unsigned int i = 0; i < EntityAnimationStateToString.size(); i++)
 			{
-				items[i] = (char*)malloc(sizeof(char) * strlen(state));
-				strcpy(items[i], state);
-				i++;
+				items[i] = (char*)malloc(sizeof(char) * strlen(EntityAnimationStateToString[i]) + 1); // For null terminated
+				strcpy(items[i], EntityAnimationStateToString[i]);
 			}
 
 			int currentState = m_state.m_live.m_currentState;
 
-			ImGui::Combo("Animation state", &currentState, (const char**)items, EnumToString.size());
+			ImGui::Combo("Animation state", &currentState, (const char**)items, EntityAnimationStateToString.size());
+			for (unsigned int i = 0; i < EntityAnimationStateToString.size(); i++)
+			{
+				free(items[i]);
+			}
 			free(items);
 			
 			m_state.m_live.m_currentState = (EntityAnimationState::Enum)currentState;

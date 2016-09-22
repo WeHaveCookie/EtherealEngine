@@ -5,6 +5,7 @@
 #include "Entity/EntityPool.h"
 #include "Manager/Loading/LoadingMgr.h"
 #include "Manager/File/FileMgr.h"
+#include "Manager/Physic/PhysicMgr.h"
 #include "Utils/wcharUtils.h"
 
 EntityMgr* EntityMgr::s_singleton = NULL;
@@ -19,7 +20,7 @@ EntityMgr::EntityMgr()
 
 EntityMgr::~EntityMgr()
 {
-
+	delete m_entitys;
 }
 
 void EntityMgr::init()
@@ -31,6 +32,7 @@ void EntityMgr::init()
 void EntityMgr::process(const float dt)
 {
 	sf::Clock clock;
+	PhysicMgr::getSingleton()->applyGravity();
 	m_entitys->process(dt);
 	m_processTime = clock.getElapsedTime();
 }
@@ -133,7 +135,7 @@ void EntityMgr::showImGuiWindow(bool* window)
 					ImGui::SameLine();
 					if (ImGui::Button(label.c_str()))
 					{
-						removeEntity(entity->getUID());
+						deleteEntity(entity->getUID());
 					}
 				}
 			}
@@ -154,7 +156,7 @@ uint32_t EntityMgr::createAsyncEntity(const char* path)  const
 	return LoadingMgr::getSingleton()->loadAsync(m_entitys->getNextEntity(), path);
 }
 
-void EntityMgr::removeEntity(uint32_t id)
+void EntityMgr::deleteEntity(uint32_t id)
 {
 	m_entitys->release(id);
 }

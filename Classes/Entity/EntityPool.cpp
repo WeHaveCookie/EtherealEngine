@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EntityPool.h"
-#include "Manager/Engine/PhysicMgr.h"
+#include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Level/LevelMgr.h"
 #include "Manager/Input/InputMgr.h"
 #include "Thread/LoadingThread.h"
@@ -27,6 +27,10 @@ EntityPool::EntityPool(int size)
 
 EntityPool::~EntityPool()
 {
+	for (auto& entity : m_entitys)
+	{
+		delete entity;
+	}
 	m_entitys.clear();
 }
 
@@ -34,7 +38,6 @@ Entity* EntityPool::getNextEntity()
 {
 	if (m_firstAvailable == NULL)
 	{
-		std::cout << "Cannot create new entity" << std::endl;
 		return NULL;
 	}
 	Entity* newEntity = m_firstAvailable;
@@ -45,10 +48,8 @@ Entity* EntityPool::getNextEntity()
 
 Entity* EntityPool::create(const char* path)
 {
-	//assert(m_firstAvailable != NULL);
 	if (m_firstAvailable == NULL)
 	{
-		std::cout << "Cannot create new entity" << std::endl;
 		return NULL;
 	}
 	Entity* newEntity = m_firstAvailable;

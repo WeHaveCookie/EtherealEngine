@@ -1,5 +1,18 @@
 #pragma once
 
+namespace CollisionState
+{
+	enum Enum
+	{
+		None = 1 << 0,
+		Right = 1 << 1,
+		Left = 1 << 2,
+		Bottom = 1 << 3,
+		Top = 1 << 4,
+		All = Right | Left | Bottom | Top
+	};
+}
+	
 struct EntityAnimation {
 	std::vector<sf::Sprite> m_animation;
 	float					m_timePerFrame;
@@ -83,7 +96,7 @@ class Entity
 
 		void setLive(bool b) { m_live = b; }
 
-		void addMotion(sf::Vector2f motion) { m_state.m_live.m_motion += motion; }
+		void addMotion(sf::Vector2f motion);
 		const sf::Vector2f getMotion() const { return m_state.m_live.m_motion; }
 		void rollbackXAxis();
 		void rollbackYAxis();
@@ -96,7 +109,17 @@ class Entity
 		const bool isAlive() const { return m_live; }
 		const bool asMoved() const { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
 		const bool isEditable() const { return m_editable; }
-
+		const bool isMovable() const { return m_state.m_live.m_movable; }
+		const bool isAnchor() const { return m_state.m_live.m_anchor; }
+		const CollisionState::Enum getCollisionState() {  return m_state.m_live.m_collisionState; }
+		void setCollisionState(CollisionState::Enum state);
+		void resetCollisionState();
+		const sf::Vector2f getLastMotion() const { return m_state.m_live.m_lastMotion; }
+		const bool collisionResolved() const { return m_state.m_live.m_collisionResolved; }
+		const bool collisionProcessOngoing() const { return m_state.m_live.m_collisionProceed; }
+		void proceedCollision() { m_state.m_live.m_collisionProceed = true; }
+		void setCollisionProcess(bool b) { m_state.m_live.m_collisionProceed = b; }
+		void setCollisionResolved(bool b) { m_state.m_live.m_collisionResolved = b; }
 		void release();
 		void build(const char* path);
 		void load() { m_onLoading = true; };
@@ -118,6 +141,9 @@ class Entity
 		bool m_displayInfo;
 		bool m_editable;
 
+
+
+
 		union State
 		{
 			struct
@@ -136,9 +162,14 @@ class Entity
 				uint32_t												m_height;
 				uint32_t												m_width;
 				bool													m_collidable;
+				bool													m_movable;
+				bool													m_anchor;
 				bool													m_animate;
+				bool													m_collisionResolved;
+				bool													m_collisionProceed;
 				float													m_angle;
 				float													m_mass;
+				CollisionState::Enum									m_collisionState;
 
 				void clear()
 				{
@@ -152,6 +183,7 @@ class Entity
 						m_animations[ste].m_animation.push_back(spr);
 					}
 					m_animate = true;
+					m_collisionState = CollisionState::None;
 				}
 			} m_live;
 
@@ -160,6 +192,7 @@ class Entity
 			State()
 				:m_live()
 			{
+				m_live.clear();
 				m_next = NULL;
 			}
 

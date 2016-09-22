@@ -20,11 +20,13 @@ class PhysicMgr : public Manager
 		void registerEntity(Entity* ent);
 		void unregisterEntity(Entity* ent);
 
+		void applyGravity();
+
         // Function
         static bool CollisionAABBAndCircle(sf::FloatRect box1, sf::CircleShape circle);
         static bool CollisionAABBandAABB(sf::FloatRect box1, sf::FloatRect box2);
 		sf::Time getProcessTime() { return m_processTime; }
-
+		
 
 
         // Inline
