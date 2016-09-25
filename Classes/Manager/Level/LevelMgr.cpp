@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "LevelMgr.h"
 #include "Level/Quadtree.h"
-#include "Entity/Entity.h"
 
 LevelMgr* LevelMgr::s_singleton = NULL;
 
@@ -45,7 +44,18 @@ void LevelMgr::showImGuiWindow(bool* window)
 {
 	if (ImGui::Begin("LevelMgr", window))
 	{
-
+		if(ImGui::CollapsingHeader("Quadtree"))
+		{
+			auto elements = m_quadtree->getAllElements();
+			for (auto& element : elements)
+			{
+				ImGui::Text("%i - %s", element->getUID(), element->getName());
+				if (ImGui::IsItemClicked())
+				{
+					element->showInfo();
+				}
+			}
+		}
 	}
 	ImGui::End();
 }
@@ -60,10 +70,10 @@ void LevelMgr::unregisterEntity(uint32_t id)
 	m_quadtree->unregisterEntity(id);
 }
 
-std::vector<Entity*> LevelMgr::getEntityAround(sf::FloatRect bound)
+std::vector<Entity*> LevelMgr::getEntityAround(Entity* ent, sf::FloatRect bound, EntityType::Enum type)
 {
 	m_queryCount++;
-	return m_quadtree->queryRange(bound);
+	return m_quadtree->queryRange(ent, bound, type);
 }
 
 int LevelMgr::getRegisterCount() 

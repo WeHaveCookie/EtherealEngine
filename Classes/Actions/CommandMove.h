@@ -17,8 +17,8 @@ public:
 	virtual void* makeCopy() = 0;
 
 private:
-	sf::Vector2f m_lastPosition;
-	sf::Vector2f m_motion;
+	Vector2 m_lastPosition;
+	Vector2 m_motion;
 };
 
 class CommandMoveLeft : public CommandMove

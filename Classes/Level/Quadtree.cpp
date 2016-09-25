@@ -1,12 +1,22 @@
 #include "stdafx.h"
 #include "Quadtree.h"
-#include "Entity/Entity.h"
 #include "Manager/Render/RenderMgr.h"
 
 uint32_t Quadtree::s_quadNodeCapacity = 10;
 int Quadtree::s_registerCount = 0;
 int Quadtree::s_unregisterCount = 0;
 int Quadtree::s_queryCount = 0;
+
+struct EntityRange
+{
+	Entity* ent;
+	float distance;
+	
+	bool operator<(const EntityRange& e1)
+	{
+		return distance < e1.distance;
+	}
+};
 
 Quadtree::Quadtree(float x, float y, float width, float height, Quadtree* master)
 	:Quadtree()
@@ -212,8 +222,28 @@ void Quadtree::update()
 	}
 }
 
- std::vector<Entity*> Quadtree::queryRange(sf::FloatRect bound)
+void sortByDistance(Entity* ent, std::vector<Entity*>* entitys)
 {
+	std::vector<EntityRange> tmp;
+	for (auto& entity : *entitys)
+	{
+		EntityRange entRange;
+		entRange.ent = entity;
+		entRange.distance = ent->getDistance(entity);
+		tmp.push_back(entRange);
+	}
+	std::sort(tmp.begin(), tmp.end());
+	entitys->clear();
+	for (auto& ent : tmp)
+	{
+		entitys->push_back(ent.ent);
+	}
+}
+
+ std::vector<Entity*> Quadtree::queryRange(Entity* ent, sf::FloatRect bound, EntityType::Enum type)
+{
+	 
+
 	s_queryCount++;
     std::vector<Entity*> answer;
     if(!m_shape.intersects(bound))
@@ -222,34 +252,59 @@ void Quadtree::update()
     }
     if(m_enable)
     {
-        answer = getElements();
+        answer = getElements(ent, type);
+		sortByDistance(ent, &answer);
         return answer;
     } else
     {
 		std::vector<Entity*> tmp;
         if(m_northWest->getShape().intersects(bound))
         {
-            tmp = m_northWest->queryRange(bound);
+            tmp = m_northWest->queryRange(ent, bound, type);
             answer.insert(answer.end(),tmp.begin(),tmp.end());
         }
         if (m_northEast->getShape().intersects(bound))
         {
-            tmp = m_northEast->queryRange(sf::FloatRect(bound));
+            tmp = m_northEast->queryRange(ent, bound, type);
             answer.insert(answer.end(),tmp.begin(),tmp.end());
         }
         if (m_southWest->getShape().intersects(bound))
         {
-            tmp = m_southWest->queryRange(sf::FloatRect(bound));
+            tmp = m_southWest->queryRange(ent, bound, type);
             answer.insert(answer.end(),tmp.begin(),tmp.end());
         }
         if (m_southEast->getShape().intersects(bound))
         {
-            tmp = m_southEast->queryRange(sf::FloatRect(bound));
+            tmp = m_southEast->queryRange(ent, bound, type);
             answer.insert(answer.end(),tmp.begin(),tmp.end());
         }
+		sortByDistance(ent, &answer);
         return answer;
     }
 }
+
+ std::vector<Entity*> Quadtree::getAllElements()
+ {
+	 std::vector<Entity*> answer;
+	 if (m_enable)
+	 {
+		 answer = getElements();
+		 return answer;
+	 }
+	 else
+	 {
+		 std::vector<Entity*> tmp;
+		 tmp = m_northWest->getAllElements();
+		 answer.insert(answer.end(), tmp.begin(), tmp.end());
+		 tmp = m_northEast->getAllElements();
+		 answer.insert(answer.end(), tmp.begin(), tmp.end());
+		 tmp = m_southWest->getAllElements();
+		 answer.insert(answer.end(), tmp.begin(), tmp.end());
+		 tmp = m_southEast->getAllElements();
+		 answer.insert(answer.end(), tmp.begin(), tmp.end());
+		 return answer;
+	 }
+ }
 
 void Quadtree::subdivide()
 {
@@ -325,15 +380,22 @@ uint32_t Quadtree::nbElement()
     }
 }
 
-std::vector<Entity*> Quadtree::getElements()
+std::vector<Entity*> Quadtree::getElements(Entity* ent, EntityType::Enum type)
 {
 	std::vector<Entity*> elements;
+	uint32_t id = UINT32_MAX;
+	if (ent != NULL)
+	{
+		id = ent->getUID();
+	}
 	for (auto& entity : m_entitys)
 	{
+		if((entity.second->getType() == type || type == EntityType::All) && entity.first != id)
 		elements.push_back(entity.second);
 	}
 	return elements;
 }
+
 
 std::vector<uint32_t> Quadtree::getIds()
 {

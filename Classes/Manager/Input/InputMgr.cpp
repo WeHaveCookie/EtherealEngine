@@ -777,7 +777,7 @@ void InputMgr::showImGuiWindow(bool* window)
 	ImGui::End();
 }
 
-const sf::Vector2f InputMgr::getMousePosition() const
+const Vector2 InputMgr::getMousePosition() const
 {
 	return m_currentMousePosition;
 }

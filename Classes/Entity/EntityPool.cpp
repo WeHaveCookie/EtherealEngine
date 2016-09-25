@@ -64,11 +64,11 @@ void EntityPool::process(const float dt)
 {
 	for (auto& entity : m_entitys)
 	{
-		if (entity->isEditable())
+		if (entity->isEdition())
 		{
 			auto currentMousePosition = InputMgr::getSingleton()->getMousePosition();
 			auto entityBound = entity->getGlobalBounds();
-			entity->addMotion(currentMousePosition - sf::Vector2f(entityBound.left + (entityBound.width / 2.0f),
+			entity->addMotion(currentMousePosition - Vector2(entityBound.left + (entityBound.width / 2.0f),
 				entityBound.top + (entityBound.height / 2.0f)));
 		}
 

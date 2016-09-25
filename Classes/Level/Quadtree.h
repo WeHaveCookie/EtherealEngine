@@ -1,6 +1,5 @@
 #pragma once
-
-class Entity;
+#include "Entity/Entity.h"
 
 class Quadtree
 {
@@ -17,8 +16,9 @@ class Quadtree
 		void unregisterEntity(uint32_t id);
 		void update();
         
-		std::vector<Entity*> queryRange(sf::FloatRect bound);
-        
+		std::vector<Entity*> queryRange(Entity* ent, sf::FloatRect bound, EntityType::Enum type);
+		std::vector<Entity*> getAllElements();
+
 		sf::FloatRect getShape() {return m_shape;}
 
         void clear();
@@ -45,7 +45,7 @@ class Quadtree
 		void addToRegistrary(Entity* ent);
 		void processRegistrary();
 
-		std::vector<Entity*> getElements();
+		std::vector<Entity*> getElements(Entity* ent = NULL, EntityType::Enum type = EntityType::All);
 		std::vector<uint32_t> getIds();
 
 		Quadtree*										m_master;

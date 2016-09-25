@@ -35,8 +35,9 @@
 
 #include "Utils/ImGui/imgui.h"
 #include "Utils/ImGui/imgui-sfml.h"
+#include "Utils/Vector2.h"
 
 // Game
-#define PI 3.14159265359
+#define PI 3.14159265358979323846F
 #define RADTODEG 180/PI
 #define DEGTORAD PI/180

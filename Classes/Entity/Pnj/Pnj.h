@@ -7,7 +7,7 @@ class Pnj : public Entity
 
     public:
 
-        Pnj(std::string path, sf::Vector2f pos);
+        Pnj(std::string path, Vector2 pos);
         virtual ~Pnj();
 
         // Function

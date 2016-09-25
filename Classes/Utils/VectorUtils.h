@@ -1,8 +1,8 @@
 #pragma once
 
-sf::Vector2f RoundUp(sf::Vector2f vec, float seuil)
+Vector2 RoundUp(Vector2 vec, float seuil)
 {
-	sf::Vector2f res = vec;
+	Vector2 res = vec;
 	if (res.x < seuil && res.x > -seuil)
 	{
 		if (res.x >= 0.0f)
@@ -29,9 +29,9 @@ sf::Vector2f RoundUp(sf::Vector2f vec, float seuil)
 	return res;
 }
 
-sf::Vector2f RoundDown(sf::Vector2f vec, float seuil)
+Vector2 RoundDown(Vector2 vec, float seuil)
 {
-	sf::Vector2f res = vec;
+	Vector2 res = vec;
 	if (res.x < seuil && res.x > -seuil)
 	{
 		res.x = 0.0f;

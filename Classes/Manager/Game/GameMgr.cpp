@@ -90,7 +90,7 @@ void GameMgr::process(const float dt)
 	auto entityMgr = ENTITY_MGR;
 	auto soundMgr = SOUND_MGR;
 	auto loadThread = LOAD_THREAD;
-	sf::Vector2f motion = { 0.0f, 0.0f };
+	Vector2 motion = { 0.0f, 0.0f };
 	static SaveTask save;
 	static std::vector<uint32_t> ids;
 
@@ -155,7 +155,7 @@ Entity* GameMgr::getEntityPlayer(uint32_t id)
 
 void GameMgr::setNumberPlayer(uint32_t nbr)
 {
-	if (m_nbrPlayers != nbr && nbr > 0 && nbr <= sf::Joystick::Count)
+	if (m_nbrPlayers != nbr && nbr >= 0 && nbr <= sf::Joystick::Count)
 	{
 		if (m_nbrPlayers < nbr)
 		{
@@ -166,7 +166,7 @@ void GameMgr::setNumberPlayer(uint32_t nbr)
 		}
 		else
 		{
-			for (uint32_t i = m_nbrPlayers - 1; i >= nbr; i--)
+			for (int i = m_nbrPlayers - 1; i >= (int)nbr; i--)
 			{
 				auto ent = m_playersId[i];
 				EntityMgr::getSingleton()->deleteEntity(ent);

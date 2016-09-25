@@ -6,7 +6,7 @@
 void CommandMove::init(Entity* ent, void* data)
 {
 	Command::init(ent);
-	m_motion = *static_cast<sf::Vector2f*>(data);
+	m_motion = *static_cast<Vector2*>(data);
 	free(data);
 }
 
@@ -24,7 +24,7 @@ void CommandMove::undo()
 
 void CommandMoveLeft::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f(-(float)GameMgr::getSingleton()->getMovementSpeed(), 0.0f));
+	CommandMove::init(ent, (void*)new Vector2(-(float)GameMgr::getSingleton()->getMovementSpeed(), 0.0f));
 }
 
 void* CommandMoveLeft::makeCopy()
@@ -34,7 +34,7 @@ void* CommandMoveLeft::makeCopy()
 
 void CommandMoveRight::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f((float)GameMgr::getSingleton()->getMovementSpeed(), 0.0f));
+	CommandMove::init(ent, (void*)new Vector2((float)GameMgr::getSingleton()->getMovementSpeed(), 0.0f));
 }
 
 void* CommandMoveRight::makeCopy()
@@ -44,7 +44,7 @@ void* CommandMoveRight::makeCopy()
 
 void CommandMoveUp::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f(0.0f, -(float)GameMgr::getSingleton()->getMovementSpeed()));
+	CommandMove::init(ent, (void*)new Vector2(0.0f, -(float)GameMgr::getSingleton()->getMovementSpeed()));
 }
 
 void* CommandMoveUp::makeCopy()
@@ -54,7 +54,7 @@ void* CommandMoveUp::makeCopy()
 
 void CommandMoveDown::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f(0.0f, (float)GameMgr::getSingleton()->getMovementSpeed()));
+	CommandMove::init(ent, (void*)new Vector2(0.0f, (float)GameMgr::getSingleton()->getMovementSpeed()));
 }
 
 void* CommandMoveDown::makeCopy()
@@ -64,7 +64,7 @@ void* CommandMoveDown::makeCopy()
 
 void CommandMoveXAxis::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f(*static_cast<float*>(data), 0.0f));
+	CommandMove::init(ent, (void*)new Vector2(*static_cast<float*>(data), 0.0f));
 }
 
 void* CommandMoveXAxis::makeCopy()
@@ -74,7 +74,7 @@ void* CommandMoveXAxis::makeCopy()
 
 void CommandMoveYAxis::init(Entity* ent, void* data)
 {
-	CommandMove::init(ent, (void*)new sf::Vector2f(0.0f, *static_cast<float*>(data)));
+	CommandMove::init(ent, (void*)new Vector2(0.0f, *static_cast<float*>(data)));
 }
 
 void* CommandMoveYAxis::makeCopy()

@@ -1,5 +1,6 @@
 #pragma once
 #include "Manager/Manager.h"
+#include "Entity/Entity.h"
 
 class Quadtree;
 class Entity;
@@ -21,7 +22,7 @@ class LevelMgr : public Manager
 
 		void registerEntity(Entity* ent);
 		void unregisterEntity(uint32_t id);
-		std::vector<Entity*> getEntityAround(sf::FloatRect bound);
+		std::vector<Entity*> getEntityAround(Entity* ent, sf::FloatRect bound, EntityType::Enum type = EntityType::All);
 		Quadtree* getQuadtree() { return m_quadtree; }
 
 		sf::Time getProcessTime() { return m_processTime; }

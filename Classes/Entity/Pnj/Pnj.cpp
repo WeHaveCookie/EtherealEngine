@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Pnj.h"
 
-Pnj::Pnj(std::string path,  sf::Vector2f pos)
+Pnj::Pnj(std::string path,  Vector2 pos)
 {
 }
 

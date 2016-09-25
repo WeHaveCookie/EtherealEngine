@@ -196,8 +196,8 @@ class InputMgr : public Manager
 		const float getPadKeyLastValue(KeyType::Enum key, uint32_t id = 0);
 		const float getTimeSinceKeyPressed(KeyType::Enum key, uint32_t id = 0);
 
-		const sf::Vector2f getMousePosition() const;
-		const sf::Vector2f getMouseLastPosition() const { return m_lastMousePosition; }
+		const Vector2 getMousePosition() const;
+		const Vector2 getMouseLastPosition() const { return m_lastMousePosition; }
 
 		void showImGuiWindow(bool* window);
 
@@ -209,8 +209,8 @@ class InputMgr : public Manager
 		std::vector<std::map<KeyType::Enum, Key>>	m_pads;
 		std::vector<bool>							m_padsStatus;
 		std::map<KeyType::Enum, Command*>			m_binds;
-		sf::Vector2f								m_lastMousePosition;
-		sf::Vector2f								m_currentMousePosition;
+		Vector2								m_lastMousePosition;
+		Vector2								m_currentMousePosition;
 		bool										m_updateWhenNoFocus;
 		bool										m_displayNullKey;
 		char*										m_keyName[KeyType::endPadKey + 1];
