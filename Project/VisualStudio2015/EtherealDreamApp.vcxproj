@@ -426,6 +426,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Classes\Actions\Command.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandJump.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h" />
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h" />
     <ClInclude Include="..\..\Classes\Entity\Entity.h" />
@@ -469,12 +470,14 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Utils\ImGui\stb_textedit.h" />
     <ClInclude Include="..\..\Classes\Utils\ImGui\stb_truetype.h" />
     <ClInclude Include="..\..\Classes\Utils\Random.h" />
+    <ClInclude Include="..\..\Classes\Utils\Vector2.h" />
     <ClInclude Include="..\..\Classes\Utils\VectorUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Classes\Actions\Command.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp" />
@@ -512,6 +515,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui.cpp" />
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_demo.cpp" />
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\Classes\Utils\Vector2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

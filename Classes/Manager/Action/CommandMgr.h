@@ -15,7 +15,8 @@ namespace CommandType
 		MoveLeft,
 		MoveDown,
 		MoveXAxis,
-		MoveYAxis
+		MoveYAxis,
+		Jump
 	};
 }
 

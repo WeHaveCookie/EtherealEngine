@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\Classes\Actions\Command.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandJump.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
@@ -225,6 +228,9 @@
     <ClInclude Include="..\..\Classes\Utils\Random.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\Vector2.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\VectorUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
@@ -237,6 +243,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Classes\Actions\Command.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp">
@@ -349,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_draw.cpp">
       <Filter>Classes\Utils\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Utils\Vector2.cpp">
+      <Filter>Classes\Utils</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Project\VisualStudio2015</Filter>

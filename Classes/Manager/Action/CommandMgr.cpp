@@ -2,6 +2,7 @@
 #include "CommandMgr.h"
 #include "Actions/Command.h"
 #include "Actions/CommandMove.h"
+#include "Actions/CommandJump.h"
 
 #include "blockingconcurrentqueue.h"
 
@@ -18,7 +19,8 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandMoveLeft", CommandType::MoveLeft},
 	{ "CommandMoveDown", CommandType::MoveDown},
 	{ "CommandMoveXAxis", CommandType::MoveXAxis },
-	{ "CommandMoveYAxis", CommandType::MoveYAxis }
+	{ "CommandMoveYAxis", CommandType::MoveYAxis },
+	{ "CommandJump", CommandType::Jump}
 };
 
 std::vector<const char*> CommandTypeToString =
@@ -29,7 +31,8 @@ std::vector<const char*> CommandTypeToString =
 	"MoveLeft",
 	"MoveDown",
 	"MoveXAxis",
-	"MoveYAxis"
+	"MoveYAxis",
+	"Jump"
 };
 
 CommandMgr::CommandMgr()
@@ -52,6 +55,7 @@ void CommandMgr::init()
 		CREATE_CMD(CommandMoveDown)
 		CREATE_CMD(CommandMoveYAxis)
 		CREATE_CMD(CommandMoveXAxis)
+		CREATE_CMD(CommandJump)
 }
 
 void CommandMgr::process(const float dt)
