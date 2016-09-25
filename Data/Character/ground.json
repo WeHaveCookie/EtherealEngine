@@ -6,7 +6,7 @@
 	"Position" : [0.0, 933.0],
 	"State" : "IDLE_RIGHT",
 	"Collidable" : false,
-	"Anchor" : true,
+	"Type" : "Anchor",
 	"Animation" : [
 		{
 			"State" : "IDLE_RIGHT",

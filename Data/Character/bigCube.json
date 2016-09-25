@@ -3,7 +3,7 @@
 	"Width" : 64,
 	"Height" : 64,
 	"Speed" : 1.0,
-	"Position" : [1920.0, 500.0],
+	"Position" : [400.0, 500.0],
 	"State" : "IDLE_RIGHT",	
 	"Movable" : true,
 	"Mass" : 10,
