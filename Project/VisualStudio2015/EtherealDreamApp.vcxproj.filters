@@ -96,10 +96,16 @@
     <ClInclude Include="..\..\Classes\Actions\Command.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandAttack.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandJump.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandSound.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
@@ -245,10 +251,16 @@
     <ClCompile Include="..\..\Classes\Actions\Command.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandAttack.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
