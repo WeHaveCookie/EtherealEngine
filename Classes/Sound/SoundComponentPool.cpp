@@ -29,19 +29,35 @@ SoundComponentPool::~SoundComponentPool()
 	m_sounds.clear();
 }
 
-void SoundComponentPool::create(const char* path, bool loop, bool persistent)
+uint32_t SoundComponentPool::create(const char* path, bool loop, bool persistent)
 {
 	if(m_firstAvailable == NULL)
 	{
-		return;
+		return -1;
 	}
 	SoundComponent* newSound = m_firstAvailable;
 	m_firstAvailable = newSound->getNext();
 	newSound->setNext(NULL);
 
 	newSound->loadSound(path, loop, persistent);
-	newSound->setPlay(true);
+	if (!persistent)
+	{
+		newSound->setPlay(true);
+	}
+	return newSound->getUID();
 
+}
+
+SoundComponent* SoundComponentPool::getSound(uint32_t id)
+{
+	for (auto& sound : m_sounds)
+	{
+		if (sound->getUID() == id)
+		{
+			return sound;
+		}
+	}
+	return NULL;
 }
 
 void SoundComponentPool::process(const float dt)

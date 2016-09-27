@@ -29,18 +29,34 @@ MusicComponentPool::~MusicComponentPool()
 	m_musics.clear();
 }
 
-void MusicComponentPool::create(const char* path, bool loop, bool persistent)
+uint32_t MusicComponentPool::create(const char* path, bool loop, bool persistent)
 {
 	if (m_firstAvailable == NULL)
 	{
-		return;
+		return -1;
 	}
 	MusicComponent* newMusic = m_firstAvailable;
 	m_firstAvailable = newMusic->getNext();
 	newMusic->setNext(NULL);
 
 	newMusic->loadMusic(path, loop, persistent);
-	newMusic->setPlay(true);
+	if (!persistent)
+	{
+		newMusic->setPlay(true);
+	}
+	return newMusic->getUID();
+}
+
+MusicComponent* MusicComponentPool::getMusic(uint32_t id)
+{
+	for (auto& music : m_musics)
+	{
+		if (music->getUID() == id)
+		{
+			return music;
+		}
+	}
+	return NULL;
 }
 
 void MusicComponentPool::process(const float dt)

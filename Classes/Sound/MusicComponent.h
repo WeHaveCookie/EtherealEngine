@@ -15,6 +15,7 @@ public:
 	uint32_t getUID() { return m_uid; }
 	const char* getName() { return m_state.m_live.m_name.c_str(); }
 	void stop() { m_music.stop(); }
+	void play() { m_play = true; }
 	void setUsed(bool b) { m_used = b; }
 	const bool isUsed() const { return m_used; }
 	void setLoop(bool b) { m_music.setLoop(b); }

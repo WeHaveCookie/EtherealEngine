@@ -18,8 +18,10 @@ class SoundMgr : public Manager
 		void end();
 		void showImGuiWindow(bool* window);
 
-		void addSound(const char* path, bool loop = false, bool persistent = false);
-		void addMusic(const char* path, bool loop = false, bool persistent = false);
+		uint32_t addSound(const char* path, bool loop = false, bool persistent = false);
+		uint32_t addMusic(const char* path, bool loop = false, bool persistent = false);
+		SoundComponent* getSound(uint32_t id);
+		MusicComponent* getMusic(uint32_t id);
 		void removeSound(uint32_t id);
 		void removeMusic(uint32_t id);
 
