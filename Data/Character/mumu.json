@@ -5,7 +5,7 @@
 	"Speed" : 1.0,
 	"Position" : [500.0, 900.0],
 	"State" : "RIGHT",
-	"Animation" : [
+	"Animations" : [
 		{	
 			"State" : "RIGHT",
 			"Frame" : 8,

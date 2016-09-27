@@ -5,7 +5,7 @@
 	"Speed" : 1.0,
 	"Position" : [100.0, 500.0],
 	"State" : "IDLE_RIGHT",
-	"Animation" : [
+	"Animations" : [
 		{
 			"State" : "RIGHT",
 			"Frame" : 6,

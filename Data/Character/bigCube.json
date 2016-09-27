@@ -7,12 +7,21 @@
 	"State" : "IDLE_RIGHT",	
 	"Movable" : true,
 	"Mass" : 10,
-	"Animation" : [
+	"Animations" : [
 		{
 			"State" : "IDLE_RIGHT",
 			"Frame" : 1,
 			"Line" : 1,
 			"Time" : 0.1
+		}
+	],
+	"JumpParam" : [
+		{
+			"vx" : 7.0,
+			"vGrav" : 0.4,
+			"vJump" : -9.0,
+			"vy" : 0.0,
+			"vMax" : 20.0
 		}
 	]
 

@@ -7,7 +7,7 @@
 	"State" : "IDLE_RIGHT",
 	"Collidable" : false,
 	"Type" : "Anchor",
-	"Animation" : [
+	"Animations" : [
 		{
 			"State" : "IDLE_RIGHT",
 			"Frame" : 1,

@@ -1,0 +1,198 @@
+{
+	"Name" : "AssassinAttack",
+	"Width" : 59,
+	"Height" : 43,
+	"Speed" : 1.0,
+	"Scale" : 3,
+	"Position" : [400.0, 500.0],
+	"State" : "IDLE_RIGHT",	
+	"Movable" : true,
+	"Animations" : [
+		{
+			"State" : "IDLE_LEFT",
+			"Frame" : 5,
+			"Line" : 2,
+			"Time" : 0.1
+		},
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 5,
+			"Line" : 5,
+			"Time" : 0.1,
+			"Reverse" : true
+		},
+		{
+			"State" : "FALL_LEFT",
+			"Frame" : 3,
+			"Line" : 10,
+			"Time" : 0.1
+		},
+		{
+			"State" : "FALL_RIGHT",
+			"Frame" : 3,
+			"Line" : 9,
+			"Time" : 0.1,
+			"Reverse" : true
+		},
+		{
+			"State" : "RIGHT",
+			"Frame" : 7,
+			"Line" : 7,
+			"Time" : 0.1,
+			"Unstopable" : false
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 7,
+			"Line" : 8,
+			"Time" : 0.1,
+			"Reverse" : true,
+			"Unstopable" : false
+		},
+		{
+			"State" : "ATTACK_LEFT",
+			"Frame" : 37,
+			"Line" : 1,
+			"Time" : 0.04,
+			"Commands" : [
+				{
+					"Command" : "MoveLeft",
+					"Value" : 20.0,
+					"StartFrame" : 5,
+					"EndFrame" : 6
+				},
+				{
+					"Command" : "MoveLeft",
+					"Value" : 6.0,
+					"StartFrame" : 7,
+					"EndFrame" : 21
+				},
+				{
+					"Command" : "MoveRight",
+					"Value" : 14.0,
+					"StartFrame" : 26,
+					"EndFrame" : 30
+				},
+				{
+					"Command" : "MoveRight",
+					"Value" : 30.0,
+					"StartFrame" : 28,
+					"EndFrame" : 29
+				},	
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/assassinAttack.ogg",
+					"StartFrame" : 11,
+					"EndFrame" : 11
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_02.ogg",
+					"StartFrame" : 26,
+					"EndFrame" : 26
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_01.ogg",
+					"StartFrame" : 4,
+					"EndFrame" : 4
+				}
+			]
+		},
+		{
+			"State" : "ATTACK_RIGHT",
+			"Frame" : 37,
+			"Line" : 4,
+			"Time" : 0.04,
+			"Reverse" : true,
+			"Commands" : [
+				{
+					"Command" : "MoveRight",
+					"Value" : 20.0,
+					"StartFrame" : 5,
+					"EndFrame" : 6
+				},
+				{
+					"Command" : "MoveRight",
+					"Value" : 6.0,
+					"StartFrame" : 7,
+					"EndFrame" : 21
+				},
+				{
+					"Command" : "MoveLeft",
+					"Value" : 14.0,
+					"StartFrame" : 26,
+					"EndFrame" : 30
+				},
+				{
+					"Command" : "MoveLeft",
+					"Value" : 30.0,
+					"StartFrame" : 28,
+					"EndFrame" : 29
+				},	
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/assassinAttack.ogg",
+					"StartFrame" : 11,
+					"EndFrame" : 11
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_02.ogg",
+					"StartFrame" : 26,
+					"EndFrame" : 26
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_01.ogg",
+					"StartFrame" : 4,
+					"EndFrame" : 4
+				}
+			]
+		},
+		{
+			"State" : "JUMP_LEFT",
+			"Frame" : 4,
+			"Line" : 3,
+			"Time" : 0.1,
+			"LoopStart" : 3,
+			"LoopEnd" : 4,
+			"Commands" : [
+				{
+					"Command" : "Jump",
+					"StartFrame" : 2,
+					"EndFrame" : 2
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_04.ogg",
+					"StartFrame" : 2,
+					"EndFrame" : 2
+				}
+			]
+		},
+		{
+			"State" : "JUMP_RIGHT",
+			"Frame" : 4,
+			"Line" : 6,
+			"Time" : 0.1,
+			"LoopStart" : 3,
+			"LoopEnd" : 4,
+			"Reverse" : true,
+			"Commands" : [
+				{
+					"Command" : "Jump",
+					"StartFrame" : 2,
+					"EndFrame" : 2
+				},
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_04.ogg",
+					"StartFrame" : 2,
+					"EndFrame" : 2
+				}
+			]
+		}
+	]
+
+}
