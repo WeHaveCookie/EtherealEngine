@@ -9,6 +9,8 @@
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
 #include "Utils/VectorUtils.h"
+#include "Actions/Command.h"
+#include "Manager/Action/CommandMgr.h"
 
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
@@ -35,6 +37,14 @@ float clamp(float value, float a, float b)
 	return res;
 }
 
+void AnimationHandler::execute()
+{
+	for (auto& command : m_commands)
+	{
+		command->execute();
+	}
+}
+
 std::map<std::string, EntityType::Enum> stringToEntityType =
 {
 	{"Anchor", EntityType::Anchor },
@@ -51,22 +61,42 @@ std::map<std::string, EntityAnimationState::Enum> stringToEntityAnimationState =
 {
 	{ "RIGHT", EntityAnimationState::Right },
 	{ "LEFT", EntityAnimationState::Left },
-	{ "JUMP", EntityAnimationState::Jump },
-	{ "FALL", EntityAnimationState::Fall },
 	{ "IDLE", EntityAnimationState::Idle },
 	{ "IDLE_RIGHT", EntityAnimationState::IdleRight },
-	{ "IDLE_LEFT", EntityAnimationState::IdleLeft }
+	{ "IDLE_LEFT", EntityAnimationState::IdleLeft },
+	{ "JUMP", EntityAnimationState::Jump },
+	{ "JUMP_RIGHT", EntityAnimationState::JumpRight },
+	{ "JUMP_LEFT", EntityAnimationState::JumpLeft },
+	{ "FALL", EntityAnimationState::Fall },
+	{ "FALL_RIGHT", EntityAnimationState::FallRight },
+	{ "FALL_LEFT", EntityAnimationState::FallLeft },
+	{ "ATTACK", EntityAnimationState::Attack },
+	{ "ATTACK_RIGHT", EntityAnimationState::AttackRight },
+	{ "ATTACK_LEFT", EntityAnimationState::AttackLeft },
+	{ "HIT", EntityAnimationState::Hit },
+	{ "HIT_RIGHT", EntityAnimationState::HitRight },
+	{ "HIT_LEFT", EntityAnimationState::HitLeft }
 };
 
 std::vector<const char*> entityAnimationStateToString = 
 {
 	"RIGHT",
 	"LEFT",
-	"JUMP",
-	"FALL",
 	"IDLE",
 	"IDLE_RIGHT",
-	"IDLE_LEFT"
+	"IDLE_LEFT",
+	"JUMP",
+	"JUMP_RIGHT",
+	"JUMP_LEFT",
+	"FALL",
+	"FALL_RIGHT",
+	"FALL_LEFT",
+	"ATTACK",
+	"ATTACK_RIGHT",
+	"ATTACK_LEFT",
+	"HIT",
+	"HIT_RIGHT",
+	"HIT_LEFT"
 };
 
 Entity::Entity()
@@ -100,27 +130,83 @@ void Entity::paint()
 
 void Entity::update(const float dt)
 {
-	if (m_state.m_live.m_type != EntityType::Anchor && !m_edition)
+	if (!m_state.m_live.m_sleep)
+	{
+		m_state.m_live.m_sleepTime += dt;
+	}
+	Vector2 motion = m_state.m_live.m_currentPosition - m_state.m_live.m_lastPosition;
+	if (m_state.m_live.m_type != EntityType::Anchor && !m_edition && m_state.m_live.m_animate)
 	{
 		if (dt > 0.0f)
 		{
-			if (m_state.m_live.m_motion.x < 0.0f)
+			if (isInAction(EntityAction::Attack))
 			{
-				m_state.m_live.m_orientation = EntityOrientation::Left;
-				setState(EntityAnimationState::Left);
+				if ((m_state.m_live.m_currentState == EntityAnimationState::AttackLeft || m_state.m_live.m_currentState == EntityAnimationState::AttackRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
+				{
+					setAction(EntityAction::Attack, false);
+					setState(EntityAnimationState::Idle);
+				}
+				else
+				{
+					setState(EntityAnimationState::Attack);
+				}
 			}
-			else if (m_state.m_live.m_motion.x > 0.0f)
+			else if (isInAction(EntityAction::Jump))
 			{
-				m_state.m_live.m_orientation = EntityOrientation::Right;
-				setState(EntityAnimationState::Right);
+				if ((m_state.m_live.m_currentState == EntityAnimationState::JumpLeft || m_state.m_live.m_currentState == EntityAnimationState::JumpRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
+				{
+					if (m_state.m_live.m_vy > 0.0f)
+					{
+						setAction(EntityAction::Jump, false);
+						setState(EntityAnimationState::Fall);
+					}
+					else
+					{
+
+						m_state.m_live.m_animations[m_state.m_live.m_currentState].m_currentFrame = 2;
+					}
+					
+				}
+				else
+				{
+					setState(EntityAnimationState::Jump);
+				}
 			}
-			else if (m_state.m_live.m_motion.y < 0.0f)
+			else if (isInAction(EntityAction::Hit))
+			{
+				setState(EntityAnimationState::Hit);
+			} 
+			else if (motion.x < 0.0f)
+			{
+				if (!isFall())
+				{
+					m_state.m_live.m_orientation = EntityOrientation::Left;
+					setState(EntityAnimationState::Left);
+				}
+				else
+				{
+					setState(EntityAnimationState::FallLeft);
+				}
+			}
+			else if (motion.x > 0.0f)
+			{
+				if(!isFall())
+				{
+					m_state.m_live.m_orientation = EntityOrientation::Right;
+					setState(EntityAnimationState::Right);
+				}
+				else
+				{
+					setState(EntityAnimationState::FallRight);
+				}
+			}
+			else if (m_state.m_live.m_vy < 0.0f)
 			{
 				setState(EntityAnimationState::Jump);
 			}
-			else if (m_state.m_live.m_motion.y > 0.0f)
+			else if (m_state.m_live.m_vy > 0.0f)
 			{
-				if (m_state.m_live.m_fall)
+				if (isFall())
 				{
 					setState(EntityAnimationState::Fall);
 				} else
@@ -128,12 +214,11 @@ void Entity::update(const float dt)
 					setState(EntityAnimationState::Idle);
 				}
 			}
+			else
+			{
+				setState(EntityAnimationState::Idle);
+			}
 		}
-	}
-
-	if (m_state.m_live.m_type != EntityType::Anchor)
-	{
-		updatePosition();
 	}
 
 	if (m_state.m_live.m_animate)
@@ -168,48 +253,216 @@ void Entity::setState(EntityAnimationState::Enum state)
 {
 	if (m_state.m_live.m_currentState != state)
 	{
-		m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
-		if (state == EntityAnimationState::IdleLeft || state == EntityAnimationState::Left)
+		
+		
+		switch (state)
 		{
-			m_state.m_live.m_orientation = EntityOrientation::Left;
-		}
-		else if (state == EntityAnimationState::IdleRight || state == EntityAnimationState::Right)
-		{
-			m_state.m_live.m_orientation = EntityOrientation::Right;
-		}
-		if (state == EntityAnimationState::Idle)
-		{
-			if (m_state.m_live.m_orientation == EntityOrientation::Left && m_state.m_live.m_animations[EntityAnimationState::Left].activate())
+		case EntityAnimationState::Right:
+		case EntityAnimationState::IdleRight:
+		case EntityAnimationState::IdleLeft:
+		case EntityAnimationState::Left:
+		case EntityAnimationState::JumpRight:
+		case EntityAnimationState::JumpLeft:
+		case EntityAnimationState::FallRight:
+		case EntityAnimationState::FallLeft:
+		case EntityAnimationState::AttackRight:
+		case EntityAnimationState::AttackLeft:
+		case EntityAnimationState::HitRight:
+		case EntityAnimationState::HitLeft:
+			// Intentional fall through
+			if (m_state.m_live.m_animations[m_state.m_live.m_currentState].isFinished())
 			{
-				m_state.m_live.m_currentState = EntityAnimationState::IdleLeft;
+				m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
+				m_state.m_live.m_currentState = state;
 			}
-			else if (m_state.m_live.m_orientation == EntityOrientation::Right && m_state.m_live.m_animations[EntityAnimationState::Right].activate())
+			break;
+		case EntityAnimationState::Idle:
+			if (m_state.m_live.m_orientation == EntityOrientation::Left)
 			{
-				m_state.m_live.m_currentState = EntityAnimationState::IdleRight;
-			}
-		}
-		else
-		{
-			if (state == EntityAnimationState::Fall && !m_state.m_live.m_animations[EntityAnimationState::Fall].activate())
-			{
-				setState(EntityAnimationState::Idle);
-			}
-			else if (state == EntityAnimationState::Jump && !m_state.m_live.m_animations[EntityAnimationState::Jump].activate())
-			{
-				if (m_state.m_live.m_orientation == EntityOrientation::Left)
+				if (m_state.m_live.m_animations[EntityAnimationState::IdleLeft].activate())
 				{
-					m_state.m_live.m_currentState = EntityAnimationState::Left;
+					setState(EntityAnimationState::IdleLeft);
 				}
 				else
 				{
-					m_state.m_live.m_currentState = EntityAnimationState::Right;
+					m_state.m_live.m_currentState = state;
 				}
 			}
 			else
 			{
-				m_state.m_live.m_currentState = state;
+				if (m_state.m_live.m_animations[EntityAnimationState::IdleRight].activate())
+				{
+					setState(EntityAnimationState::IdleRight);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
 			}
+			break;
+		case EntityAnimationState::Jump:
+			if (m_state.m_live.m_orientation == EntityOrientation::Left)
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::JumpLeft].activate())
+				{
+					setState(EntityAnimationState::JumpLeft);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			else
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::JumpRight].activate())
+				{
+					setState(EntityAnimationState::JumpRight);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			break;
+		case EntityAnimationState::Fall:
+			if (m_state.m_live.m_orientation == EntityOrientation::Left)
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::FallLeft].activate())
+				{
+					setState(EntityAnimationState::FallLeft);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			else
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::FallRight].activate())
+				{
+					setState(EntityAnimationState::FallRight);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			break;
+		case EntityAnimationState::Attack:
+			if (m_state.m_live.m_orientation == EntityOrientation::Left)
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::AttackLeft].activate())
+				{
+					setState(EntityAnimationState::AttackLeft);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			else
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::AttackRight].activate())
+				{
+					setState(EntityAnimationState::AttackRight);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			break;
+			break;
+		case EntityAnimationState::Hit:
+			if (m_state.m_live.m_orientation == EntityOrientation::Left)
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::HitLeft].activate())
+				{
+					setState(EntityAnimationState::HitLeft);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			else
+			{
+				if (m_state.m_live.m_animations[EntityAnimationState::HitRight].activate())
+				{
+					setState(EntityAnimationState::HitRight);
+				}
+				else
+				{
+					m_state.m_live.m_currentState = state;
+				}
+			}
+			break;
+		default:
+			break;
 		}
+		
+		
+// 		if (state == EntityAnimationState::IdleLeft || state == EntityAnimationState::Left)
+// 		{
+// 			m_state.m_live.m_orientation = EntityOrientation::Left;
+// 		}
+// 		else if (state == EntityAnimationState::IdleRight || state == EntityAnimationState::Right)
+// 		{
+// 			m_state.m_live.m_orientation = EntityOrientation::Right;
+// 		}
+// 
+// 		if (state == EntityAnimationState::Idle)
+// 		{
+// 			if (m_state.m_live.m_orientation == EntityOrientation::Left && m_state.m_live.m_animations[EntityAnimationState::Left].activate())
+// 			{
+// 				m_state.m_live.m_currentState = EntityAnimationState::IdleLeft;
+// 			}
+// 			else if (m_state.m_live.m_orientation == EntityOrientation::Right && m_state.m_live.m_animations[EntityAnimationState::Right].activate())
+// 			{
+// 				m_state.m_live.m_currentState = EntityAnimationState::IdleRight;
+// 			}
+// 			else
+// 			{
+// 				m_state.m_live.m_currentState = state;
+// 			}
+// 		}
+// 		else
+// 		{
+// 			if (state == EntityAnimationState::Fall && !m_state.m_live.m_animations[EntityAnimationState::Fall].activate())
+// 			{
+// 				setState(EntityAnimationState::Idle);
+// 			}
+// 			else if (state == EntityAnimationState::Jump && !m_state.m_live.m_animations[EntityAnimationState::Jump].activate())
+// 			{
+// 				m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
+// 				if (m_state.m_live.m_orientation == EntityOrientation::Left)
+// 				{
+// 					m_state.m_live.m_currentState = EntityAnimationState::Left;
+// 				}
+// 				else
+// 				{
+// 					m_state.m_live.m_currentState = EntityAnimationState::Right;
+// 				}
+// 			}
+// 			else if (state == EntityAnimationState::Jump)
+// 			{
+// 				if (m_state.m_live.m_orientation == EntityOrientation::Left)
+// 				{
+// 					m_state.m_live.m_currentState = EntityAnimationState::JumpLeft;
+// 				}
+// 				else
+// 				{
+// 					m_state.m_live.m_currentState = EntityAnimationState::JumpRight;
+// 				}
+// 			}
+// 			else if (state == EntityAnimationState::Attack)
+// 			{
+// 
+// 			} else
+// 			{
+// 				m_state.m_live.m_currentState = state;
+// 			}
+// 		}
 	}
 }
 
@@ -225,54 +478,55 @@ const EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 	}
 }
 
+const sf::FloatRect Entity::getLastGlobalBounds()
+{ 
+	return sf::FloatRect(m_state.m_live.m_lastPosition.sf(), Vector2(m_state.m_live.m_width * m_state.m_live.m_scale.x, m_state.m_live.m_height * m_state.m_live.m_scale.y).sf());
+}
+
 const sf::FloatRect Entity::getGlobalBounds() const
 {
 	return sf::FloatRect(m_state.m_live.m_currentPosition.x, 
 							m_state.m_live.m_currentPosition.y, 
-							m_state.m_live.m_width, 
-							m_state.m_live.m_height);
+							m_state.m_live.m_width * m_state.m_live.m_scale.x, 
+							m_state.m_live.m_height * m_state.m_live.m_scale.y);
 }
 
 void Entity::sleep() 
 { 
-	if (!m_edition)
+	if (!m_state.m_live.m_sleep)
 	{
-		m_state.m_live.m_sleep = true; 
+		if (m_state.m_live.m_sleepTime > 5.0f)
+		{
+			if (!m_edition)
+			{
+				m_state.m_live.m_sleep = true;
+			}
+		}
 	}
 }
 
 void Entity::wakeUp()
 {
+	m_state.m_live.m_sleepTime = 0;
 	if (m_state.m_live.m_sleep)
 	{
-		m_state.m_live.m_sleepCounter = 0;
 		m_state.m_live.m_collisionResolved = false;
 		m_state.m_live.m_sleep = false;
 		m_state.m_live.m_lastImpulse = Vector2(0.0f, 0.0f);
-		//m_state.m_live.m_motion = m_state.m_live.m_lastMotion;
-		update(0.0f);
 	}
 }
 
 void Entity::addMotion(Vector2 motion)
 {
-	m_state.m_live.m_sleep = false;
+	wakeUp();
 	m_state.m_live.m_collisionResolved = false;
 	m_state.m_live.m_motion += motion;
 }
 
 void Entity::rollback(Vector2 impulse)
 { 
-	//auto lastPos = m_state.m_live.m_lastPosition;
-	//auto lastMot = m_state.m_live.m_lastMotion;
-	m_state.m_live.m_impulse = impulse;
-	m_state.m_live.m_lastImpulse += impulse;
-	m_state.m_live.m_currentPosition = m_state.m_live.m_lastPosition;
-	m_state.m_live.m_motion = m_state.m_live.m_lastMotion + m_state.m_live.m_lastImpulse;
-	clampVector(&m_state.m_live.m_motion);
-	update(0.0f);
-	//m_state.m_live.m_lastPosition = lastPos;
-	//m_state.m_live.m_lastMotion = lastMot;
+	m_state.m_live.m_currentPosition += impulse;
+	m_state.m_live.m_motion += impulse;
 }
 
 void Entity::retry()
@@ -291,12 +545,13 @@ void Entity::setCollisionState(CollisionState::Enum state)
 
 void Entity::resetCollisionState()
 { 
+	m_state.m_live.m_motion = Vector2();
 	m_state.m_live.m_collisionState = CollisionState::None; 
 	m_state.m_live.m_collisionResolved = true; 
 	m_state.m_live.m_collisionProceed = false; 
 	if (m_state.m_live.m_sleep)
 	{
-		m_state.m_live.m_sleepCounter = 0;
+		m_state.m_live.m_sleepTime = 0;
 	}
 }
 
@@ -339,6 +594,10 @@ void Entity::build(const char* path)
 	document.Parse((char*)json);
 	auto error = document.HasParseError();
 	auto object = document.IsObject();
+	if (error || !object)
+	{
+		return;
+	}
 	assert(!error);
 	assert(object);
 
@@ -353,6 +612,18 @@ void Entity::build(const char* path)
 	m_state.m_live.clear();
 
 	sf::Sprite spr;
+
+	if (document.HasMember("Scale"))
+	{
+		float scale = document["Scale"].GetFloat();
+		m_state.m_live.m_scale = Vector2(scale, scale);
+		spr.setScale(m_state.m_live.m_scale.sf());
+	}
+	else
+	{
+		m_state.m_live.m_scale = Vector2(1.0f, 1.0f);
+	}
+
 	char entPath[128];
 	if (document.HasMember("Textures"))
 	{
@@ -367,7 +638,7 @@ void Entity::build(const char* path)
 	m_state.m_live.m_texturePath = entPath;
 	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
 	assert(load);
-	m_state.m_live.m_texture.setSmooth(true);
+	m_state.m_live.m_texture.setSmooth(false);
 	spr.setTexture(m_state.m_live.m_texture);
 
 	member = document.HasMember("Name");
@@ -377,6 +648,20 @@ void Entity::build(const char* path)
 	member = document.HasMember("Speed");
 	assert(member);
 	setSpeed(document["Speed"].GetFloat());
+
+	m_state.m_live.m_orientation = EntityOrientation::Right;
+	if (document.HasMember("Orientation"))
+	{
+		auto orientation = document["Orientation"].GetString();
+		if (orientation == "RIGHT")
+		{
+			m_state.m_live.m_orientation = EntityOrientation::Right;
+		}
+		else
+		{
+			m_state.m_live.m_orientation = EntityOrientation::Left;
+		}
+	}
 
 	m_state.m_next = NULL;
 
@@ -392,35 +677,125 @@ void Entity::build(const char* path)
 		PhysicMgr::getSingleton()->registerEntity(this);
 	}
 
-	member = document.HasMember("Animation");
+	member = document.HasMember("Animations");
 	assert(member);
-	const rapidjson::Value& animation = document["Animation"];
+	const rapidjson::Value& animations = document["Animations"];
 
-	for (auto& v : animation.GetArray())
+	for (auto& animation : animations.GetArray())
 	{
 		EntityAnimation anim;
-		member = v.HasMember("State");
+		member = animation.HasMember("State");
 		assert(member);
 
-		member = v.HasMember("Frame");
+		member = animation.HasMember("Frame");
 		assert(member);
-		uint32_t nbrFrame = v["Frame"].GetUint();
+		uint32_t nbrFrame = animation["Frame"].GetUint();
 
-		member = v.HasMember("Time");
+		member = animation.HasMember("Time");
 		assert(member);
-		anim.m_timePerFrame = v["Time"].GetFloat();
+		anim.m_timePerFrame = animation["Time"].GetFloat();
 
-		member = v.HasMember("Line");
+		member = animation.HasMember("Line");
 		assert(member);
-		uint32_t line = v["Line"].GetUint() - 1;
+		uint32_t line = animation["Line"].GetUint() - 1;
 
-		for (uint32_t column = 0; column < nbrFrame; column++)
+		anim.m_unstopable = false;
+		if (animation.HasMember("Unstopable"))
 		{
-			spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
-			anim.m_animation.push_back(spr);
+			bool unstopable = animation["Unstopable"].GetBool();
+			anim.m_unstopable = unstopable;
+		}
+
+		bool reverse = false;
+		if (animation.HasMember("Reverse"))
+		{
+			reverse = animation["Reverse"].GetBool();
+		}
+
+		anim.m_loop = false;
+		anim.m_loopStart = 0;
+		anim.m_loopEnd = nbrFrame - 1;
+		if (animation.HasMember("LoopStart"))
+		{
+			anim.m_loop = true;
+			anim.m_loopStart = animation["LoopStart"].GetInt() - 1;
+		}
+		if (animation.HasMember("LoopEnd"))
+		{
+			anim.m_loop = true;
+			anim.m_loopEnd = animation["LoopEnd"].GetInt() - 1;
+		}
+
+		if (reverse)
+		{
+			for (int column = nbrFrame - 1; column >= 0; column--)
+			{
+				AnimationHandler animHandler;
+				spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
+				animHandler.m_sprite = spr;
+				anim.m_animation.push_back(animHandler);
+			}
+		}
+		else
+		{
+			for (uint32_t column = 0; column < nbrFrame; column++)
+			{
+				AnimationHandler animHandler;
+				spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
+				animHandler.m_sprite = spr;
+				anim.m_animation.push_back(animHandler);
+			}
+		}
+		
+
+		if (animation.HasMember("Commands"))
+		{
+			const rapidjson::Value& commands = animation["Commands"];
+
+			for (auto& command : commands.GetArray())
+			{
+				if (command.HasMember("Command"))
+				{
+					int commandID;
+					std::string commandName = "Command";
+					commandName += command["Command"].GetString();
+					Command* cmd = CommandMgr::getSingleton()->getCommand(commandName.c_str(), &commandID);
+					if (command.HasMember("Value"))
+					{
+						float value = command["Value"].GetFloat();
+						cmd->init(this, (void*)&value);
+					}
+					else if (command.HasMember("Path"))
+					{
+						auto path = command["Path"].GetString();
+						cmd->init(this, (void*)path);
+					} 
+					else
+					{
+						cmd->init(this);
+					}
+
+					int start = 0;
+					int end = nbrFrame;
+					if (command.HasMember("StartFrame"))
+					{
+						start = command["StartFrame"].GetInt() - 1;
+					}
+
+					if (command.HasMember("EndFrame"))
+					{
+						end = command["EndFrame"].GetInt() - 1;
+					}
+
+					for (int frame = start; frame <= end; frame++)
+					{
+						anim.m_animation[frame].m_commands.push_back(cmd);
+					}
+				}
+			}
 		}
 		anim.m_currentFrame = 0;
-		addAnimation(stringToEntityAnimationState[v["State"].GetString()], anim);
+		addAnimation(stringToEntityAnimationState[animation["State"].GetString()], anim);
 	}
 
 	if (document.HasMember("Position"))
@@ -436,15 +811,6 @@ void Entity::build(const char* path)
 		m_state.m_live.m_lastPosition = m_state.m_live.m_currentPosition;
 	}
 
-	if (document.HasMember("Mass"))
-	{
-		m_state.m_live.m_mass = document["Mass"].GetFloat();
-	}
-	else
-	{
-		m_state.m_live.m_mass = 1.0f;
-	}
-
 	if (document.HasMember("Type"))
 	{
 		m_state.m_live.m_type = stringToEntityType[document["Type"].GetString()];
@@ -454,15 +820,52 @@ void Entity::build(const char* path)
 		m_state.m_live.m_type = EntityType::Movable;
 	}
 
+	m_state.m_live.m_vx = 0.0f;
+	m_state.m_live.m_vGrav = 0.40f;
+	m_state.m_live.m_vJump = -15.0f;
+	m_state.m_live.m_vy = 0.0f;
+	m_state.m_live.m_vMax = 60.0f;
+	if (document.HasMember("JumpParam"))
+	{
+		const rapidjson::Value& jumpParam = document["JumpParam"];
+
+		for (auto& v : jumpParam.GetArray())
+		{
+			if (v.HasMember("vx"))
+			{
+				m_state.m_live.m_vx = v["vx"].GetFloat();
+			}
+
+			if (v.HasMember("vGrav"))
+			{
+				m_state.m_live.m_vGrav = v["vGrav"].GetFloat();
+			}
+
+			if (v.HasMember("vJump"))
+			{
+				m_state.m_live.m_vJump = v["vJump"].GetFloat();
+			}
+
+			if (v.HasMember("vy"))
+			{
+				m_state.m_live.m_vy = v["vy"].GetFloat();
+			}
+
+			if (v.HasMember("vMax"))
+			{
+				m_state.m_live.m_vMax = v["vMax"].GetFloat();
+			}
+		}
+	}
+
+
 	m_state.m_live.m_angle = 0.0f;
 	member = document.HasMember("State");
 	assert(member);
 	setState(stringToEntityAnimationState[document["State"].GetString()]);
-	resetCollisionState();
 	setLive(true);
 	m_onLoading = false;
 	m_loaded = true;
-	m_state.m_live.m_fall = true;
 	m_state.m_live.m_sleep = false;
 	free(json);
 }
@@ -487,14 +890,14 @@ void Entity::updatePosition()
 
 			if (testSlepping == nullVec || (m_state.m_live.m_lastMotion == nullVec) || m_state.m_live.m_lastPosition == m_state.m_live.m_currentPosition)
 			{
-				if (++m_state.m_live.m_sleepCounter > 10)
+				if (++m_state.m_live.m_sleepTime > 5.0f)
 				{
 					sleep();
 				}
 			}
 			else
 			{
-				m_state.m_live.m_sleepCounter = 0;
+				m_state.m_live.m_sleepTime = 0;
 			}
 		}
 		else
@@ -504,28 +907,23 @@ void Entity::updatePosition()
 			clampVector(&m_state.m_live.m_motion);
 			clampVector(&m_state.m_live.m_lastMotion);
 
-// 			float angle = dot(m_state.m_live.m_motion, Vector2(0.0, 10.0f)) / (norm(m_state.m_live.m_motion) * norm(Vector2(0.0, 10.0f));
-// 
-// 			m_state.m_live.m_vSpeed = cos(angle_init)*v_init;
-// 			m_state.m_live.m_hSpeed = sin(angle_init)*v_init;
-
 			m_state.m_live.m_currentPosition += m_state.m_live.m_motion;
 			m_state.m_live.m_motion -= m_state.m_live.m_lastMotion;
 
 			if (m_edition)
 			{
-				m_state.m_live.m_fall = true;
+				setFall(true);
 			}
 			else
 			{
 				auto testFall = clamp(m_state.m_live.m_lastMotion.y + m_state.m_live.m_lastImpulse.y, -0.1f, 0.1f);
 				if (testFall == 0 || m_state.m_live.m_lastMotion.y == 0 || m_state.m_live.m_lastPosition.y == m_state.m_live.m_currentPosition.y)
 				{
-					m_state.m_live.m_fall = false;
+					setFall(false);
 				}
 				else
-				{	
-					m_state.m_live.m_fall = true;
+				{
+					setFall(true);
 				}
 			}
 		}
@@ -582,14 +980,16 @@ void Entity::displayInfo()
 
 			ImGui::Text("Type : %s", entityTypeToString[m_state.m_live.m_type]);
 			ImGui::Text("Collision : %i", m_state.m_live.m_collisionState);
-			ImGui::Text("Sleep : %s - %i", (m_state.m_live.m_sleep) ? "True" : "False", m_state.m_live.m_sleepCounter);
+			ImGui::Text("Sleep : %s - %fms", (m_state.m_live.m_sleep) ? "True" : "False", m_state.m_live.m_sleepTime);
 			ImGui::SameLine();
 			if (ImGui::Button("Wake up"))
 			{
-				m_state.m_live.m_sleepCounter = 0;
+				m_state.m_live.m_sleepTime = 0;
 				addMotion(Vector2(0.0f, -1.0f));
 			}
-			ImGui::Text("Fall : %s", (m_state.m_live.m_fall) ? "True" : "False");
+			
+
+			ImGui::Text("Fall : %s", (isFall()) ? "True" : "False");
 			ImGui::Text("Last motion : x = %f | y = %f", m_state.m_live.m_lastMotion.x, m_state.m_live.m_lastMotion.y);
 			ImGui::Text("Last impulse : x = %f | y = %f", m_state.m_live.m_lastImpulse.x, m_state.m_live.m_lastImpulse.y);
 			ImGui::Text("Last Position : x = %f | y = %f", m_state.m_live.m_lastPosition.x, m_state.m_live.m_lastPosition.y);
@@ -600,6 +1000,25 @@ void Entity::displayInfo()
 			ImGui::SliderFloat("y", &y, 0.0f, 1080.0f);
 			float rot = m_state.m_live.m_angle * DEGTORAD;
 			ImGui::SliderAngle("Rotation", &rot);
+		
+			if(ImGui::CollapsingHeader("JumpParam"))
+			{
+				ImGui::InputFloat("vx", &m_state.m_live.m_vx);
+				ImGui::InputFloat("vGrav", &m_state.m_live.m_vGrav);
+				ImGui::InputFloat("vJump", &m_state.m_live.m_vJump);
+				ImGui::InputFloat("vy", &m_state.m_live.m_vy);
+				ImGui::InputFloat("vMax", &m_state.m_live.m_vMax);
+			}
+			if (ImGui::Button("Jump"))
+			{
+				setAction(EntityAction::Jump, true);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Attack"))
+			{
+				attack();
+			}
+			
 
 			m_state.m_live.m_currentPosition = Vector2(x, y);
 			m_state.m_live.m_angle = rot * RADTODEG;
@@ -686,4 +1105,70 @@ const float Entity::getDistance(Entity* ent)
 	Vector2 distanceVector = centerEnt2 - centerEnt1;
 
 	return sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+}
+
+const float Entity::getVX() const
+{ 
+	if (m_state.m_live.m_orientation == EntityOrientation::Right)
+	{
+		return m_state.m_live.m_vx; 
+	}
+	else
+	{
+		return -m_state.m_live.m_vx;
+	}
+}
+
+void Entity::move(Vector2 motion)
+{
+	if (m_state.m_live.m_type != EntityType::Anchor)
+	{
+		if (isSleeping() && motion != Vector2())
+		{
+			wakeUp();
+		}
+		
+		m_state.m_live.m_lastPosition = m_state.m_live.m_currentPosition;
+		m_state.m_live.m_currentPosition += motion;
+		m_state.m_live.m_motion += motion;
+		if (!isFall() && motion.y < 0.0f)
+		{
+			setFall(true);
+		}
+	}
+}
+
+
+void Entity::jump() 
+{
+	m_state.m_live.m_action |= EntityAction::Jump;
+	if (m_state.m_live.m_currentState != EntityAnimationState::JumpLeft && m_state.m_live.m_currentState != EntityAnimationState::JumpRight && m_state.m_live.m_currentState != EntityAnimationState::Jump)
+	{
+		setState(EntityAnimationState::Jump);
+	}
+	else
+	{
+		m_state.m_live.m_vy = m_state.m_live.m_vJump;
+	}
+}
+
+void Entity::setAction(EntityAction::Enum action, bool b)
+{
+	if (b)
+	{
+		m_state.m_live.m_action |= action;
+	}
+	else
+	{
+		if (isInAction(action))
+		{
+			m_state.m_live.m_action ^= action;
+		}
+	}
+}
+
+const bool Entity::isInAction(EntityAction::Enum action) const 
+{ 
+	auto test = (m_state.m_live.m_action & action) == action;
+	return (m_state.m_live.m_action & action) == action; 
 }

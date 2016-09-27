@@ -1,5 +1,37 @@
 #pragma once
 
+namespace EntityAction
+{
+	enum Enum
+	{
+		None = 1 << 0,
+		Attack = 1 << 1,
+		Jump = 1 << 2,
+		Fall = 1 << 3,
+		Hit = 1 << 4
+	};
+
+	static void operator|=(Enum& a1, const Enum& a2)
+	{
+		a1 = static_cast<Enum>(a1 | a2);
+	}
+
+	static void operator&=(Enum& a1, const Enum& a2)
+	{
+		a1 = static_cast<Enum>(a1 & a2);
+	}
+
+	static void operator&=(Enum& a1, const int a2)
+	{
+		a1 = static_cast<Enum>(a1 & a2);
+	}
+
+	static void operator^=(Enum& a1, const Enum& a2)
+	{
+		a1 = static_cast<Enum>(a1 ^ a2);
+	}
+}
+
 namespace EntityType
 {
 	enum Enum
@@ -32,11 +64,38 @@ namespace EntityOrientation
 	};
 }
 	
+class Command;
+
+struct AnimationHandler {
+	sf::Sprite				m_sprite;
+	std::vector<Command*>	m_commands;
+
+	void execute();
+};
+
 struct EntityAnimation {
-	std::vector<sf::Sprite> m_animation;
-	float					m_timePerFrame;
-	uint32_t				m_currentFrame;
-	float					m_timeElapsedSinceUdpate = 0.0f;
+	std::vector<AnimationHandler>	m_animation;
+	float							m_timePerFrame;
+	uint32_t						m_currentFrame;
+	float							m_timeElapsedSinceUdpate = 0.0f;
+	bool							m_finish;
+	bool							m_unstopable;
+	bool							m_loop;
+	uint32_t						m_loopStart;
+	uint32_t						m_loopEnd;
+
+	const bool isFinished() const
+	{
+		if (!m_unstopable || (m_unstopable && m_finish))
+		{
+			return true;
+		}
+		else if (m_unstopable && !m_finish)
+		{
+			return false;
+		}
+		return false;
+	}
 
 	const bool activate() const
 	{
@@ -45,29 +104,44 @@ struct EntityAnimation {
 
 	sf::Sprite* getCurrentAnimation() 
 	{
-		if (m_timeElapsedSinceUdpate >= m_timePerFrame)
-		{
-			nextFrame();
-			m_timeElapsedSinceUdpate = 0.0f;
-		}
-		return &m_animation[m_currentFrame];
+		return &m_animation[m_currentFrame].m_sprite;
 	}
 
 	void nextFrame() {
 		m_currentFrame++;
+		if (m_loop)
+		{
+			if (m_currentFrame > m_loopEnd)
+			{
+				m_currentFrame = m_loopStart;
+				m_finish = true;
+				return;
+			}
+		}
 		if (m_currentFrame >= m_animation.size())
 		{
+			m_finish = true;
 			m_currentFrame = 0;
 		}
+		m_animation[m_currentFrame].execute();
 	}
 
 	void update(const float dt)
 	{
 		m_timeElapsedSinceUdpate += dt;
+		if (m_timePerFrame > 0.0f)
+		{
+			if (m_timeElapsedSinceUdpate >= m_timePerFrame)
+			{
+				nextFrame();
+				m_timeElapsedSinceUdpate -= m_timePerFrame;
+			}
+		}
 	}
 
 	void reset()
 	{
+		m_finish = false;
 		m_timeElapsedSinceUdpate = 0.0f;
 		m_currentFrame = 0;
 	}
@@ -84,12 +158,24 @@ namespace EntityAnimationState {
 		Right,
 		startEnum = Right,
 		Left,
-		Jump,
-		Fall,
 		Idle,
 		IdleRight,
 		IdleLeft,
-		endEnum = IdleLeft
+		Jump,
+		startAction = Jump,
+		JumpRight,
+		JumpLeft,
+		Fall,
+		FallRight,
+		FallLeft,
+		Attack,
+		AttackRight,
+		AttackLeft,
+		Hit,
+		HitRight,
+		HitLeft,
+		endAction = HitLeft,
+		endEnum = endAction
 	};
 }
 
@@ -112,7 +198,6 @@ class Entity
 		const Vector2 getPosition() const { return m_state.m_live.m_currentPosition; }
 		void setAngle(float rad) { m_state.m_live.m_angle = rad * RADTODEG; }
 		const float getAngle() const { return m_state.m_live.m_angle * DEGTORAD; }
-		const float getMass() const { return m_state.m_live.m_mass; }
 		void setState(EntityAnimationState::Enum state);
 		const EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 		void setNext(Entity* ent) { m_state.m_next = ent; }
@@ -133,12 +218,10 @@ class Entity
 		void retry();
 		void edition() { m_edition = !m_edition; };
 
-		const sf::FloatRect getLastGlobalBounds() { return sf::FloatRect(m_state.m_live.m_lastPosition.sf(), Vector2(m_state.m_live.m_width, m_state.m_live.m_height).sf()); }
+		const sf::FloatRect getLastGlobalBounds();
 		const bool isAlive() const { return m_live; }
 		const bool asMoved() { return m_state.m_live.m_lastPosition != m_state.m_live.m_currentPosition; }
 		const bool isEdition() const { return m_edition; }
-		const bool isFall() const { return m_state.m_live.m_fall; }
-		void setFall(bool b) { m_state.m_live.m_fall = b; }
 		const EntityType::Enum getType() const { return m_state.m_live.m_type; }
 
 		const CollisionState::Enum getCollisionState() {  return m_state.m_live.m_collisionState; }
@@ -153,7 +236,18 @@ class Entity
 		void release();
 		void build(const char* path);
 		void load() { m_onLoading = true; };
-		const int getCounterSleeping() const { return m_state.m_live.m_sleepCounter; }
+		void move(Vector2 motion);
+		void jump();
+		void setAction(EntityAction::Enum action, bool b);
+		const bool isInAction(EntityAction::Enum action) const;
+		void Entity::setJump(bool b) { setAction(EntityAction::Jump, b); }
+		void Entity::setFall(bool b) { setAction(EntityAction::Fall, b); }
+		const bool isJump() const { return isInAction(EntityAction::Jump); }
+		const bool isFall() const { return isInAction(EntityAction::Fall); }
+		const bool isAttack() const { return isInAction(EntityAction::Attack); }
+		const bool isHit() const { return isInAction(EntityAction::Hit); }
+		void attack() { setAction(EntityAction::Attack, true); }
+		void hit() { setAction(EntityAction::Hit, true); }
 
 
 		void showInfo() { m_displayInfo = !m_displayInfo; }
@@ -161,6 +255,13 @@ class Entity
 
 		const float getDistance(Entity* ent);
 		const EntityOrientation::Enum getOrientation() const { return m_state.m_live.m_orientation; }
+
+		const float getVX() const;
+		const float getVGrav() const { return m_state.m_live.m_vGrav; }
+		const float getVJump() const { return m_state.m_live.m_vJump; }
+		const float getVY() const { return m_state.m_live.m_vy; }
+		const float getVMax() const { return m_state.m_live.m_vMax; }
+		void setVY(float v) { m_state.m_live.m_vy = std::min(v, m_state.m_live.m_vMax); }
 
 	protected:
 		static uint32_t		newUID;
@@ -202,27 +303,33 @@ class Entity
 				bool													m_animate;
 				bool													m_collisionResolved;
 				bool													m_collisionProceed;
-				bool													m_fall;
 				bool													m_sleep;
-				int														m_sleepCounter;
+				float													m_sleepTime;
 				float													m_angle;
-				float													m_mass;
-				double													m_hSpeed;
-				double													m_vSpeed;
 				CollisionState::Enum									m_collisionState;
 				EntityType::Enum										m_type;
 				EntityOrientation::Enum									m_orientation;
+				float													m_vx;
+				float													m_vy;
+				float													m_vGrav;
+				float													m_vJump;
+				float													m_vMax;
+				Vector2													m_scale;
+				EntityAction::Enum										m_action;
 
 				void clear()
 				{
 					m_animations.clear();
+					m_action = EntityAction::Fall;
 					for (int i = EntityAnimationState::startEnum; i <= EntityAnimationState::endEnum; i++)
 					{
+						AnimationHandler animHandler;
 						auto ste = static_cast<EntityAnimationState::Enum>(i);
 						sf::Sprite spr;
 						spr.setTexture(m_errorTexture);
 						spr.setTextureRect(sf::IntRect(0 , 0, m_width, m_height));
-						m_animations[ste].m_animation.push_back(spr);
+						animHandler.m_sprite = spr;
+						m_animations[ste].m_animation.push_back(animHandler);
 					}
 					m_animate = true;
 					m_collisionState = CollisionState::None;
