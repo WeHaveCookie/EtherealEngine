@@ -35,18 +35,18 @@ void PhysicMgr::process(const float dt)
 {
 	sf::Clock clock;
 	processRegisteryQueue();
-
+	processPhysic();
 	if (m_enable)
 	{
 		bool editableDone = false;
 		for (auto& entity : m_entitys)
 		{
 			auto mouseCurrentPosition = InputMgr::getSingleton()->getMousePosition();
-			if (entity->getGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
+			if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
 			{
 				entity->showInfo();
 			}
-			if (entity->getGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseWheelButton) && !editableDone)
+			if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseWheelButton) && !editableDone)
 			{
 				editableDone = true;
 				entity->edition();
@@ -69,7 +69,7 @@ void PhysicMgr::showImGuiWindow(bool* window)
 		ImGui::Checkbox("Enable Phys", &m_enable);
 		for (auto& entity : m_entitys)
 		{
-			ImGui::Text("%i : %s - %f", entity->getUID(), entity->getName(), entity->getMass());
+			ImGui::Text("%i : %s", entity->getUID(), entity->getName());
 			if (ImGui::IsItemClicked())
 			{
 				entity->showInfo();
@@ -307,6 +307,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 						{
 							Vector2 impulse(0.0f, anchorGlobalBounds.top - (entGlobalBounds.top + entGlobalBounds.height + 1.0f));
 							ent->rollback(impulse);
+							ent->setFall(false);
 							ent->setCollisionState(CollisionState::Bottom);
 						}
 					}
@@ -326,7 +327,6 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					default:
 						break;
 					}
-					ent->retry();
 				}
 			}
 
@@ -337,16 +337,10 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 				sf::FloatRect entGlobalBounds = ent->getGlobalBounds();
 				sf::FloatRect colliderGlobalBounds = collider->getGlobalBounds();
 				
-				auto motion = ent->getLastMotion();
+				auto motion = ent->getMotion();
 				auto colliderPosition = collider->getPosition();
 				Vector2 entPosition = ent->getPosition();
 
-
-// 				if ((motion.x < 0.0f && colliderPosition.x < entPosition.x) || // Go to left and collider at left
-// 					(motion.x > 0.0f && colliderPosition.x > entPosition.x) || // Go to right and collider at right
-// 					(motion.y < 0.0f && colliderPosition.y < entPosition.y) || // Go to Top and collider at Top
-// 					(motion.y > 0.0f && colliderPosition.y > entPosition.y)) // Go to left
-// 				{
 				if ((motion.x < 0.0f && colliderPosition.x < entPosition.x + entGlobalBounds.width) || // Go to left and collider at left
 					(motion.x > 0.0f && colliderPosition.x + colliderGlobalBounds.width > entPosition.x) || // Go to right and collider at right
 					(motion.y < 0.0f && colliderPosition.y < entPosition.y + entGlobalBounds.height) || // Go to top and collider at top
@@ -354,7 +348,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 				{
 					if (ent->getDistance(collider) < entGlobalBounds.height * 1.5f + colliderGlobalBounds.height)
 					{
-						if (collider->isSleeping() && ent->getCounterSleeping() < 5)
+						if (collider->isSleeping()/* && ent->getCounterSleeping() < 5*/)
 						{
 							collider->wakeUp();
 						}
@@ -370,26 +364,12 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 				bool rayCastAABBAndAABB = RayCastAABBAndAABB(entLastGlobalBounds, entGlobalBounds, colliderGlobalBounds);
 				if (collisionAABBAndAABB || rayCastAABBAndAABB)
 				{
-					auto motion = ent->getLastMotion();
 					auto colliderPosition = collider->getPosition();
 					Vector2 entPosition = ent->getPosition();
-					// 					if ((motion.x < 0.0f && colliderPosition.x < entPosition.x) || // Go to left and collider at left
-					// 						(motion.x > 0.0f && colliderPosition.x > entPosition.x) || // Go to right and collider at right
-					// 						(motion.y < 0.0f && colliderPosition.y < entPosition.y) || // Go to Top and collider at Top
-					// 						(motion.y > 0.0f && colliderPosition.y > entPosition.y)) // Go to left
-					// 					{
-					// 						if (collider->isSleeping())
-					// 						{
-					// 							collider->wakeUp();
-					// 						}
-					// 						if (!collider->collisionResolved() && !collider->collisionProcessOngoing())
-					// 						{
-					// 							checkValidityOfPosition(collider);
-					// 						}
-					// 					}
+				
 					auto colliderGlobalBounds = collider->getGlobalBounds();
 					auto entCollisionState = ent->getCollisionState();
-					auto lastMotion = ent->getLastMotion();
+					auto motion = ent->getMotion();
 
 					CollisionState::Enum collision = getCollisionState(collider->getLastGlobalBounds(), entLastGlobalBounds);
 
@@ -409,7 +389,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					{
 						if ((collisionState & CollisionState::Right) != CollisionState::Right)
 						{
-							if (lastMotion.x > 0.0f)
+							if (motion.x > 0.0f)
 							{
 								Vector2 impulse(colliderGlobalBounds.left - (entGlobalBounds.left + entGlobalBounds.width + 1.0f), 0.0f);
 								ent->rollback(impulse);
@@ -422,7 +402,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					{
 						if ((collisionState & CollisionState::Left) != CollisionState::Left)
 						{
-							if (lastMotion.x < 0.0f)
+							if (motion.x < 0.0f)
 							{
 								Vector2 impulse(colliderGlobalBounds.left + colliderGlobalBounds.width + 1.0f - entGlobalBounds.left, 0.0f);
 								ent->rollback(impulse);
@@ -435,10 +415,11 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					{
 						if ((collisionState & CollisionState::Bottom) != CollisionState::Bottom)
 						{
-							if (lastMotion.y > 0.0f)
+							if (motion.y > 0.0f)
 							{
 								Vector2 impulse(0.0f, colliderGlobalBounds.top - (entGlobalBounds.top + entGlobalBounds.height + 1.0f));
 								ent->rollback(impulse);
+								ent->setFall(false);
 								ent->setCollisionState(CollisionState::Bottom);
 							}
 						}
@@ -448,7 +429,7 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					{
 						if ((collisionState & CollisionState::Top) != CollisionState::Top)
 						{
-							if (lastMotion.y < 0.0f)
+							if (motion.y < 0.0f)
 							{
 								Vector2 impulse(0.0f, colliderGlobalBounds.top + colliderGlobalBounds.height + 1.0f - entGlobalBounds.top);
 								ent->rollback(impulse);
@@ -462,7 +443,6 @@ void PhysicMgr::checkValidityOfPosition(Entity* ent)
 					default:
 						break;
 					}
-					ent->retry();
 				}
 			}
 			ent->resetCollisionState();
@@ -481,4 +461,88 @@ void PhysicMgr::processRegisteryQueue()
 		LevelMgr::getSingleton()->registerEntity(ent);
 		dequeue = m_registeryQueue->try_dequeue(ent);
 	}
+}
+
+void PhysicMgr::processPhysic()
+{
+	for (auto& entity : m_entitys)
+	{
+		auto entID = entity->getUID();
+		entity->setCollisionResolved(false);
+		Vector2 motion = entity->getMotion();
+
+		float v_grav = entity->getVGrav();
+		float v_y = entity->getVY();
+		motion.y += v_y;
+		v_y += v_grav;
+		entity->setVY(v_y);
+
+		if (entity->isJump())
+		{
+
+			float v_x = entity->getVX();
+			float v_saut = entity->getVJump();
+			motion.x += v_x;
+		}
+		else
+		{
+			if (motion == Vector2(0.0, entity->getVMax()))
+			{
+				if (!entity->isFall())
+				{
+					if (!tryToFall(entity))
+					{
+						motion.y = 0.0f;
+						entity->sleep();
+					}
+				}
+			}
+		}
+		entity->move(motion);
+	}
+}
+
+bool PhysicMgr::tryToFall(Entity* ent)
+{
+	auto pos = ent->getPosition();
+	auto newPos = pos + Vector2(0.0f, ent->getVY());
+	auto globalBounds = ent->getGlobalBounds();
+	sf::FloatRect newGlobalBounds = sf::FloatRect(newPos.x, newPos.y, globalBounds.width, globalBounds.height);
+	auto anchorCollided = LevelMgr::getSingleton()->getEntityAround(ent, newGlobalBounds, EntityType::Anchor);
+	auto movableCollided = LevelMgr::getSingleton()->getEntityAround(ent, newGlobalBounds, EntityType::Movable);
+
+	for (auto& anchor : anchorCollided)
+	{
+		auto anchorGlobalBounds = anchor->getGlobalBounds();
+		bool collisionAABBAndAABB = CollisionAABBandAABB(newGlobalBounds, anchorGlobalBounds);
+		bool rayCastAABBAndAABB = RayCastAABBAndAABB(globalBounds, newGlobalBounds, anchorGlobalBounds);
+
+		if (collisionAABBAndAABB || rayCastAABBAndAABB)
+		{
+			sf::FloatRect entGlobalBounds = ent->getGlobalBounds();
+			CollisionState::Enum collision = getCollisionState(anchorGlobalBounds, globalBounds);
+			if (collision == CollisionState::Bottom)
+			{
+				return false;
+			}
+			
+		}
+	}
+	
+	for (auto& collider : movableCollided)
+	{
+		auto colliderGlobalBounds = collider->getGlobalBounds();
+		bool collisionAABBAndAABB = CollisionAABBandAABB(newGlobalBounds, colliderGlobalBounds);
+		bool rayCastAABBAndAABB = RayCastAABBAndAABB(globalBounds, newGlobalBounds, colliderGlobalBounds);
+		
+		if (collisionAABBAndAABB || rayCastAABBAndAABB)
+		{
+			CollisionState::Enum collision = getCollisionState(collider->getLastGlobalBounds(), globalBounds);
+			if (collision == CollisionState::Bottom)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }

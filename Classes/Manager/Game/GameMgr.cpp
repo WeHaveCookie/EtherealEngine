@@ -78,7 +78,7 @@ void GameMgr::init()
 
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
-	m_movementSpeed = 10;
+	m_movementSpeed = 5;
 	setNumberPlayer(1);
 }
 
@@ -161,7 +161,7 @@ void GameMgr::setNumberPlayer(uint32_t nbr)
 		{
 			for (uint32_t i = m_nbrPlayers; i < nbr; i++)
 			{
-				m_playersId.push_back(EntityMgr::getSingleton()->createEntity("Data/Character/Player.json")->getUID());
+				m_playersId.push_back(EntityMgr::getSingleton()->createEntity("Data/Character/assassinAttack.json")->getUID());
 			}
 		}
 		else
