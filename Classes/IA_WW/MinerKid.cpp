@@ -56,6 +56,10 @@ void MinerKid::AddToStoneCarried(const int val)
 {
 	m_iStoneCarried += val;
 
+	if (m_iStoneCarried > MaxNuggetsKid)
+	{
+		m_iStoneCarried = MaxNuggetsKid;
+	}
 	if (m_iStoneCarried < 0) m_iStoneCarried = 0;
 }
 
@@ -91,9 +95,9 @@ void MinerKid::addHappyness(int i)
 	m_iHappy += i;
 }
 
-void MinerKid::PlayVideoGame()
+void MinerKid::PlayWithPotion()
 {
-	m_iThirst = 0;
+	m_iThirst -= 2;
 }
 
 bool MinerKid::BoredToWait()

@@ -145,7 +145,7 @@ void EnterForestAndFindStone::Execute(MinerKid* pMinerKid)
 	//his digging he packs up work for a while and changes state to
 	//gp to the saloon for a whiskey.
 	pMinerKid->AddToStoneCarried(1);
-
+	pMinerKid->addHappyness(-2);
 	pMinerKid->IncreaseFatigue();
 
 	pMinerKid->displayText("I find a stone. It's like a gold, but grey !!! Yeaaah");
@@ -340,11 +340,15 @@ void VisitArcaneRoom::Enter(MinerKid* pMinerKid)
 
 void VisitArcaneRoom::Execute(MinerKid* pMinerKid)
 {
-	pMinerKid->PlayVideoGame();
+	pMinerKid->PlayWithPotion();
 
 	pMinerKid->displayText("A piece of root and BOOOM");
 
-	pMinerKid->GetFSM()->ChangeState(EnterForestAndFindStone::Instance());
+	if (!pMinerKid->Thirsty())
+	{
+		pMinerKid->ResetThristy();
+		pMinerKid->GetFSM()->ChangeState(EnterForestAndFindStone::Instance());
+	}
 }
 
 

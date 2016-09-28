@@ -98,7 +98,7 @@ public:
 	bool          PocketsFull()const { return m_iStoneCarried >= MaxNuggetsKid; }
 
 	bool          Fatigued()const;
-	void          DecreaseFatigue() { m_iFatigue -= 1; }
+	void          DecreaseFatigue() { m_iFatigue -= 2; }
 	void          IncreaseFatigue() { m_iFatigue += 1; }
 
 	bool          Thirsty()const;
@@ -112,8 +112,9 @@ public:
 
 	void			IncreaseBored() { m_bored++; }
 	void			setBored(int i) { m_bored = i; }
-	void			PlayVideoGame();
+	void			PlayWithPotion();
 	bool			BoredToWait();
+	void			ResetThristy() { m_iThirst = 0; }
 
 	void	displayText(const char* txt)
 	{

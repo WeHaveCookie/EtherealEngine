@@ -68,7 +68,7 @@ GuiMgr::~GuiMgr()
 void GuiMgr::init()
 {
 	m_flags = new Flags();
-	m_displayGui = true;
+	m_displayGui = false;
 }
 
 void GuiMgr::process(const float dt)
