@@ -16,7 +16,8 @@ namespace ManagerType{
 		Persistent,
 		Loading,
 		Gui,
-		Command
+		Command,
+		Miner
 	};
 }
 

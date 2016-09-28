@@ -109,6 +109,7 @@ Entity::Entity()
 	m_edition = false;
 	m_state.m_live.m_errorTexture.loadFromFile(ERROR_TEXTURE);
 	m_state.m_live.m_errorTexture.setRepeated(true);
+
 }
 
 Entity::~Entity()
@@ -120,16 +121,57 @@ void Entity::paint()
 {
 	if (m_live)
 	{
+		m_state.m_live.m_textEnter.setPosition(sf::Vector2f(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y - 70.0f));
+		m_state.m_live.m_textEnter.setColor(m_state.m_live.m_colorEnter);
+		m_state.m_live.m_text.setPosition(sf::Vector2f(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y - 50.0f));
+		m_state.m_live.m_text.setColor(m_state.m_live.m_colorText);
+		m_state.m_live.m_textExit.setPosition(sf::Vector2f(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y - 30.0f));
+		m_state.m_live.m_textExit.setColor(m_state.m_live.m_colorExit);
+		m_state.m_live.m_textOnMessage.setPosition(sf::Vector2f(m_state.m_live.m_currentPosition.x, m_state.m_live.m_currentPosition.y - 10.0f));
+		m_state.m_live.m_textOnMessage.setColor(m_state.m_live.m_colorOnMessage);
+
 		auto renderMgr = RENDER_MGR;
 		auto rdrWin = renderMgr->getMainRenderWindow();
 		sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 		rdrWin->draw(*currentAnim);
+		rdrWin->draw(m_state.m_live.m_textEnter);
+		rdrWin->draw(m_state.m_live.m_text);
+		rdrWin->draw(m_state.m_live.m_textExit);
+		rdrWin->draw(m_state.m_live.m_textOnMessage);
 	}
 	displayInfo();
 }
 
 void Entity::update(const float dt)
 {
+	int aEnter = (int)m_state.m_live.m_colorEnter.a;
+	aEnter -= (int)(dt * 100);
+	int aExit = (int)m_state.m_live.m_colorExit.a;
+	aExit -= (int)(dt * 100);
+	int aOn = (int)m_state.m_live.m_colorOnMessage.a;
+	aOn -= (int)(dt * 100);
+	int aText = (int)m_state.m_live.m_colorText.a;
+	aText -= (int)(dt * 100);
+	if (aEnter < 0)
+	{
+		aEnter = 0;
+	}
+	if (aExit < 0)
+	{
+		aExit = 0;
+	}
+	if (aOn < 0)
+	{
+		aOn = 0;
+	}
+	if (aText < 0)
+	{
+		aText = 0;
+	}
+	m_state.m_live.m_colorEnter.a = aEnter;
+	m_state.m_live.m_colorExit.a = aExit;
+	m_state.m_live.m_colorOnMessage.a = aOn;
+	m_state.m_live.m_colorText.a = aText;
 	if (!m_state.m_live.m_sleep)
 	{
 		m_state.m_live.m_sleepTime += dt;
@@ -795,6 +837,7 @@ void Entity::build(const char* path)
 			}
 		}
 		anim.m_currentFrame = 0;
+		anim.m_activate = true;
 		addAnimation(stringToEntityAnimationState[animation["State"].GetString()], anim);
 	}
 

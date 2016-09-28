@@ -15,7 +15,7 @@ PhysicMgr::PhysicMgr()
 	:Manager(ManagerType::Enum::Physic)
 {
 	s_singleton = this;
-	m_enable = true;
+	m_enable = false;
 	m_registeryQueue = new RegisteryQueue();
 }
 
@@ -28,7 +28,7 @@ void PhysicMgr::init()
 {
 	m_processTime = sf::Time::Zero;
 	m_gravity = 9.81F;
-	registerEntity(EntityMgr::getSingleton()->createEntity("Data/Character/ground.json"));
+	//registerEntity(EntityMgr::getSingleton()->createEntity("Data/Character/ground.json"));
 }
 
 void PhysicMgr::process(const float dt)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Manager/Manager.h"
 #include "Entity/Entity.h"
+#include "IA_WW/Locations.h"
 
 class Quadtree;
 class Entity;
@@ -31,7 +32,7 @@ class LevelMgr : public Manager
 		int getMasterRegisterCount();
 		int getMasterQueryCount() { int tmp = m_queryCount; m_queryCount = 0; return tmp; }
 		int getQueryCount();
-
+		const Vector2 getPosLocation(location_type loc);
     protected:
     private:
         // Function
@@ -39,5 +40,7 @@ class LevelMgr : public Manager
 		Quadtree*			m_quadtree;
 		sf::Time			m_processTime;
 		int					m_queryCount;
+		std::map<location_type, sf::Sprite*>	m_building;
+		std::vector<sf::Texture*>				m_buildingTexture;
 };
 

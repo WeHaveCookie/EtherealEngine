@@ -22,6 +22,9 @@
     <Filter Include="Classes\HUD">
       <UniqueIdentifier>{C33B1A54-2FF1-9249-B8E5-8C20249A894D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\IA_WW">
+      <UniqueIdentifier>{D9D79FC3-4598-1BFA-0ED3-64777A5260D6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Level">
       <UniqueIdentifier>{BA42EAC3-2603-66FA-EF3D-AF775BBDAAD6}</UniqueIdentifier>
     </Filter>
@@ -129,6 +132,42 @@
     <ClInclude Include="..\..\Classes\HUD\Menu.h">
       <Filter>Classes\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\BaseGameEntity.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\EntityManager.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\EntityNames.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\Locations.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MessageDispatcher.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MessageTypes.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\Miner.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MinerKid.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MinerKidOwnedStates.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MinerOwnedStates.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MinersWife.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\IA_WW\MinersWifeOwnedStates.h">
+      <Filter>Classes\IA_WW</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Level\Quadtree.h">
       <Filter>Classes\Level</Filter>
     </ClInclude>
@@ -160,6 +199,9 @@
       <Filter>Classes\Manager\Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Manager.h">
+      <Filter>Classes\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\MinerMgr.h">
       <Filter>Classes\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h">
@@ -284,6 +326,33 @@
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
       <Filter>Classes\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\BaseGameEntity.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\EntityManager.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MessageDispatcher.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\Miner.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MinerKid.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MinerKidOwnedStates.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MinerOwnedStates.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MinersWife.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\IA_WW\MinersWifeOwnedStates.cpp">
+      <Filter>Classes\IA_WW</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp">
       <Filter>Classes\Level</Filter>
     </ClCompile>
@@ -315,6 +384,9 @@
       <Filter>Classes\Manager\Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp">
+      <Filter>Classes\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\MinerMgr.cpp">
       <Filter>Classes\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp">

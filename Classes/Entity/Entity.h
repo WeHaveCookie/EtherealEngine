@@ -83,6 +83,7 @@ struct EntityAnimation {
 	bool							m_loop;
 	uint32_t						m_loopStart;
 	uint32_t						m_loopEnd;
+	bool							m_activate;
 
 	const bool isFinished() const
 	{
@@ -99,7 +100,7 @@ struct EntityAnimation {
 
 	const bool activate() const
 	{
-		return m_animation.size() > 1;
+		return m_activate;
 	}
 
 	sf::Sprite* getCurrentAnimation() 
@@ -263,6 +264,11 @@ class Entity
 		const float getVMax() const { return m_state.m_live.m_vMax; }
 		void setVY(float v) { m_state.m_live.m_vy = std::min(v, m_state.m_live.m_vMax); }
 
+		void setText(const char* txt) { m_state.m_live.m_text.setString(std::string(txt)); m_state.m_live.m_colorText = sf::Color(255, 255, 255, 255); }
+		void setEnterText(const char* txt) { m_state.m_live.m_textEnter.setString(std::string(txt)); m_state.m_live.m_colorEnter = sf::Color(50, 171, 156, 255); }
+		void setExitText(const char* txt) { m_state.m_live.m_textExit.setString(std::string(txt)); m_state.m_live.m_colorExit = sf::Color(58, 84, 19, 255); }
+		void setOnMessage(const char* txt) { m_state.m_live.m_textOnMessage.setString(std::string(txt)); m_state.m_live.m_colorOnMessage = sf::Color(137, 55, 57, 255); }
+
 	protected:
 		static uint32_t		newUID;
 		const uint32_t		m_uid;
@@ -316,11 +322,33 @@ class Entity
 				float													m_vMax;
 				Vector2													m_scale;
 				EntityAction::Enum										m_action;
+				sf::Text												m_text;
+				sf::Text												m_textEnter;
+				sf::Text												m_textExit;
+				sf::Text												m_textOnMessage;
+				sf::Font												m_font;
+				sf::Color												m_colorEnter;
+				sf::Color												m_colorExit;
+				sf::Color												m_colorOnMessage;
+				sf::Color												m_colorText;
 
 				void clear()
 				{
 					m_animations.clear();
 					m_action = EntityAction::Fall;
+					m_font.loadFromFile("Data/Fonts/wonder.ttf");
+					m_text.setFont(m_font);
+					m_text.setCharacterSize(15);
+					m_text.setString("Ready");
+					m_textExit.setFont(m_font);
+					m_textExit.setCharacterSize(15);
+					m_textExit.setString("");
+					m_textEnter.setCharacterSize(15);
+					m_textEnter.setFont(m_font);
+					m_textEnter.setString("");
+					m_textOnMessage.setCharacterSize(13);
+					m_textOnMessage.setFont(m_font);
+					m_textOnMessage.setString("");
 					for (int i = EntityAnimationState::startEnum; i <= EntityAnimationState::endEnum; i++)
 					{
 						AnimationHandler animHandler;
@@ -330,6 +358,7 @@ class Entity
 						spr.setTextureRect(sf::IntRect(0 , 0, m_width, m_height));
 						animHandler.m_sprite = spr;
 						m_animations[ste].m_animation.push_back(animHandler);
+						m_animations[ste].m_activate = false;
 					}
 					m_animate = true;
 					m_collisionState = CollisionState::None;

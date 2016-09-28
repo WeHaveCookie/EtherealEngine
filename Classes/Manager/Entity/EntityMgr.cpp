@@ -15,7 +15,7 @@ EntityMgr::EntityMgr()
 :Manager(ManagerType::Enum::Entity)
 {
 	s_singleton = this;
-	m_entitys = new EntityPool(1000);
+	m_entitys = new EntityPool(10);
 }
 
 EntityMgr::~EntityMgr()

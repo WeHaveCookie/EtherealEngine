@@ -46,7 +46,8 @@ void RenderMgr::end()
 
 void RenderMgr::startFrame()
 {
-	m_mainRenderWindow->clear();
+
+	m_mainRenderWindow->clear(sf::Color(199, 199, 199));
 	m_timeFrame.restart();
 }
 

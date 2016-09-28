@@ -16,6 +16,7 @@
 #include "Manager/Loading/LoadingMgr.h"
 #include "Manager/Render/GuiMgr.h"
 #include "Manager/Action/CommandMgr.h"
+#include "Manager/MinerMgr.h"
 
 #include "Thread/LoadingThread.h"
 #include "Thread/SaveThread.h"
@@ -34,6 +35,7 @@ float g_DeltaTimeRaw = 0.33f;
 float g_DeltaTime = 0.33f;
 float g_DeltaTimeFactor = 1.f;
 float g_Framerate = 1.0f/60.0f;
+float g_CurrentTime = 0.0;
 
 REGISTER_MANAGER(TimeMgr)
 REGISTER_MANAGER(SoundMgr)
@@ -50,6 +52,7 @@ REGISTER_MANAGER(PersistentMgr)
 REGISTER_MANAGER(LoadingMgr)
 REGISTER_MANAGER(GuiMgr)
 REGISTER_MANAGER(CommandMgr)
+REGISTER_MANAGER(MinerMgr)
 
 REGISTER_MANAGER(LoadingThread)
 REGISTER_MANAGER(SaveThread)
@@ -80,6 +83,7 @@ void EtherealDreamManagers::CreateManagers()
 		CREATE_MGR(FileMgr)
 		CREATE_MGR(PersistentMgr)
 		CREATE_MGR(GuiMgr)
+		CREATE_MGR(MinerMgr)
 }
 
 void EtherealDreamManagers::InitManagers()
@@ -100,6 +104,7 @@ void EtherealDreamManagers::InitManagers()
 		INIT_MGR(FileMgr)
 		INIT_MGR(PersistentMgr)
 		INIT_MGR(GuiMgr)
+		INIT_MGR(MinerMgr)
 }
 
 void EtherealDreamManagers::UpdateManagers(float _dt)
@@ -108,7 +113,7 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 	g_DeltaTime = g_DeltaTimeRaw * g_DeltaTimeFactor;
 	//g_DeltaTime = std::min(g_DeltaTime, 0.1f);
 	_dt = g_DeltaTime;
-
+	g_CurrentTime += _dt;
 	// must be first
 	g_RenderMgr->startFrame();
 
@@ -121,6 +126,7 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 		PROCESS_MGR(GameMgr)
 		PROCESS_MGR(EventMgr)
 		PROCESS_MGR(CommandMgr)
+		PROCESS_MGR(MinerMgr)
 		PROCESS_MGR(PhysicMgr)
 		PROCESS_MGR(EntityMgr)
 
@@ -144,6 +150,8 @@ void EtherealDreamManagers::DestroyManagers()
 		END_MGR(EntityMgr)
 		END_MGR(RenderMgr)
 		END_MGR(GuiMgr)
+		END_MGR(MinerMgr)
+
 		delete g_LoadingThread;
 	delete g_SaveThread;
 

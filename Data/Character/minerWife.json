@@ -1,0 +1,36 @@
+{
+	"Name" : "minerWife",
+	"Width" : 360,
+	"Height" : 585,
+	"Speed" : 1.0,
+	"Position" : [1336.0, 568.0],
+	"Scale" : 0.25,
+	"State" : "IDLE_RIGHT",
+	"Type" : "Anchor",
+	"Animations" : [
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "IDLE_LEFT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "RIGHT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		}
+	]
+}

@@ -181,7 +181,7 @@
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -210,7 +210,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -239,7 +239,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -268,7 +268,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -297,7 +297,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -330,7 +330,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -364,7 +364,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_FINAL;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -398,7 +398,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_FINAL;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;..\..\..\Uqac\VS2010\Common;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -437,6 +437,18 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\EtherealDreamManagers.h" />
     <ClInclude Include="..\..\Classes\Files\Reader.h" />
     <ClInclude Include="..\..\Classes\HUD\Menu.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\BaseGameEntity.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\EntityManager.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\EntityNames.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\Locations.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MessageDispatcher.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MessageTypes.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\Miner.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MinerKid.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MinerKidOwnedStates.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MinerOwnedStates.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MinersWife.h" />
+    <ClInclude Include="..\..\Classes\IA_WW\MinersWifeOwnedStates.h" />
     <ClInclude Include="..\..\Classes\Level\Quadtree.h" />
     <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h" />
@@ -448,6 +460,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Loading\LoadingMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Manager.h" />
+    <ClInclude Include="..\..\Classes\Manager\MinerMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Persistent\PersistentMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Physic\PhysicMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Render\GuiMgr.h" />
@@ -490,6 +503,15 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\EtherealDreamManagers.cpp" />
     <ClCompile Include="..\..\Classes\Files\Reader.cpp" />
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\BaseGameEntity.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\EntityManager.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MessageDispatcher.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\Miner.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MinerKid.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MinerKidOwnedStates.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MinerOwnedStates.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MinersWife.cpp" />
+    <ClCompile Include="..\..\Classes\IA_WW\MinersWifeOwnedStates.cpp" />
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp" />
@@ -501,6 +523,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Loading\LoadingMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp" />
+    <ClCompile Include="..\..\Classes\Manager\MinerMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Persistent\PersistentMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Physic\PhysicMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Render\GuiMgr.cpp" />

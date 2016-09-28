@@ -1,0 +1,36 @@
+{
+	"Name" : "Miner",
+	"Width" : 460,
+	"Height" : 460,
+	"Speed" : 1.0,
+	"Position" : [1702.0, 469.0],
+	"Scale" : 0.25,
+	"State" : "IDLE_RIGHT",
+	"Type" : "Anchor",
+	"Animations" : [
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 2,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "IDLE_LEFT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "RIGHT",
+			"Frame" : 2,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "LEFT",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		}
+	]
+}

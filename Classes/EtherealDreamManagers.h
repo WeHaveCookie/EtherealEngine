@@ -10,6 +10,7 @@ extern float g_DeltaTimeRaw;
 extern float g_DeltaTime;
 extern float g_DeltaTimeFactor;
 extern float g_Framerate;
+extern float g_CurrentTime;
 
 DECLARE_MANAGER(TimeMgr)
 DECLARE_MANAGER(LoadingMgr)
@@ -26,6 +27,7 @@ DECLARE_MANAGER(FileMgr)
 DECLARE_MANAGER(PersistentMgr)
 DECLARE_MANAGER(GuiMgr)
 DECLARE_MANAGER(CommandMgr)
+DECLARE_MANAGER(MinerMgr)
 
 DECLARE_MANAGER(LoadingThread)
 DECLARE_MANAGER(SaveThread)
@@ -45,6 +47,7 @@ DECLARE_MANAGER(SaveThread)
 #define PERSISTENT_MGR	g_PersistentMgr;
 #define GUI_MGR			g_GuiMgr;
 #define COMMAND_MGR		g_CommandMgr;
+#define MINER_MGR		g_MinerMgr;
 
 
 #define LOAD_THREAD	g_LoadingThread;
