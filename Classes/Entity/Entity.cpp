@@ -581,6 +581,110 @@ void replaceName(char* dest, const char* name, int sizeName)
 	dest[lastSlashPos + sizeName] = '\0';
 }
 
+namespace ValueType
+{
+	enum Enum
+	{
+		Float,
+		Int,
+		Uint,
+		String,
+		Bool,
+		Vector2,
+	};
+}
+
+void checkAndAffect(rapidjson::Document* doc, const char* nameAttribut, ValueType::Enum type, void** attPtr, void* defaultValue = NULL, int sizeOfDefaultValue = 0)
+{
+	if (doc->HasMember(nameAttribut))
+	{
+		switch (type)
+		{
+		case ValueType::Float:
+			if ((*doc)[nameAttribut].IsFloat())
+			{
+				float value = (*doc)[nameAttribut].GetFloat();
+				memcpy(*attPtr, (void*)&value, sizeof(value));
+			}
+			break;
+		case ValueType::Int:
+			if ((*doc)[nameAttribut].IsInt())
+			{
+				int value = (*doc)[nameAttribut].GetInt();
+				memcpy(*attPtr, (void*)&value, sizeof(value));
+			}
+			break;
+		case ValueType::Uint:
+			if ((*doc)[nameAttribut].IsUint())
+			{
+				unsigned int value = (*doc)[nameAttribut].GetUint();
+				memcpy(*attPtr, (void*)&value, sizeof(value));
+			}
+			break;
+		case ValueType::String:
+			if ((*doc)[nameAttribut].IsString())
+			{
+				int len = (*doc)[nameAttribut].GetStringLength();
+				std::string value = (*doc)[nameAttribut].GetString();
+				memcpy(*attPtr, (void*)&value, sizeof(value));
+			}
+			break;
+		case ValueType::Bool:
+			if ((*doc)[nameAttribut].IsBool())
+			{
+				bool value = (*doc)[nameAttribut].GetBool();
+				memcpy(*attPtr, (void*)&value, sizeof(value));
+			}
+			break;
+		case ValueType::Vector2:
+			if ((*doc)[nameAttribut].IsFloat())
+			{
+				float value = (*doc)[nameAttribut].GetFloat();
+				Vector2 finalVal(value, value);
+				memcpy(*attPtr, (void*)&finalVal, sizeof(finalVal));
+			}
+			break;
+		default:
+			assert(true);
+			break;
+		}
+	}
+	else
+	{
+		if (defaultValue != NULL)
+		{
+			switch (type)
+			{
+			case ValueType::Float:
+				memcpy(*attPtr, defaultValue, sizeof(float));
+				break;
+			case ValueType::Int:
+				memcpy(*attPtr, defaultValue, sizeof(int));
+				break;
+			case ValueType::Uint:
+				memcpy(*attPtr, defaultValue, sizeof(unsigned int));
+				break;
+			case ValueType::String:
+				memcpy(*attPtr, (void*)&defaultValue, sizeOfDefaultValue);
+				break;
+			case ValueType::Bool:
+				memcpy(*attPtr, defaultValue, sizeof(defaultValue));
+				break;
+			case ValueType::Vector2:
+				memcpy(*attPtr, defaultValue, sizeof(Vector2));
+				break;
+			default:
+				assert(true);
+				break;
+			}
+		}
+		else
+		{
+			assert(true);
+		}
+	}
+}
+
 void Entity::build(const char* path)
 {
 	char* json;
@@ -601,30 +705,27 @@ void Entity::build(const char* path)
 	assert(!error);
 	assert(object);
 
-	auto member = document.HasMember("Width");
-	assert(member);
-	m_state.m_live.m_width = document["Width"].GetUint();
-
-	member = document.HasMember("Height");
-	assert(member);
-	m_state.m_live.m_height = document["Height"].GetUint();
-	
 	m_state.m_live.clear();
+	m_state.m_next = NULL;
+
+	uint32_t* widthPtr = &m_state.m_live.m_width;
+	uint32_t* heightPtr = &m_state.m_live.m_height;
+	checkAndAffect(&document, "Width", ValueType::Int, (void**)&widthPtr);
+	checkAndAffect(&document, "Height", ValueType::Int, (void**)&heightPtr);
+
+
+	bool member;
+	
 
 	sf::Sprite spr;
 
-	if (document.HasMember("Scale"))
-	{
-		float scale = document["Scale"].GetFloat();
-		m_state.m_live.m_scale = Vector2(scale, scale);
-		spr.setScale(m_state.m_live.m_scale.sf());
-	}
-	else
-	{
-		m_state.m_live.m_scale = Vector2(1.0f, 1.0f);
-	}
+	auto scalePtr = &m_state.m_live.m_scale;
+	Vector2 defaultScale(1.0f, 1.0f);
+	checkAndAffect(&document, "Scale", ValueType::Vector2, (void**)&scalePtr, (void*)&defaultScale);
+	spr.setScale(m_state.m_live.m_scale.sf());
 
 	char entPath[128];
+
 	if (document.HasMember("Textures"))
 	{
 		const rapidjson::Value& textures = document["Textures"];
@@ -635,19 +736,31 @@ void Entity::build(const char* path)
 	{
 		replaceJsonByPng(entPath, path);
 	}
+
+
 	m_state.m_live.m_texturePath = entPath;
+
 	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
 	assert(load);
 	m_state.m_live.m_texture.setSmooth(false);
 	spr.setTexture(m_state.m_live.m_texture);
 
-	member = document.HasMember("Name");
-	assert(member);
-	setName(document["Name"].GetString());
 
-	member = document.HasMember("Speed");
-	assert(member);
-	setSpeed(document["Speed"].GetFloat());
+	auto namePtr = &m_state.m_live.m_name;
+	checkAndAffect(&document, "Name", ValueType::String, (void**)&namePtr, "NoName", sizeof("NoName"));
+
+
+	auto speedPtr = &m_state.m_live.m_speed;
+	float defaultSpeed = 1.0f;
+	checkAndAffect(&document, "Speed", ValueType::Float, (void**)&speedPtr, (void*)&defaultSpeed);
+	setSpeed(m_state.m_live.m_speed);
+
+
+	
+	auto priorityPtr = &m_state.m_live.m_displayPriority;
+	uint32_t priorityDefault = 0;
+	checkAndAffect(&document, "DisplayPriority", ValueType::Uint, (void**)&priorityPtr, (void*)&priorityDefault);
+
 
 	m_state.m_live.m_orientation = EntityOrientation::Right;
 	if (document.HasMember("Orientation"))
@@ -663,15 +776,10 @@ void Entity::build(const char* path)
 		}
 	}
 
-	m_state.m_next = NULL;
+	auto collidablePtr = &m_state.m_live.m_collidable;
+	bool collidableDefault = true;
+	checkAndAffect(&document, "Collidable", ValueType::Bool, (void**)&collidablePtr, (void*)&collidableDefault);
 
-	if (document.HasMember("Collidable"))
-	{
-		m_state.m_live.m_collidable = document["Collidable"].GetBool();
-	} else
-	{
-		m_state.m_live.m_collidable = true;
-	}
 	if (m_state.m_live.m_collidable)
 	{
 		PhysicMgr::getSingleton()->registerEntity(this);

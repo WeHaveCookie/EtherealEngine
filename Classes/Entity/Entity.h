@@ -189,7 +189,7 @@ class Entity
 		virtual void update(const float dt);
 		const bool process(const float dt);
 
-		void setName(const char* name) { m_state.m_live.m_name = name; }
+		//void setName(const char* name) { m_state.m_live.m_name = name; }
 		void addAnimation(EntityAnimationState::Enum entAnimState, EntityAnimation entAnim);
 		void setSpeed(float speed);
 		const char* getName() const { return m_state.m_live.m_name.c_str();}
@@ -316,6 +316,7 @@ class Entity
 				float													m_vMax;
 				Vector2													m_scale;
 				EntityAction::Enum										m_action;
+				uint32_t												m_displayPriority; //  0 => foreground | Higher => background
 
 				void clear()
 				{
