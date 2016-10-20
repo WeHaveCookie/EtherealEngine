@@ -14,8 +14,9 @@ It's currently in development and much work remains to be done.
 - [x] Input management (8 pads max)
 - [x] Gui management for ImGui display
 - [x] File management
-- [ ] Command management
-- [ ] Physic management
+- [x] Command management
+- [x] Physic management
+- [ ] Camera management
 - [ ] IA management
 - [ ] Level management
 - [ ] Menu management
