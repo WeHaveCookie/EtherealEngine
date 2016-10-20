@@ -3,6 +3,9 @@
 #include "Actions/Command.h"
 #include "Actions/CommandMove.h"
 #include "Actions/CommandJump.h"
+#include "Actions/CommandAttack.h"
+#include "Actions/CommandSound.h"
+#include "Actions/CommandInput.h"
 
 #include "blockingconcurrentqueue.h"
 
@@ -20,7 +23,11 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandMoveDown", CommandType::MoveDown},
 	{ "CommandMoveXAxis", CommandType::MoveXAxis },
 	{ "CommandMoveYAxis", CommandType::MoveYAxis },
-	{ "CommandJump", CommandType::Jump}
+	{ "CommandJump", CommandType::Jump},
+	{ "CommandAttack", CommandType::Attack},
+	{ "CommandSound", CommandType::Sound},
+	{ "CommandLockInput", CommandType::LockInput},
+	{ "CommandUnlockInput", CommandType::UnlockInput}
 };
 
 std::vector<const char*> CommandTypeToString =
@@ -32,7 +39,11 @@ std::vector<const char*> CommandTypeToString =
 	"MoveDown",
 	"MoveXAxis",
 	"MoveYAxis",
-	"Jump"
+	"Jump",
+	"Attack",
+	"Sound",
+	"LockInput",
+	"UnlockInput"
 };
 
 CommandMgr::CommandMgr()
@@ -56,6 +67,10 @@ void CommandMgr::init()
 		CREATE_CMD(CommandMoveYAxis)
 		CREATE_CMD(CommandMoveXAxis)
 		CREATE_CMD(CommandJump)
+		CREATE_CMD(CommandAttack)
+		CREATE_CMD(CommandSound)
+		CREATE_CMD(CommandLockInput)
+		CREATE_CMD(CommandUnlockInput)
 }
 
 void CommandMgr::process(const float dt)

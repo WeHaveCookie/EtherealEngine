@@ -37,6 +37,8 @@ class PhysicMgr : public Manager
         // Inline
     protected:
 	private:
+		void processPhysic();
+		bool tryToFall(Entity* ent);
 		static PhysicMgr* s_singleton;
 		void checkValidityOfPosition(Entity* ent);
 		void processRegisteryQueue();

@@ -173,14 +173,14 @@ void SoundMgr::showImGuiWindow(bool* window)
 	ImGui::End();
 }
 
-void SoundMgr::addSound(const char* path, bool loop, bool persistent)
+uint32_t SoundMgr::addSound(const char* path, bool loop, bool persistent)
 {
-	m_sounds->create(path, loop, persistent);
+	return m_sounds->create(path, loop, persistent);
 }
 
-void SoundMgr::addMusic(const char* path, bool loop, bool persistent)
+uint32_t SoundMgr::addMusic(const char* path, bool loop, bool persistent)
 {
-	m_musics->create(path, loop, persistent);
+	return m_musics->create(path, loop, persistent);
 }
 
 void SoundMgr::removeSound(uint32_t id)
@@ -191,4 +191,14 @@ void SoundMgr::removeSound(uint32_t id)
 void SoundMgr::removeMusic(uint32_t id)
 {
 	m_musics->release(id);
+}
+
+SoundComponent* SoundMgr::getSound(uint32_t id)
+{
+	return m_sounds->getSound(id);
+}
+
+MusicComponent* SoundMgr::getMusic(uint32_t id)
+{
+	return m_musics->getMusic(id);
 }

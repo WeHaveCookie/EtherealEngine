@@ -10,7 +10,8 @@ namespace CommandExeType
 		JustPressed,
 		Pressed,
 		JustReleased,
-		Released
+		Released,
+		AtOnce
 	};
 }
 
@@ -20,7 +21,7 @@ public:
 	Command(const char* name, CommandExeType::Enum exeType);
 	~Command();
 
-	virtual void init(Entity* ent, void* data = NULL);
+	virtual void init(Entity* ent = NULL, void* data = NULL);
 	virtual void execute() = 0;
 	virtual void undo() = 0;
 	virtual void* makeCopy() = 0;

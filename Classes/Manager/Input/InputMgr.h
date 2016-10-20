@@ -199,20 +199,23 @@ class InputMgr : public Manager
 		const Vector2 getMousePosition() const;
 		const Vector2 getMouseLastPosition() const { return m_lastMousePosition; }
 
+		void lockInput(bool b) { m_lockInput = b; }
+
 		void showImGuiWindow(bool* window);
 
 	private:
 		static InputMgr*							s_singleton;
 
-		std::map<KeyType::Enum, Key>			m_keyboard;
+		std::map<KeyType::Enum, Key>				m_keyboard;
 		std::map<KeyType::Enum, Key>				m_mouse;
 		std::vector<std::map<KeyType::Enum, Key>>	m_pads;
 		std::vector<bool>							m_padsStatus;
 		std::map<KeyType::Enum, Command*>			m_binds;
-		Vector2								m_lastMousePosition;
-		Vector2								m_currentMousePosition;
+		Vector2										m_lastMousePosition;
+		Vector2										m_currentMousePosition;
 		bool										m_updateWhenNoFocus;
 		bool										m_displayNullKey;
 		char*										m_keyName[KeyType::endPadKey + 1];
 		ImGuiTextFilter								m_filter;
+		bool										m_lockInput;
 };

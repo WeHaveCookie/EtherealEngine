@@ -6,7 +6,7 @@
 	"Position" : [500.0, 600.0],
 	"State" : "RIGHT",
 	"Mass" : 60,
-	"Animation" : [
+	"Animations" : [
 		{	
 			"State" : "RIGHT",
 			"Frame" : 6,

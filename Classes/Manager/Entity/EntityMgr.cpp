@@ -32,7 +32,7 @@ void EntityMgr::init()
 void EntityMgr::process(const float dt)
 {
 	sf::Clock clock;
-	PhysicMgr::getSingleton()->applyGravity();
+	//PhysicMgr::getSingleton()->applyGravity();
 	m_entitys->process(dt);
 	m_processTime = clock.getElapsedTime();
 }

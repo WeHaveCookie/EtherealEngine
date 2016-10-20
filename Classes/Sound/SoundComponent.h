@@ -14,6 +14,7 @@ public:
 	SoundComponent* getNext() { return m_state.m_next; }
 	uint32_t getUID() { return m_uid; }
 	const char* getName() const { return m_state.m_live.m_name.c_str(); }
+	void play() { m_play = true; }
 	void stop() { m_state.m_live.m_sound.stop(); }
 	void setUsed(bool b) { m_used = b; }
 	const bool isUsed() const { return m_used; }
