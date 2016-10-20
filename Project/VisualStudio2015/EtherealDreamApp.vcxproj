@@ -427,6 +427,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
   <ItemGroup>
     <ClInclude Include="..\..\Classes\Actions\Command.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandAttack.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandInput.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandJump.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h" />
@@ -480,6 +481,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
   <ItemGroup>
     <ClCompile Include="..\..\Classes\Actions\Command.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandAttack.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandInput.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp" />

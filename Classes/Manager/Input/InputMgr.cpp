@@ -250,7 +250,8 @@ void InputMgr::Key::executeCommand(uint32_t id)
 			m_lastPressed && !m_pressed && exeType == CommandExeType::JustReleased ||
 			m_pressed && exeType == CommandExeType::Pressed ||
 			!m_pressed && exeType == CommandExeType::Released ||
-			m_hasValue && (m_value >= 30.0f || m_value <= -30.0f))
+			m_hasValue && (m_value >= 30.0f || m_value <= -30.0f) ||
+			exeType == CommandExeType::AtOnce)
 		{
 			if (m_hasValue)
 			{
@@ -261,7 +262,6 @@ void InputMgr::Key::executeCommand(uint32_t id)
 			{
 				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id));
 			}
-			//m_command->execute();
 			CommandMgr::getSingleton()->addCommand(m_command);
 		}
 	}
@@ -327,6 +327,7 @@ InputMgr::InputMgr()
 {
 	s_singleton = this;
 	m_updateWhenNoFocus = false;
+	m_lockInput = false;
 }
 
 InputMgr::~InputMgr()
@@ -496,7 +497,10 @@ void InputMgr::process(const float dt)
 			{
 				m_keyboard[keyType].m_timeSincePressed = 0.0f;
 			}
-			m_keyboard[keyType].executeCommand();
+			if (!m_lockInput)
+			{
+				m_keyboard[keyType].executeCommand();
+			}
 		}
 
 		for (int i = KeyType::startMouseKey; i <= KeyType::endMouseKey; i++)
@@ -518,7 +522,10 @@ void InputMgr::process(const float dt)
 			{
 				m_mouse[keyType].m_timeSincePressed = 0.0f;
 			}
-			m_mouse[keyType].executeCommand();
+			if (!m_lockInput)
+			{
+				m_mouse[keyType].executeCommand();
+			}
 		}
 
 		for (int padID = 0; padID < sf::Joystick::Count; padID++)
@@ -544,7 +551,10 @@ void InputMgr::process(const float dt)
 					{
 						m_pads[padID][keyType].m_timeSincePressed = 0.0f;
 					}
-					m_pads[padID][keyType].executeCommand(padID);
+					if (!m_lockInput)
+					{
+						m_pads[padID][keyType].executeCommand(padID);
+					}
 				}
 			}
 		}
@@ -690,6 +700,7 @@ void InputMgr::showImGuiWindow(bool* window)
 	if (ImGui::Begin("InputMgr", window))
 	{
 		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
+		ImGui::Checkbox("Lock Input", &m_lockInput);
 		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
 		ImGui::Separator();
 		int i = 0;

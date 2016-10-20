@@ -253,8 +253,6 @@ void Entity::setState(EntityAnimationState::Enum state)
 {
 	if (m_state.m_live.m_currentState != state)
 	{
-		
-		
 		switch (state)
 		{
 		case EntityAnimationState::Right:
@@ -400,69 +398,6 @@ void Entity::setState(EntityAnimationState::Enum state)
 		default:
 			break;
 		}
-		
-		
-// 		if (state == EntityAnimationState::IdleLeft || state == EntityAnimationState::Left)
-// 		{
-// 			m_state.m_live.m_orientation = EntityOrientation::Left;
-// 		}
-// 		else if (state == EntityAnimationState::IdleRight || state == EntityAnimationState::Right)
-// 		{
-// 			m_state.m_live.m_orientation = EntityOrientation::Right;
-// 		}
-// 
-// 		if (state == EntityAnimationState::Idle)
-// 		{
-// 			if (m_state.m_live.m_orientation == EntityOrientation::Left && m_state.m_live.m_animations[EntityAnimationState::Left].activate())
-// 			{
-// 				m_state.m_live.m_currentState = EntityAnimationState::IdleLeft;
-// 			}
-// 			else if (m_state.m_live.m_orientation == EntityOrientation::Right && m_state.m_live.m_animations[EntityAnimationState::Right].activate())
-// 			{
-// 				m_state.m_live.m_currentState = EntityAnimationState::IdleRight;
-// 			}
-// 			else
-// 			{
-// 				m_state.m_live.m_currentState = state;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			if (state == EntityAnimationState::Fall && !m_state.m_live.m_animations[EntityAnimationState::Fall].activate())
-// 			{
-// 				setState(EntityAnimationState::Idle);
-// 			}
-// 			else if (state == EntityAnimationState::Jump && !m_state.m_live.m_animations[EntityAnimationState::Jump].activate())
-// 			{
-// 				m_state.m_live.m_animations[m_state.m_live.m_currentState].reset();
-// 				if (m_state.m_live.m_orientation == EntityOrientation::Left)
-// 				{
-// 					m_state.m_live.m_currentState = EntityAnimationState::Left;
-// 				}
-// 				else
-// 				{
-// 					m_state.m_live.m_currentState = EntityAnimationState::Right;
-// 				}
-// 			}
-// 			else if (state == EntityAnimationState::Jump)
-// 			{
-// 				if (m_state.m_live.m_orientation == EntityOrientation::Left)
-// 				{
-// 					m_state.m_live.m_currentState = EntityAnimationState::JumpLeft;
-// 				}
-// 				else
-// 				{
-// 					m_state.m_live.m_currentState = EntityAnimationState::JumpRight;
-// 				}
-// 			}
-// 			else if (state == EntityAnimationState::Attack)
-// 			{
-// 
-// 			} else
-// 			{
-// 				m_state.m_live.m_currentState = state;
-// 			}
-// 		}
 	}
 }
 
@@ -932,7 +867,7 @@ void Entity::build(const char* path)
 	m_state.m_live.m_vGrav = 0.40f;
 	m_state.m_live.m_vJump = -15.0f;
 	m_state.m_live.m_vy = 0.0f;
-	m_state.m_live.m_vMax = 60.0f;
+	m_state.m_live.m_vMax = 15.0f;
 	if (document.HasMember("JumpParam"))
 	{
 		const rapidjson::Value& jumpParam = document["JumpParam"];
@@ -1119,7 +1054,7 @@ void Entity::displayInfo()
 			}
 			if (ImGui::Button("Jump"))
 			{
-				setAction(EntityAction::Jump, true);
+				jump();
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Attack"))
@@ -1249,7 +1184,7 @@ void Entity::move(Vector2 motion)
 
 void Entity::jump() 
 {
-	m_state.m_live.m_action |= EntityAction::Jump;
+	m_state.m_live.m_action = EntityAction::Jump;
 	if (m_state.m_live.m_currentState != EntityAnimationState::JumpLeft && m_state.m_live.m_currentState != EntityAnimationState::JumpRight && m_state.m_live.m_currentState != EntityAnimationState::Jump)
 	{
 		setState(EntityAnimationState::Jump);

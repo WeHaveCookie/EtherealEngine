@@ -51,10 +51,15 @@
 		},
 		{
 			"State" : "ATTACK_LEFT",
-			"Frame" : 37,
+			"Frame" : 33,
 			"Line" : 1,
 			"Time" : 0.04,
 			"Commands" : [
+				{
+					"Command" : "LockInput",
+					"StartFrame" : 1,
+					"EndFrame" : 1
+				},
 				{
 					"Command" : "MoveLeft",
 					"Value" : 20.0,
@@ -96,16 +101,26 @@
 					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_01.ogg",
 					"StartFrame" : 4,
 					"EndFrame" : 4
+				},
+				{
+					"Command" : "UnlockInput",
+					"StartFrame" : 33,
+					"EndFrame" : 33
 				}
 			]
 		},
 		{
 			"State" : "ATTACK_RIGHT",
-			"Frame" : 37,
+			"Frame" : 33,
 			"Line" : 4,
 			"Time" : 0.04,
 			"Reverse" : true,
 			"Commands" : [
+				{
+					"Command" : "LockInput",
+					"StartFrame" : 1,
+					"EndFrame" : 1
+				},
 				{
 					"Command" : "MoveRight",
 					"Value" : 20.0,
@@ -147,6 +162,11 @@
 					"Path" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_01.ogg",
 					"StartFrame" : 4,
 					"EndFrame" : 4
+				},
+				{
+					"Command" : "UnlockInput",
+					"StartFrame" : 33,
+					"EndFrame" : 33
 				}
 			]
 		},

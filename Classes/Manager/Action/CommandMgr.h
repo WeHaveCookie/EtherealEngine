@@ -18,7 +18,9 @@ namespace CommandType
 		MoveYAxis,
 		Jump,
 		Attack,
-		Sound
+		Sound,
+		LockInput,
+		UnlockInput
 	};
 }
 

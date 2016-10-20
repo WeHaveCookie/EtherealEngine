@@ -108,6 +108,10 @@ struct EntityAnimation {
 	}
 
 	void nextFrame() {
+		if (m_currentFrame == 0)
+		{
+			m_animation[m_currentFrame].execute();
+		}
 		m_currentFrame++;
 		if (m_loop)
 		{
@@ -123,7 +127,10 @@ struct EntityAnimation {
 			m_finish = true;
 			m_currentFrame = 0;
 		}
-		m_animation[m_currentFrame].execute();
+		else
+		{
+			m_animation[m_currentFrame].execute();
+		}
 	}
 
 	void update(const float dt)
@@ -246,7 +253,7 @@ class Entity
 		const bool isFall() const { return isInAction(EntityAction::Fall); }
 		const bool isAttack() const { return isInAction(EntityAction::Attack); }
 		const bool isHit() const { return isInAction(EntityAction::Hit); }
-		void attack() { setAction(EntityAction::Attack, true); }
+		void attack() { m_state.m_live.m_action = EntityAction::Attack; }
 		void hit() { setAction(EntityAction::Hit, true); }
 
 
