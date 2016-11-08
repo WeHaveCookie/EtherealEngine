@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-#include "EtherealDreamManagers.h"
+#include "EtherealEngineManagers.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Input/InputMgr.h"

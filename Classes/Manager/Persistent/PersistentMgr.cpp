@@ -260,7 +260,7 @@ PersistentMgr::PersistentMgr()
 	:Manager(ManagerType::Persistent)
 {
 	singleton = this;
-	setSaveDirName(L"/EtherealDream/");
+	setSaveDirName(L"/EtherealEngine/");
 	m_saveName = SAVE_DATA_DEFAULT_NAME;
 	m_saveOpened = false;
 }

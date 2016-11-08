@@ -35,10 +35,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F92D2379-E526-42CB-0E59-2750FAB021D7}</ProjectGuid>
+    <ProjectGuid>{C6D7C00D-32EE-BEA3-7B65-4AC5E7BA8F2B}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>EtherealDreamApp</RootNamespace>
+    <RootNamespace>EtherealEngineApp</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,57 +120,57 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\Win32\Debug\</OutDir>
-    <IntDir>Obj\Debug_Win32_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Debug_Win32_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\x64\Debug\</OutDir>
-    <IntDir>Obj\Debug_x64_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Debug_x64_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\Win32\Debug Optimized\</OutDir>
-    <IntDir>Obj\Debug Optimized_Win32_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Debug Optimized_Win32_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\x64\Debug Optimized\</OutDir>
-    <IntDir>Obj\Debug Optimized_x64_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Debug Optimized_x64_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\bin\Win32\Release\</OutDir>
-    <IntDir>Obj\Release_Win32_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Release_Win32_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\bin\x64\Release\</OutDir>
-    <IntDir>Obj\Release_x64_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Release_x64_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\bin\Win32\Final\</OutDir>
-    <IntDir>Obj\Final_Win32_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Final_Win32_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Final|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\bin\x64\Final\</OutDir>
-    <IntDir>Obj\Final_x64_EtherealDreamApp\</IntDir>
-    <TargetName>EtherealDream</TargetName>
+    <IntDir>Obj\Final_x64_EtherealEngineApp\</IntDir>
+    <TargetName>EtherealEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -180,7 +180,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -209,7 +209,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -238,7 +238,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -267,7 +267,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_DEBUG;_DEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -296,7 +296,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
@@ -329,7 +329,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
@@ -363,7 +363,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_FINAL;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_FINAL;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
@@ -397,7 +397,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <PreprocessorDefinitions>ETHEREALDREAM_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALDREAM_FINAL;NDEBUG;ETHEREAL_GAME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_FINAL;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>

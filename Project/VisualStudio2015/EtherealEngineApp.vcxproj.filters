@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Classes">
@@ -123,6 +123,9 @@
     <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h">
       <Filter>Classes\Entity\Pnj</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\EtherealEngineManagers.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Files\Reader.h">
       <Filter>Classes\Files</Filter>
     </ClInclude>
@@ -246,9 +249,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Project\VisualStudio2015</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\EtherealEngineManagers.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Classes\Actions\Command.cpp">
@@ -280,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp">
       <Filter>Classes\Entity\Pnj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Files\Reader.cpp">
       <Filter>Classes\Files</Filter>
@@ -382,9 +385,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Project\VisualStudio2015</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp">
-      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -52,15 +52,15 @@ DECLARE_MANAGER(SaveThread)
 
 class Manager;
 
-class EtherealDreamManagers
+class EtherealEngineManagers
 {
 public:
-	static EtherealDreamManagers* getSingleton()
+	static EtherealEngineManagers* getSingleton()
 	{
 		return m_instance;
 	}
 
-	EtherealDreamManagers();
+	EtherealEngineManagers();
 
 	void					CreateManagers();
 	void					InitManagers();
@@ -73,5 +73,5 @@ public:
 
 private:
 	std::vector<Manager*>			m_managers;
-	static EtherealDreamManagers*	m_instance;
+	static EtherealEngineManagers*	m_instance;
 };

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "EtherealDreamManagers.h"
+#include "EtherealEngineManagers.h"
 
 #include "Manager/Time/TimeMgr.h"
 #include "Manager/Sound/SoundMgr.h"
@@ -20,7 +20,7 @@
 #include "Thread/LoadingThread.h"
 #include "Thread/SaveThread.h"
 
-EtherealDreamManagers* EtherealDreamManagers::m_instance = NULL;
+EtherealEngineManagers* EtherealEngineManagers::m_instance = NULL;
 
 #define REGISTER_MANAGER(ManagerClass) ManagerClass* g_##ManagerClass = NULL;
 
@@ -54,13 +54,13 @@ REGISTER_MANAGER(CommandMgr)
 REGISTER_MANAGER(LoadingThread)
 REGISTER_MANAGER(SaveThread)
 
-EtherealDreamManagers::EtherealDreamManagers()
+EtherealEngineManagers::EtherealEngineManagers()
 {
 	m_instance = this;
 }
 
 
-void EtherealDreamManagers::CreateManagers()
+void EtherealEngineManagers::CreateManagers()
 {
 	g_LoadingThread = new LoadingThread();
 	g_SaveThread = new SaveThread();
@@ -82,7 +82,7 @@ void EtherealDreamManagers::CreateManagers()
 		CREATE_MGR(GuiMgr)
 }
 
-void EtherealDreamManagers::InitManagers()
+void EtherealEngineManagers::InitManagers()
 {
 
 	INIT_MGR(CommandMgr)
@@ -102,7 +102,7 @@ void EtherealDreamManagers::InitManagers()
 		INIT_MGR(GuiMgr)
 }
 
-void EtherealDreamManagers::UpdateManagers(float _dt)
+void EtherealEngineManagers::UpdateManagers(float _dt)
 {
 	g_DeltaTimeRaw = _dt;
 	g_DeltaTime = g_DeltaTimeRaw * g_DeltaTimeFactor;
@@ -128,7 +128,7 @@ void EtherealDreamManagers::UpdateManagers(float _dt)
 		PROCESS_MGR(GuiMgr)
 }
 
-void EtherealDreamManagers::DestroyManagers()
+void EtherealEngineManagers::DestroyManagers()
 {
 
 	END_MGR(InputMgr)
@@ -158,7 +158,7 @@ void EtherealDreamManagers::DestroyManagers()
 	m_managers.clear();
 }
 
-Manager* EtherealDreamManagers::getManager(ManagerType::Enum type)
+Manager* EtherealEngineManagers::getManager(ManagerType::Enum type)
 {
 	for (uint32_t ID = 0; ID < m_managers.size(); ++ID)
 	{
@@ -168,7 +168,7 @@ Manager* EtherealDreamManagers::getManager(ManagerType::Enum type)
 	return NULL;
 }
 
-bool EtherealDreamManagers::isRunning() 
+bool EtherealEngineManagers::isRunning() 
 { 
 	return g_GameMgr->isRunning(); 
 }

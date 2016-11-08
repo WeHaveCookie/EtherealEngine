@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GameMgr.h"
-#include "EtherealDreamManagers.h"
+#include "EtherealEngineManagers.h"
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Entity/EntityMgr.h"
 #include "Manager/Sound/SoundMgr.h"
@@ -14,41 +14,8 @@
 
 #include "Utils/Random.h"
 
-#define GAME_NAME "EtherealDream"
-#define TEST "{\n\
-			\"Name\" : \"Player\",\n\
-			\"Width\" : 105,\n\
-			\"Height\" : 105,\n\
-			\"Speed\" : 1.0,\n\
-			\"Position\" : [100.0, 500.0],\n\
-			\"State\" : \"RIGHT\",\n\
-			\"Animation\" : [\n\
-		{\n\
-			\"State\" : \"RIGHT\",\n\
-				\"Frame\" : 6,\n\
-				\"Line\" : 1,\n\
-				\"Time\" : 0.2\n\
-		},\n\
-		{\n\
-			\"State\" : \"LEFT\",\n\
-			\"Frame\" : 6,\n\
-			\"Line\" : 2,\n\
-			\"Time\" : 0.2\n\
-		},\n\
-		{\n\
-			\"State\" : \"IDLE_RIGHT\",\n\
-			\"Frame\" : 6,\n\
-			\"Line\" : 3,\n\
-			\"Time\" : 0.2\n\
-		},\n\
-		{\n\
-			\"State\" : \"IDLE_LEFT\",\n\
-			\"Frame\" : 6,\n\
-			\"Line\" : 4,\n\
-			\"Time\" : 0.2\n\
-		}\n\
-			]\n\
-	}"
+#define GAME_NAME "EtherealEngine"
+
 GameMgr* GameMgr::s_singleton = NULL;
 
 GameMgr::GameMgr()
@@ -71,7 +38,7 @@ void GameMgr::init()
 	{
 		vm = sf::VideoMode(1920, 1080);
 	}
-	m_mainRenderWindow = new sf::RenderWindow(vm, "Ethereal Dream", sf::Style::Default /*| sf::Style::Fullscreen*/);
+	m_mainRenderWindow = new sf::RenderWindow(vm, "Ethereal Engine", sf::Style::Default /*| sf::Style::Fullscreen*/);
 	setFrameRate(60);
 	m_mainRenderWindow->setVerticalSyncEnabled(true);
 	srand(time(NULL));

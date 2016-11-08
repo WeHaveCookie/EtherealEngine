@@ -33,14 +33,14 @@
 	-- removelibdirs { "foo/", "bar/" }
 
 
-local etherealDreamPath = "./"
-include(etherealDreamPath .. "Premake/etherealDreamProject")
+local etherealEnginePath = "./"
+include(etherealEnginePath .. "Premake/etherealEngineProject")
 
-solution "EtherealDream"
+solution "EtherealEngine"
 	platforms { "Win32", "x64" }
 	configurations { "Debug", "Debug Optimized", "Release", "Final" }
 
-	startproject "EtherealDreamApp"
+	startproject "EtherealEngineApp"
 
 	
 	filter "action:vs2015"
@@ -48,17 +48,17 @@ solution "EtherealDream"
 		objdir("Project/VisualStudio2015/Obj/%{cfg.buildcfg}_%{cfg.platform}_%{prj.name}")
 	filter {}
 
-	includeEtherealDream(etherealDreamPath)
+	includeEtherealEngine(etherealEnginePath)
 	-- projects
-	EtherealDreamProject ("EtherealDreamApp", etherealDreamPath)
+	EtherealEngineProject("EtherealEngineApp", etherealEnginePath)
 
-		targetname ( "EtherealDream" )
+		targetname ( "EtherealEngine" )
 
 
 		-- //////////// COMMON SETTINGS ////////////
 
 		defines {
-			"ETHEREAL_GAME"
+			"ETHEREAL_ENGINE"
 		}
 
 

@@ -34,15 +34,15 @@
 
 
 
--- //////////// ETHEREAL DREAM LIB DEPENDENCIES ////////////
--- Every lib needed in order to include EtherealDreamLib should be added here
-function linkEtherealDreamLibs(etherealDreamPath)
+-- //////////// ETHEREAL Engine LIB DEPENDENCIES ////////////
+-- Every lib needed in order to include EtherealEngineLib should be added here
+function linkEtherealEngineLibs(etherealEnginePath)
 
 -- //////////// COOMMON SETTINGS ////////////
 
 	filter { "platforms:Win32 or platforms:x64"}
 		includedirs {
-			etherealDreamPath .. "../External/SFML-2.3.2/include",
+			etherealEnginePath .. "../External/SFML-2.3.2/include",
 		}
 		
 		links{
@@ -58,7 +58,7 @@ function linkEtherealDreamLibs(etherealDreamPath)
 			}
 			
 		libdirs {
-			etherealDreamPath .. "../External/SFML-2.3.2/lib/x32",
+			etherealEnginePath .. "../External/SFML-2.3.2/lib/x32",
 		}
 
 	filter { "platforms:Win32", "configurations:Debug or Debug Optimized" }
@@ -99,7 +99,7 @@ function linkEtherealDreamLibs(etherealDreamPath)
 			}
 		
 		libdirs {
-			etherealDreamPath .. "../External/SFML-2.3.2/lib/x64",
+			etherealEnginePath .. "../External/SFML-2.3.2/lib/x64",
 		}
 			
 	filter { "platforms:x64", "configurations:Debug or Debug Optimized" }
@@ -134,34 +134,34 @@ function linkEtherealDreamLibs(etherealDreamPath)
 	filter {}
 end
 
-function includeEtherealDream(etherealDreamPath)
+function includeEtherealEngine(etherealEnginePath)
 	
 	-- Normalize Path
-	if not string.endswith(etherealDreamPath, "/") then
-		etherealDreamPath = etherealDreamPath .. "/"
+	if not string.endswith(etherealEnginePath, "/") then
+		etherealEnginePath = etherealEnginePath .. "/"
 	end
 	
 -- //////////// COMMON SETTINGS ////////////
 		kind "StaticLib"
-		targetdir(etherealDreamPath .. "Lib/%{cfg.platform}/%{cfg.buildcfg}/")
+		targetdir(etherealEnginePath .. "Lib/%{cfg.platform}/%{cfg.buildcfg}/")
 		removelinkoptions {
 			"/LARGEADDRESSAWARE",
 		}
 	
 		defines { 
-			"ETHEREALDREAM_GAME",
+			"ETHEREALENGINE_GAME",
 		}
 		
 		removefiles {
-			etherealDreamPath .. "Project/VisualStudio2015/main.cpp"
+			etherealEnginePath .. "Project/VisualStudio2015/main.cpp"
 		}
 
 	
 end
 
-function EtherealDreamProject(name, etherealDreamPath)
+function EtherealEngineProject(name, etherealEnginePath)
 		
-		etherealDreamPath = etherealDreamPath or "./"
+		etherealEnginePath = etherealEnginePath or "./"
 			
 		filter "action:vs2015"
 			location ("Project/VisualStudio2015/")
@@ -178,25 +178,25 @@ function EtherealDreamProject(name, etherealDreamPath)
 			rtti "On"
 			editandcontinue "On"
 			pchheader "stdafx.h"
-			pchsource(etherealDreamPath .. "Project/VisualStudio/stdafx.cpp")
+			pchsource(etherealEnginePath .. "Project/VisualStudio/stdafx.cpp")
 			files {
-				etherealDreamPath .. "Classes/**.c",
-				etherealDreamPath .. "Classes/**.cpp",
-				etherealDreamPath .. "Classes/**.h",
-				etherealDreamPath .. "Classes/**.inl",
-				etherealDreamPath .. "Project/VisualStudio2015/*.c",
-				etherealDreamPath .. "Project/VisualStudio2015/*.cpp",
-				etherealDreamPath .. "Project/VisualStudio2015/*.h",
+				etherealEnginePath .. "Classes/**.c",
+				etherealEnginePath .. "Classes/**.cpp",
+				etherealEnginePath .. "Classes/**.h",
+				etherealEnginePath .. "Classes/**.inl",
+				etherealEnginePath .. "Project/VisualStudio2015/*.c",
+				etherealEnginePath .. "Project/VisualStudio2015/*.cpp",
+				etherealEnginePath .. "Project/VisualStudio2015/*.h",
 			}
 			vpaths {
 				["*"] = { "." },
 			}
 			includedirs {
-				etherealDreamPath .. "Project/VisualStudio2015",
-				etherealDreamPath .. "Classes",
-				etherealDreamPath .. "../External/ImGui",
-				etherealDreamPath .. "../External/rapidjson",
-				etherealDreamPath .. "../External/moodycamel",
+				etherealEnginePath .. "Project/VisualStudio2015",
+				etherealEnginePath .. "Classes",
+				etherealEnginePath .. "../External/ImGui",
+				etherealEnginePath .. "../External/rapidjson",
+				etherealEnginePath .. "../External/moodycamel",
 				
 				"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10150.0/ucrt"
 			}
@@ -224,11 +224,11 @@ function EtherealDreamProject(name, etherealDreamPath)
 				}
 		
 			filter "configurations:Debug"
-				defines { "ETHEREALDREAM_DEBUG", "_DEBUG" }
+				defines { "ETHEREALENGINE_DEBUG", "_DEBUG" }
 				runtime "Debug"
 
 			filter "configurations:Debug Optimized"
-				defines { "ETHEREALDREAM_DEBUG", "_DEBUG" }
+				defines { "ETHEREALENGINE_DEBUG", "_DEBUG" }
 				runtime "Debug"
 
 
@@ -238,7 +238,7 @@ function EtherealDreamProject(name, etherealDreamPath)
 				optimize "Speed"
 				
 			filter "configurations:Final"
-				defines { "ETHEREALDREAM_FINAL", "NDEBUG" }
+				defines { "ETHEREALENGINE_FINAL", "NDEBUG" }
 				runtime "Release"
 				optimize "Full"
 
@@ -249,7 +249,7 @@ function EtherealDreamProject(name, etherealDreamPath)
 				
 			filter {}
 
-		-- This call provides all the libs needed by Ethereal Dream
-		linkEtherealDreamLibs(etherealDreamPath)
+		-- This call provides all the libs needed by Ethereal Engine
+		linkEtherealEngineLibs(etherealEnginePath)
 		
 end

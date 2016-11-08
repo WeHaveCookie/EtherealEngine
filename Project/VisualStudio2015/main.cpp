@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
-#include "EtherealDreamManagers.h"
+#include "EtherealEngineManagers.h"
 #include "Manager/Game/GameMgr.h"
 
 int main()
 {
-	EtherealDreamManagers* gameMgrs = new EtherealDreamManagers();
+	EtherealEngineManagers* gameMgrs = new EtherealEngineManagers();
 	gameMgrs->CreateManagers();
 	gameMgrs->InitManagers();
 	sf::Clock framerate;
