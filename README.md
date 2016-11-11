@@ -1,7 +1,7 @@
-# EtherealDream
+# Ethereal Engine
 
 ## Presentation
-EtherealDream is a very basic "Game Engine" mainly based on the SFML. It's used Moodycamel, Rapidjson, and ImGui. We can find link in the External section
+Ethereal Engine is a very basic "Game Engine" mainly based on the SFML. It's used Moodycamel, Rapidjson, and ImGui. We can find link in the External section
 It's currently in development and much work remains to be done.
 
 ## How to use
@@ -45,7 +45,7 @@ Tips : Sometime, regenerate solution by premake removes create option for PCH. J
 
 
 ## External
-EtherealDream uses these following external repositories:
+Ethereal Engine uses these following external repositories:
 
 ImGui : https://github.com/ocornut/imgui
 
