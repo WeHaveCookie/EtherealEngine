@@ -156,6 +156,7 @@ class InputMgr : public Manager
 			m_pressed = false;
 			m_lastPressed = false;
 			m_lastPressed = m_pressed;
+			m_timeSincePressed = 0.0f;
 			m_command = NULL;
 			m_hasValue = false;
 			m_value = 0.0f;

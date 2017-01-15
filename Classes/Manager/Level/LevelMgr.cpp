@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LevelMgr.h"
 #include "Level/Quadtree.h"
+#include "Manager/Game/GameMgr.h"
 
 LevelMgr* LevelMgr::s_singleton = NULL;
 
@@ -22,6 +23,7 @@ void LevelMgr::init()
 	m_quadtree = new Quadtree();
 	m_quadtree->init(0.0f, 0.0f, 1920.0f, 1080.0f);
 	m_quadtree->setNodeCapacity(50);
+	GameMgr::getSingleton()->setNumberPlayer(1);
 }
 
 void LevelMgr::process(const float dt)

@@ -603,7 +603,7 @@ void checkAndAffect(rapidjson::Document* doc, const char* nameAttribut, ValueTyp
 				memcpy(*attPtr, (void*)&defaultValue, sizeOfDefaultValue);
 				break;
 			case ValueType::Bool:
-				memcpy(*attPtr, defaultValue, sizeof(defaultValue));
+				memcpy(*attPtr, defaultValue, sizeof(bool));
 				break;
 			case ValueType::Vector2:
 				memcpy(*attPtr, defaultValue, sizeof(Vector2));
@@ -648,10 +648,7 @@ void Entity::build(const char* path)
 	checkAndAffect(&document, "Width", ValueType::Int, (void**)&widthPtr);
 	checkAndAffect(&document, "Height", ValueType::Int, (void**)&heightPtr);
 
-
 	bool member;
-	
-
 	sf::Sprite spr;
 
 	auto scalePtr = &m_state.m_live.m_scale;
@@ -672,7 +669,6 @@ void Entity::build(const char* path)
 		replaceJsonByPng(entPath, path);
 	}
 
-
 	m_state.m_live.m_texturePath = entPath;
 
 	auto load = m_state.m_live.m_texture.loadFromFile(entPath);
@@ -680,22 +676,21 @@ void Entity::build(const char* path)
 	m_state.m_live.m_texture.setSmooth(false);
 	spr.setTexture(m_state.m_live.m_texture);
 
-
 	auto namePtr = &m_state.m_live.m_name;
 	checkAndAffect(&document, "Name", ValueType::String, (void**)&namePtr, "NoName", sizeof("NoName"));
-
 
 	auto speedPtr = &m_state.m_live.m_speed;
 	float defaultSpeed = 1.0f;
 	checkAndAffect(&document, "Speed", ValueType::Float, (void**)&speedPtr, (void*)&defaultSpeed);
 	setSpeed(m_state.m_live.m_speed);
 
-
+	auto animatedPtr = &m_state.m_live.m_animate;
+	bool defaultAnimated = false;
+	checkAndAffect(&document, "Animated", ValueType::Bool, (void**)&animatedPtr, (void*)&defaultAnimated);
 	
 	auto priorityPtr = &m_state.m_live.m_displayPriority;
 	uint32_t priorityDefault = 0;
 	checkAndAffect(&document, "DisplayPriority", ValueType::Uint, (void**)&priorityPtr, (void*)&priorityDefault);
-
 
 	m_state.m_live.m_orientation = EntityOrientation::Right;
 	if (document.HasMember("Orientation"))
@@ -712,8 +707,8 @@ void Entity::build(const char* path)
 	}
 
 	auto collidablePtr = &m_state.m_live.m_collidable;
-	bool collidableDefault = true;
-	checkAndAffect(&document, "Collidable", ValueType::Bool, (void**)&collidablePtr, (void*)&collidableDefault);
+	bool defaultCollidable = true;
+	checkAndAffect(&document, "Collidable", ValueType::Bool, (void**)&collidablePtr, (void*)&defaultCollidable);
 
 	if (m_state.m_live.m_collidable)
 	{
@@ -910,7 +905,7 @@ void Entity::build(const char* path)
 	m_onLoading = false;
 	m_loaded = true;
 	m_state.m_live.m_sleep = false;
-	free(json);
+	FileMgr::CloseFile(json);
 }
 
 void Entity::updatePosition()

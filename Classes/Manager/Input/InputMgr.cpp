@@ -342,8 +342,8 @@ void InputMgr::init()
 {
 	for (int i = 0; i < KeyType::endPadKey + 1; i++)
 	{
-		m_keyName[i] = (char*)malloc(sizeof(char)*strlen(KeyTypeToString[i]));
-		strcpy(m_keyName[i], KeyTypeToString[i]);
+ 		m_keyName[i] = (char*)malloc(sizeof(char)*(strlen(KeyTypeToString[i])+1));
+ 		strcpy(m_keyName[i], KeyTypeToString[i]);
 	}
 
 	m_displayNullKey = false;
@@ -417,6 +417,7 @@ void InputMgr::init()
 			m_pads[j][keyType] = key;
 		}
 	}
+	FileMgr::CloseFile(json);
 }
 
 void InputMgr::process(const float dt)

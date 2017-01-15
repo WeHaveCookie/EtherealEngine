@@ -46,7 +46,6 @@ void GameMgr::init()
 	auto soundMgr = SOUND_MGR;
 	strcpy(m_gameName, GAME_NAME);
 	m_movementSpeed = 5;
-	setNumberPlayer(1);
 }
 
 void GameMgr::process(const float dt)

@@ -14,6 +14,7 @@ public:
 	static void CreateDirectories(const wchar_t* path);
 	static void GetFilesInDirectory(std::vector<std::wstring> &out, const std::wstring &directory, const std::wstring extention = L"");
 	static void ReadFile(const char* path, void** buffer, int* bufferSize);
+	static void CloseFile(void* buffer);
 
 private:
 	static FileMgr* s_singleton;

@@ -5,6 +5,7 @@
 	"Speed" : 1.0,
 	"Position" : [500.0, 600.0],
 	"State" : "RIGHT",
+	"Animated" : true,
 	"Mass" : 60,
 	"Animations" : [
 		{	
