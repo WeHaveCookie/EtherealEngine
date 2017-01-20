@@ -5,8 +5,9 @@
 	"Speed" : 0.0,
 	"Position" : [0.0, 933.0],
 	"State" : "IDLE_RIGHT",
-	"Collidable" : false,
+	"Collidable" : true,
 	"Type" : "Anchor",
+	"BackgroundLevel" : 20,
 	"Animations" : [
 		{
 			"State" : "IDLE_RIGHT",

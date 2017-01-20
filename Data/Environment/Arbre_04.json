@@ -1,0 +1,19 @@
+{
+	"Name" : "Tree04",
+	"Width" : 31,
+	"Height" : 51,
+	"Speed" : 1.0,
+	"Position" : [0.0, 0.0],
+	"Scale" : [2.0, 2.0],
+	"State" : "IDLE",
+	"Collidable" : false,
+	"BackgroundLevel" : 2,
+	"Animations" : [
+		{
+			"State" : "IDLE",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		}
+	]
+}

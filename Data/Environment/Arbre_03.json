@@ -1,0 +1,18 @@
+{
+	"Name" : "Tree03",
+	"Width" : 60,
+	"Height" : 97,
+	"Speed" : 1.0,
+	"Position" : [0.0, 0.0],
+	"State" : "IDLE",
+	"Collidable" : false,
+	"BackgroundLevel" : 4,
+	"Animations" : [
+		{
+			"State" : "IDLE",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		}
+	]
+}

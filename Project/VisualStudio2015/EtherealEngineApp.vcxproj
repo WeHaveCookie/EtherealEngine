@@ -438,6 +438,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\EtherealEngineManagers.h" />
     <ClInclude Include="..\..\Classes\Files\Reader.h" />
     <ClInclude Include="..\..\Classes\HUD\Menu.h" />
+    <ClInclude Include="..\..\Classes\Level\Level.h" />
     <ClInclude Include="..\..\Classes\Level\Quadtree.h" />
     <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h" />
@@ -475,6 +476,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Utils\Random.h" />
     <ClInclude Include="..\..\Classes\Utils\Vector2.h" />
     <ClInclude Include="..\..\Classes\Utils\VectorUtils.h" />
+    <ClInclude Include="..\..\Classes\Utils\containerUtils.h" />
+    <ClInclude Include="..\..\Classes\Utils\jsonUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -492,6 +495,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp" />
     <ClCompile Include="..\..\Classes\Files\Reader.cpp" />
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp" />
+    <ClCompile Include="..\..\Classes\Level\Level.cpp" />
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp" />
@@ -524,14 +528,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Utils\Vector2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Final|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

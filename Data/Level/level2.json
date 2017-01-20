@@ -1,0 +1,40 @@
+{
+	"Name" : "Level2",
+	"Size" : [1920,1080],
+	"Backgrounds" : [
+		{
+			"Path" : "Data/Background/ciel.png",
+			"BackgroundLevel" : 0 
+		}
+	],
+	"Entitys" : [
+		{
+			"Path" : "Data/Character/Ground.json"
+		},
+		{
+			"Path" : "Data/Character/cow.json",
+			"Position" : [[800.0, 800.0]]
+		},
+		{
+			"Path" : "Data/Environment/Arbre_01.json",
+			"Position" : [
+				[400.0, 780.0],
+				[600.0, 780.0],
+				[800.0, 780.0]
+			]
+		},
+		{
+			"Path" : "Data/Environment/Arbre_02.json",
+			"Position" : [[100.0, 885.0]]
+		},
+		{
+			"Path" : "Data/Environment/Arbre_03.json",
+			"Position" : [[250.0, 845.0]]
+		},
+		{
+			"Path" : "Data/Environment/Arbre_04.json",
+			"Position" : [[1000.0, 835.0]]
+		}
+
+	]
+}

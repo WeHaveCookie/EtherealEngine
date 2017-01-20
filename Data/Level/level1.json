@@ -1,0 +1,19 @@
+{
+	"Name" : "Level1",
+	"Size" : [1920,1080],
+	"Backgrounds" : [
+		{
+			"Path" : "Data/Background/ciel.png",
+			"BackgroundLevel" : 0 
+		}
+	],
+	"Entitys" : [
+		{
+			"Path" : "Data/Character/Ground.json"
+		},
+		{
+			"Path" : "Data/Character/assassinAttack.json",
+			"Position" : [800.0, 500.0]
+		}
+	]
+}

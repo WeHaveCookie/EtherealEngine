@@ -132,6 +132,9 @@
     <ClInclude Include="..\..\Classes\HUD\Menu.h">
       <Filter>Classes\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Level\Level.h">
+      <Filter>Classes\Level</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Level\Quadtree.h">
       <Filter>Classes\Level</Filter>
     </ClInclude>
@@ -243,6 +246,12 @@
     <ClInclude Include="..\..\Classes\Utils\VectorUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\containerUtils.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Utils\jsonUtils.h">
+      <Filter>Classes\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
@@ -289,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
       <Filter>Classes\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Level\Level.cpp">
+      <Filter>Classes\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp">
       <Filter>Classes\Level</Filter>
