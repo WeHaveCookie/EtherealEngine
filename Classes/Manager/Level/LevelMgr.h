@@ -4,6 +4,7 @@
 
 class Quadtree;
 class Entity;
+class Level;
 
 class LevelMgr : public Manager
 {
@@ -32,6 +33,9 @@ class LevelMgr : public Manager
 		int getMasterQueryCount() { int tmp = m_queryCount; m_queryCount = 0; return tmp; }
 		int getQueryCount();
 
+		bool loadLevel(char* path);
+		void unloadLevel();
+		uint32_t loadLevelAsync();
     protected:
     private:
         // Function
@@ -39,5 +43,6 @@ class LevelMgr : public Manager
 		Quadtree*			m_quadtree;
 		sf::Time			m_processTime;
 		int					m_queryCount;
+		Level*				m_level;
 };
 
