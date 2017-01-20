@@ -4,6 +4,7 @@
 #include "Manager/Level/LevelMgr.h"
 #include "Manager/Input/InputMgr.h"
 #include "Thread/LoadingThread.h"
+#include "Utils/containerUtils.h"
 
 EntityPool::EntityPool(int size)
 	:m_poolSize(size)
@@ -79,9 +80,13 @@ void EntityPool::process(const float dt)
 	}
 }
 
+
+
 void EntityPool::paint()
 {
-	for (auto& entity : m_entitys)
+
+	auto usedEntity = getUsedEntitysSortedLTH();
+	for (auto& entity : usedEntity)
 	{
 		entity->paint();
 	}
@@ -103,7 +108,7 @@ void EntityPool::release(uint32_t id)
 {
 	for (auto& entity : m_entitys)
 	{
-		if (entity->getUID() == id)
+		if (entity->getUID() == id && entity->isAlive())
 		{
 			release(entity);
 			m_usedEntity--;
@@ -130,6 +135,45 @@ const std::vector<Entity*> EntityPool::getUsedEntitys() const
 		if (entity->isAlive())
 		{
 			res.push_back(entity);
+		}
+	}
+	return res;
+}
+
+
+bool cmpDisplayLevelLTH(Entity* a, Entity* b)
+{
+	return a->getBackgroundLevel() >= b->getBackgroundLevel();
+
+}
+
+const std::vector<Entity*> EntityPool::getUsedEntitysSortedLTH() const 
+{
+	std::vector<Entity*> res;
+	for (auto& entity : m_entitys)
+	{
+		if (entity->isAlive())
+		{
+			pushSorted(&res, entity, cmpDisplayLevelLTH);
+		}
+	}
+	return res;
+}
+
+bool cmpDisplayLevelHTL(Entity* a, Entity* b)
+{
+	return a->getBackgroundLevel() < b->getBackgroundLevel();
+
+}
+
+const std::vector<Entity*> EntityPool::getUsedEntitysSortedHTL() const
+{
+	std::vector<Entity*> res;
+	for (auto& entity : m_entitys)
+	{
+		if (entity->isAlive())
+		{
+			pushSorted(&res, entity, cmpDisplayLevelHTL);
 		}
 	}
 	return res;

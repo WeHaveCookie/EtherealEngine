@@ -11,7 +11,7 @@
 #include "Utils/VectorUtils.h"
 #include "Actions/Command.h"
 #include "Manager/Action/CommandMgr.h"
-
+#include "Utils/jsonUtils.h"
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
 
@@ -125,12 +125,15 @@ void Entity::paint()
 		sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 		rdrWin->draw(*currentAnim);
 	}
-	displayInfo();
 }
 
 void Entity::update(const float dt)
 {
-	if (!m_state.m_live.m_sleep)
+	if (!m_state.m_live.m_collidable && isEdition())
+	{
+		move(getMotion());
+	}
+	if (!m_state.m_live.m_sleep && m_state.m_live.m_collidable)
 	{
 		m_state.m_live.m_sleepTime += dt;
 	}
@@ -442,12 +445,15 @@ void Entity::sleep()
 
 void Entity::wakeUp()
 {
-	m_state.m_live.m_sleepTime = 0;
-	if (m_state.m_live.m_sleep)
+	if (m_state.m_live.m_collidable)
 	{
-		m_state.m_live.m_collisionResolved = false;
-		m_state.m_live.m_sleep = false;
-		m_state.m_live.m_lastImpulse = Vector2(0.0f, 0.0f);
+		m_state.m_live.m_sleepTime = 0;
+		if (m_state.m_live.m_sleep)
+		{
+			m_state.m_live.m_collisionResolved = false;
+			m_state.m_live.m_sleep = false;
+			m_state.m_live.m_lastImpulse = Vector2(0.0f, 0.0f);
+		}
 	}
 }
 
@@ -514,110 +520,6 @@ void replaceName(char* dest, const char* name, int sizeName)
 		dest[lastSlashPos + i] = name[i];
 	}
 	dest[lastSlashPos + sizeName] = '\0';
-}
-
-namespace ValueType
-{
-	enum Enum
-	{
-		Float,
-		Int,
-		Uint,
-		String,
-		Bool,
-		Vector2,
-	};
-}
-
-void checkAndAffect(rapidjson::Document* doc, const char* nameAttribut, ValueType::Enum type, void** attPtr, void* defaultValue = NULL, int sizeOfDefaultValue = 0)
-{
-	if (doc->HasMember(nameAttribut))
-	{
-		switch (type)
-		{
-		case ValueType::Float:
-			if ((*doc)[nameAttribut].IsFloat())
-			{
-				float value = (*doc)[nameAttribut].GetFloat();
-				memcpy(*attPtr, (void*)&value, sizeof(value));
-			}
-			break;
-		case ValueType::Int:
-			if ((*doc)[nameAttribut].IsInt())
-			{
-				int value = (*doc)[nameAttribut].GetInt();
-				memcpy(*attPtr, (void*)&value, sizeof(value));
-			}
-			break;
-		case ValueType::Uint:
-			if ((*doc)[nameAttribut].IsUint())
-			{
-				unsigned int value = (*doc)[nameAttribut].GetUint();
-				memcpy(*attPtr, (void*)&value, sizeof(value));
-			}
-			break;
-		case ValueType::String:
-			if ((*doc)[nameAttribut].IsString())
-			{
-				int len = (*doc)[nameAttribut].GetStringLength();
-				std::string value = (*doc)[nameAttribut].GetString();
-				memcpy(*attPtr, (void*)&value, sizeof(value));
-			}
-			break;
-		case ValueType::Bool:
-			if ((*doc)[nameAttribut].IsBool())
-			{
-				bool value = (*doc)[nameAttribut].GetBool();
-				memcpy(*attPtr, (void*)&value, sizeof(value));
-			}
-			break;
-		case ValueType::Vector2:
-			if ((*doc)[nameAttribut].IsFloat())
-			{
-				float value = (*doc)[nameAttribut].GetFloat();
-				Vector2 finalVal(value, value);
-				memcpy(*attPtr, (void*)&finalVal, sizeof(finalVal));
-			}
-			break;
-		default:
-			assert(true);
-			break;
-		}
-	}
-	else
-	{
-		if (defaultValue != NULL)
-		{
-			switch (type)
-			{
-			case ValueType::Float:
-				memcpy(*attPtr, defaultValue, sizeof(float));
-				break;
-			case ValueType::Int:
-				memcpy(*attPtr, defaultValue, sizeof(int));
-				break;
-			case ValueType::Uint:
-				memcpy(*attPtr, defaultValue, sizeof(unsigned int));
-				break;
-			case ValueType::String:
-				memcpy(*attPtr, (void*)&defaultValue, sizeOfDefaultValue);
-				break;
-			case ValueType::Bool:
-				memcpy(*attPtr, defaultValue, sizeof(bool));
-				break;
-			case ValueType::Vector2:
-				memcpy(*attPtr, defaultValue, sizeof(Vector2));
-				break;
-			default:
-				assert(true);
-				break;
-			}
-		}
-		else
-		{
-			assert(true);
-		}
-	}
 }
 
 void Entity::build(const char* path)
@@ -688,9 +590,9 @@ void Entity::build(const char* path)
 	bool defaultAnimated = false;
 	checkAndAffect(&document, "Animated", ValueType::Bool, (void**)&animatedPtr, (void*)&defaultAnimated);
 	
-	auto priorityPtr = &m_state.m_live.m_displayPriority;
-	uint32_t priorityDefault = 0;
-	checkAndAffect(&document, "DisplayPriority", ValueType::Uint, (void**)&priorityPtr, (void*)&priorityDefault);
+	auto backgroundLevelPtr = &m_state.m_live.m_backgroundLevel;
+	uint32_t defaultBackgroundLevel = 0;
+	checkAndAffect(&document, "BackgroundLevel", ValueType::Uint, (void**)&backgroundLevelPtr, (void*)&defaultBackgroundLevel);
 
 	m_state.m_live.m_orientation = EntityOrientation::Right;
 	if (document.HasMember("Orientation"))
@@ -846,7 +748,6 @@ void Entity::build(const char* path)
 		pos.x = posArray[0].GetFloat();
 		pos.y = posArray[1].GetFloat();
 		setPosition(pos);
-		m_state.m_live.m_lastPosition = m_state.m_live.m_currentPosition;
 	}
 
 	if (document.HasMember("Type"))
@@ -855,7 +756,7 @@ void Entity::build(const char* path)
 	}
 	else
 	{
-		m_state.m_live.m_type = EntityType::Movable;
+		m_state.m_live.m_type = EntityType::Anchor;
 	}
 
 	m_state.m_live.m_vx = 0.0f;
@@ -904,7 +805,7 @@ void Entity::build(const char* path)
 	setLive(true);
 	m_onLoading = false;
 	m_loaded = true;
-	m_state.m_live.m_sleep = false;
+	m_state.m_live.m_sleep = !m_state.m_live.m_collidable;
 	FileMgr::CloseFile(json);
 }
 
@@ -986,7 +887,7 @@ void Entity::release()
 	setLive(false);
 }
 
-void Entity::displayInfo()
+void Entity::showImGuiWindow()
 {
 	if (m_displayInfo)
 	{
@@ -995,6 +896,9 @@ void Entity::displayInfo()
 		if (ImGui::Begin(name.c_str(), &m_displayInfo, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImGui::InputFloat("Speed", &m_state.m_live.m_speed);
+			int backgroundLevel = m_state.m_live.m_backgroundLevel;
+			ImGui::InputInt("BackgroundLevel", &backgroundLevel);
+			(backgroundLevel < 0) ? setBackgroundLevel(0) : setBackgroundLevel(backgroundLevel);
 			ImGui::Checkbox("Collidable", &m_state.m_live.m_collidable);
 			ImGui::Checkbox("Editable", &m_edition);
 
@@ -1058,7 +962,7 @@ void Entity::displayInfo()
 			}
 			
 
-			m_state.m_live.m_currentPosition = Vector2(x, y);
+			setPosition(Vector2(x, y));
 			m_state.m_live.m_angle = rot * RADTODEG;
 
 			char** items = (char**)malloc(sizeof(char*) * entityAnimationStateToString.size());
@@ -1126,6 +1030,7 @@ void Entity::displayInfo()
 
 void Entity::setPosition(Vector2 pos)
 {
+	m_state.m_live.m_lastPosition = pos;
 	m_state.m_live.m_currentPosition = pos;
 }
 
@@ -1172,7 +1077,13 @@ void Entity::move(Vector2 motion)
 		if (!isFall() && motion.y < 0.0f)
 		{
 			setFall(true);
-		}
+		}	
+	}
+	if (m_state.m_live.m_type == EntityType::Anchor && isEdition())
+	{
+		m_state.m_live.m_lastPosition = m_state.m_live.m_currentPosition;
+		m_state.m_live.m_currentPosition += motion;
+		m_state.m_live.m_motion = Vector2(0.0, 0.0);
 	}
 }
 

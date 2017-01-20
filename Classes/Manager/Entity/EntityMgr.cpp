@@ -7,6 +7,7 @@
 #include "Manager/File/FileMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
 #include "Utils/wcharUtils.h"
+#include "Manager/Input/InputMgr.h"
 
 EntityMgr* EntityMgr::s_singleton = NULL;
 uint32_t Entity::newUID = 0;
@@ -27,12 +28,31 @@ void EntityMgr::init()
 {
 	m_processTime = sf::Time::Zero;
 	m_mainCharacterID = 1;
+	m_onEdition = false;
 }
 
 void EntityMgr::process(const float dt)
 {
 	sf::Clock clock;
-	//PhysicMgr::getSingleton()->applyGravity();
+	auto entitys = m_entitys->getUsedEntitysSortedHTL();
+	for (auto& entity : entitys)
+	{
+		auto mouseCurrentPosition = InputMgr::getSingleton()->getMousePosition();
+		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
+		{
+			entity->showInfo();
+		}
+		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseWheelButton))
+		{
+			if(m_onEdition && !entity->isEdition())
+			{
+				continue;
+			}
+			entity->edition();
+			m_onEdition = entity->isEdition();
+			break;
+		}
+	}
 	m_entitys->process(dt);
 	m_processTime = clock.getElapsedTime();
 }
@@ -174,4 +194,13 @@ int EntityMgr::getNumberUsedEntity()
 const bool EntityMgr::entityIsLoaded(uint32_t id) const
 {
 	return LoadingMgr::getSingleton()->isLoaded(id);
+}
+
+void EntityMgr::displayEntitysInfos()
+{
+	auto entitys = m_entitys->getUsedEntitys();
+	for (auto& entity : entitys)
+	{
+		entity->showImGuiWindow();
+	}
 }

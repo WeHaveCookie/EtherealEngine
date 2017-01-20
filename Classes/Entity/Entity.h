@@ -268,7 +268,10 @@ class Entity
 		const float getVJump() const { return m_state.m_live.m_vJump; }
 		const float getVY() const { return m_state.m_live.m_vy; }
 		const float getVMax() const { return m_state.m_live.m_vMax; }
+		const int getBackgroundLevel() const { return m_state.m_live.m_backgroundLevel; }
 		void setVY(float v) { m_state.m_live.m_vy = std::min(v, m_state.m_live.m_vMax); }
+		void setBackgroundLevel(uint32_t level) { m_state.m_live.m_backgroundLevel = level; }
+		void showImGuiWindow();
 
 	protected:
 		static uint32_t		newUID;
@@ -276,7 +279,7 @@ class Entity
 
 	private:
 		void updatePosition();
-		void displayInfo();
+		
 
 		bool m_live;
 		bool m_loaded;
@@ -323,7 +326,7 @@ class Entity
 				float													m_vMax;
 				Vector2													m_scale;
 				EntityAction::Enum										m_action;
-				uint32_t												m_displayPriority; //  0 => foreground | Higher => background
+				uint32_t												m_backgroundLevel; //  0 => foreground | Higher => background
 
 				void clear()
 				{

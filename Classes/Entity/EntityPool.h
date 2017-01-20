@@ -17,6 +17,8 @@ public:
 	const int getNumberUsedEntity() const { return m_usedEntity; }
 	const std::vector<Entity*> getEntitys() const { return m_entitys; }
 	const std::vector<Entity*> getUsedEntitys() const;
+	const std::vector<Entity*> getUsedEntitysSortedLTH() const;
+	const std::vector<Entity*> getUsedEntitysSortedHTL() const;
 
 	const int getPoolSize() const { return m_poolSize; }
 

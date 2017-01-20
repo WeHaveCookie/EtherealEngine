@@ -32,9 +32,12 @@ class EntityMgr : public Manager
 		
 		sf::Time getProcessTime() { return m_processTime; }
 
+		void displayEntitysInfos();
+
 	private:
 		static EntityMgr*		s_singleton;
 		EntityPool*				m_entitys;
 		sf::Time				m_processTime;
 		uint32_t				m_mainCharacterID;
+		bool					m_onEdition;
 };

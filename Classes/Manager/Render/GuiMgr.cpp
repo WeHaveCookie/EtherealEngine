@@ -144,6 +144,8 @@ void GuiMgr::paint()
 		{
 			ImGui::ShowTestWindow(&m_flags->show_Demo);
 		}
+
+		EntityMgr::getSingleton()->displayEntitysInfos();
 	}
 }
 

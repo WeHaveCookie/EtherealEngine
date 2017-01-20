@@ -28,29 +28,17 @@ void PhysicMgr::init()
 {
 	m_processTime = sf::Time::Zero;
 	m_gravity = 9.81F;
-	registerEntity(EntityMgr::getSingleton()->createEntity("Data/Character/ground.json"));
 }
 
 void PhysicMgr::process(const float dt)
 {
 	sf::Clock clock;
 	processRegisteryQueue();
-	processPhysic();
+	processPhysic(dt);
 	if (m_enable)
 	{
-		bool editableDone = false;
 		for (auto& entity : m_entitys)
 		{
-			auto mouseCurrentPosition = InputMgr::getSingleton()->getMousePosition();
-			if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
-			{
-				entity->showInfo();
-			}
-			if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseWheelButton) && !editableDone)
-			{
-				editableDone = true;
-				entity->edition();
-			}
 			checkValidityOfPosition(entity);
 		}
 	}
@@ -463,13 +451,18 @@ void PhysicMgr::processRegisteryQueue()
 	}
 }
 
-void PhysicMgr::processPhysic()
+void PhysicMgr::processPhysic(const float dt)
 {
 	for (auto& entity : m_entitys)
 	{
+		if (entity->isEdition())
+		{
+			entity->move(entity->getMotion());
+			continue;
+		}
 		auto entID = entity->getUID();
 		entity->setCollisionResolved(false);
-		Vector2 motion = entity->getMotion();
+		Vector2 motion = entity->getMotion()*(dt * 100);
 
 		float v_grav = entity->getVGrav();
 		float v_y = entity->getVY();
