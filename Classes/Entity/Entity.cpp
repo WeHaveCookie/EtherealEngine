@@ -15,18 +15,6 @@
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
 
-void clampVector(Vector2* vec, float a = -0.1f, float b = 0.1f)
-{
-	if (vec->x > a && vec->x < b)
-	{
-		vec->x = 0.0f;
-	}
-	if (vec->y > a && vec->y < b)
-	{
-		vec->y = 0.0f;
-	}
-}
-
 float clamp(float value, float a, float b)
 {
 	float res = value;

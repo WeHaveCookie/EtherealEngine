@@ -24,11 +24,14 @@ class Level
 
 		const char* getName() const { return m_name.c_str(); }
 		const sf::Vector2f getSize() const{ return m_size; }
+		void registerEntity(Entity* ent);
+		const char* getCharacterPath() const { return m_characterPath.c_str(); };
 
 	private:
 
 		std::string					m_path;
 		std::string					m_name;
+		std::string					m_characterPath;
 		sf::Vector2f				m_size;
 		std::vector<Entity*>		m_entitys;
 		std::vector<Background*>	m_backgrounds;
