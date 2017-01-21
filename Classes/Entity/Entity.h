@@ -274,7 +274,6 @@ class Entity
 		void setBackgroundLevel(uint32_t level) { m_state.m_live.m_backgroundLevel = level; }
 		void showImGuiWindow();
 		void setTarget(Vector2 pos) { m_state.m_live.m_targetPos = pos; }
-		const float getRotation() const { return m_state.m_live.m_rotation; }
 		const bool isProjectile() const { return m_state.m_live.m_type == EntityType::Projectile; }
 
 	protected:
@@ -335,7 +334,7 @@ class Entity
 				std::string												m_targetName;
 				Vector2													m_targetPos;
 				float													m_maxSpeed;
-				float													m_rotation;
+				ShootType::Enum											m_element;
 
 				void clear()
 				{

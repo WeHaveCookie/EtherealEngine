@@ -32,7 +32,6 @@ EntityMgr::~EntityMgr()
 void EntityMgr::init()
 {
 	m_processTime = sf::Time::Zero;
-	m_mainCharacterID = 1;
 	m_onEdition = false;
 }
 
@@ -240,8 +239,8 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= -60 * DEGTORAD;
-		auto rot = ent->getRotation();
-		direction %= ent->getRotation();
+		auto rot = getMainCharacter()->getAngle();
+		direction %= getMainCharacter()->getAngle();
 		ent->setTarget(direction);
 		PhysicMgr::getSingleton()->registerEntity(ent);
 		break;
@@ -253,8 +252,8 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= 60 * DEGTORAD;
-		auto rot = ent->getRotation();
-		direction %= ent->getRotation();
+		auto rot = getMainCharacter()->getAngle();
+		direction %= getMainCharacter()->getAngle();
 		ent->setTarget(direction);
 		PhysicMgr::getSingleton()->registerEntity(ent);
 		break;
@@ -266,8 +265,8 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) - 
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= 180 * DEGTORAD;
-		auto rot = ent->getRotation();
-		direction %= ent->getRotation();
+		auto rot = getMainCharacter()->getAngle();
+		direction %= getMainCharacter()->getAngle();
 		ent->setTarget(direction);
 		PhysicMgr::getSingleton()->registerEntity(ent);
 		break;

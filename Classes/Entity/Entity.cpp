@@ -14,6 +14,7 @@
 #include "Manager/Entity/EntityMgr.h"
 #include "Utils/jsonUtils.h"
 #include "Manager/Game/GameMgr.h"
+#include "Manager/Sound/SoundMgr.h"
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
 
@@ -250,12 +251,10 @@ void Entity::update(const float dt)
 	}
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
 	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2);
-	//Change origin of rotation to center of sprite
 	sf::Vector2f oldOrigin = currentAnim->getOrigin();
 	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width/2,getGlobalBounds().height/2));
 	currentAnim->setRotation(m_state.m_live.m_angle);
-	//reset origin to top left corner
-	//currentAnim->setOrigin(oldOrigin);
+
 }
 
 const bool Entity::process(const float dt)
@@ -586,6 +585,27 @@ void Entity::build(const char* path)
 	Vector2 defaultScale(1.0f, 1.0f);
 	checkAndAffect(&document, "Scale", ValueType::Vector2, (void**)&scalePtr, (void*)&defaultScale);
 	spr.setScale(m_state.m_live.m_scale.sf());
+
+	if (document.HasMember("Layout"))
+	{
+		if (strcmp(document["Layout"].GetString(), "Center") == 0)
+		{
+			auto rdrSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
+			auto pos = Vector2((rdrSize.x / 2.0f) - (m_state.m_live.m_width / 2.0f), (rdrSize.y / 2.0f) - (m_state.m_live.m_height / 2.0f));
+			setTarget(pos);
+			setPosition(pos);
+		}
+	}
+
+	if (document.HasMember("Element"))
+	{
+		m_state.m_live.m_element = ShootType::GetType(document["Element"].GetString());
+	}
+
+	if (document.HasMember("Sound"))
+	{
+		SoundMgr::getSingleton()->addSound(document["Sound"].GetString());
+	}
 
 	if (document.HasMember("Target"))
 	{

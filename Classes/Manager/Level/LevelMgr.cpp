@@ -24,11 +24,12 @@ LevelMgr::~LevelMgr()
 void LevelMgr::init()
 {
 	m_processTime = sf::Time::Zero;
+	auto winSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
 	m_quadtree = new Quadtree();
-	m_quadtree->init(0.0f, 0.0f, 1920.0f, 1080.0f);
+	m_quadtree->init(0.0f, 0.0f, winSize.x, winSize.y);
 	m_quadtree->setNodeCapacity(50);
 	m_level = new Level();
-	loadLevel("Data/Level/level2.json");
+	loadLevel("Data/Level/level1.json");
 }
 
 void LevelMgr::process(const float dt)

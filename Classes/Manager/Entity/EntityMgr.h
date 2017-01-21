@@ -14,6 +14,22 @@ namespace ShootType
 		Spike,
 		Triangle
 	};
+
+	static ShootType::Enum GetType(const char* name)
+	{
+		if (strcmp(name, "Sinus"))
+		{
+			return ShootType::Sinus;
+		}
+		else if (strcmp(name, "Spike"))
+		{
+			return ShootType::Spike;
+		}
+		else if (strcmp(name, "Triangle"))
+		{
+			return ShootType::Triangle;
+		}
+	}
 }
 
 class EntityMgr : public Manager

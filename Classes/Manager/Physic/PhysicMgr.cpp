@@ -241,6 +241,7 @@ bool PhysicMgr::CollisionSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Sta
 
 bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 {
+	std::vector<Entity*> m_deletedEntities;
 	for (auto& entity : m_entitys)
 	{
 		if (ent->getUID() != entity->getUID() && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
@@ -249,11 +250,16 @@ bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 			auto cmdMgr = CommandMgr::getSingleton();
 			auto cmd = cmdMgr->getCommand("CommandChannelDowngrade", &id);
 			cmdMgr->addCommand(cmd);
-			unregisterEntity(entity);
-			EntityMgr::getSingleton()->deleteEntity(entity->getUID());
-			return true;
+			m_deletedEntities.push_back(entity);
 		}
 	}
+
+	for (auto& ent : m_deletedEntities)
+	{
+		unregisterEntity(ent);
+		EntityMgr::getSingleton()->deleteEntity(ent->getUID());
+	}
+	
 	return false;
 }
 
