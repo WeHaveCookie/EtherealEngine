@@ -253,16 +253,20 @@ void InputMgr::Key::executeCommand(uint32_t id)
 			m_hasValue && (m_value >= 30.0f || m_value <= -30.0f) ||
 			exeType == CommandExeType::AtOnce)
 		{
-			if (m_hasValue)
+			auto gameMgr = GameMgr::getSingleton();
+			if (gameMgr->getNumberPlayers() > 0)
 			{
-				float value = m_value * 0.1f;
-				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id), (void*)&value);
+				if (m_hasValue)
+				{
+					float value = m_value * 0.1f;
+					m_command->init(gameMgr->getEntityPlayer(id), (void*)&value);
+				}
+				else
+				{
+					m_command->init(gameMgr->getEntityPlayer(id));
+				}
+				CommandMgr::getSingleton()->addCommand(m_command);
 			}
-			else
-			{
-				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id));
-			}
-			CommandMgr::getSingleton()->addCommand(m_command);
 		}
 	}
 }

@@ -6,7 +6,11 @@
 void CommandMove::init(Entity* ent, void* data)
 {
 	Command::init(ent);
-	m_motion = *static_cast<Vector2*>(data);
+	Vector2* motion = static_cast<Vector2*>(data);
+	if (motion != nullptr)
+	{
+		m_motion = *motion;
+	}
 	free(data);
 }
 
