@@ -204,3 +204,16 @@ void EntityMgr::displayEntitysInfos()
 		entity->showImGuiWindow();
 	}
 }
+
+const bool EntityMgr::isValidEntity(uint32_t UID) const
+{
+	return m_entitys->getEntity(UID)->isAlive();
+}
+
+void EntityMgr::spawnIntoRegion(uint32_t id, sf::FloatRect region)
+{
+	auto ent = m_entitys->getEntity(id);
+	auto x = randFloatBorned(region.left, region.left + region.width);
+	auto y = randFloatBorned(region.top, region.top + region.height );
+	ent->setPosition(Vector2(x,y));
+}
