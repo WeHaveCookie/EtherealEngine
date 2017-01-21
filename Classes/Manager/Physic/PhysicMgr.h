@@ -33,6 +33,7 @@ class PhysicMgr : public Manager
 		sf::Time getProcessTime() { return m_processTime; }
 		
 		const double getGravity() const { return m_gravity; }
+		void enable(bool b) { m_enable = b; }
 
         // Inline
     protected:
