@@ -6,6 +6,7 @@
 #include "Actions/CommandAttack.h"
 #include "Actions/CommandSound.h"
 #include "Actions/CommandInput.h"
+#include "Actions/CommandSpawn.h"
 
 #include "blockingconcurrentqueue.h"
 
@@ -27,7 +28,8 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandAttack", CommandType::Attack},
 	{ "CommandSound", CommandType::Sound},
 	{ "CommandLockInput", CommandType::LockInput},
-	{ "CommandUnlockInput", CommandType::UnlockInput}
+	{ "CommandUnlockInput", CommandType::UnlockInput},
+	{ "CommandSpawn", CommandType::Spawn}
 };
 
 std::vector<const char*> CommandTypeToString =
@@ -43,7 +45,8 @@ std::vector<const char*> CommandTypeToString =
 	"Attack",
 	"Sound",
 	"LockInput",
-	"UnlockInput"
+	"UnlockInput",
+	"Spawn"
 };
 
 CommandMgr::CommandMgr()
@@ -71,18 +74,28 @@ void CommandMgr::init()
 		CREATE_CMD(CommandSound)
 		CREATE_CMD(CommandLockInput)
 		CREATE_CMD(CommandUnlockInput)
+		CREATE_CMD(CommandSpawn)
 }
 
 void CommandMgr::process(const float dt)
 {
 	// If u want to keep a cmd pool, we need to create a specific stack ! Necessary or not ? This is the question dude !
+	std::vector<Command*> m_CommandUnexecuted;
 	Command* cmd;
 	bool dequeue = m_CommandQueue->try_dequeue(cmd);
 	while (dequeue)
 	{
-		cmd->execute();
+		if (!cmd->execute())
+		{
+			m_CommandUnexecuted.push_back(cmd);
+		}
 		//free(cmd);
 		dequeue = m_CommandQueue->try_dequeue(cmd);
+	}
+
+	for (auto& cmdUn : m_CommandUnexecuted)
+	{
+		m_CommandQueue->enqueue(cmdUn);
 	}
 }
 

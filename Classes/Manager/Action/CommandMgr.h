@@ -20,7 +20,8 @@ namespace CommandType
 		Attack,
 		Sound,
 		LockInput,
-		UnlockInput
+		UnlockInput,
+		Spawn
 	};
 }
 

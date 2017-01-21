@@ -9,7 +9,7 @@ public:
 	~CommandAttack() {};
 
 	virtual void init(Entity* ent, void* data = NULL);
-	virtual void execute();
+	virtual bool execute();
 	virtual void undo();
 	virtual void* makeCopy();
 

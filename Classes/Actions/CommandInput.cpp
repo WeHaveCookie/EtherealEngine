@@ -2,13 +2,15 @@
 #include "CommandInput.h"
 #include "Manager/Input/InputMgr.h"
 
-void CommandLockInput::execute()
+bool CommandLockInput::execute()
 {
 	InputMgr::getSingleton()->lockInput(true);
+	return true;
 }
 
 
-void CommandUnlockInput::execute()
+bool CommandUnlockInput::execute()
 {
 	InputMgr::getSingleton()->lockInput(false);
+	return true;
 }

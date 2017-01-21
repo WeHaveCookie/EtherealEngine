@@ -7,13 +7,14 @@ void CommandJump::init(Entity* ent, void* data)
 	Command::init(ent);
 }
 
-void CommandJump::execute()
+bool CommandJump::execute()
 {
 	Entity* entity = getEntity();
 	if (!entity->isFall())
 	{
 		entity->jump();
 	}
+	return true;
 }
 
 void CommandJump::undo()

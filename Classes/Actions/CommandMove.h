@@ -12,7 +12,7 @@ public:
 	~CommandMove() {};
 	
 	virtual void init(Entity* ent, void* data);
-	virtual void execute();
+	virtual bool execute();
 	virtual void undo();
 	virtual void* makeCopy() = 0;
 

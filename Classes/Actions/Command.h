@@ -11,7 +11,8 @@ namespace CommandExeType
 		Pressed,
 		JustReleased,
 		Released,
-		AtOnce
+		AtOnce,
+		AtTime
 	};
 }
 
@@ -22,7 +23,7 @@ public:
 	~Command();
 
 	virtual void init(Entity* ent = NULL, void* data = NULL);
-	virtual void execute() = 0;
+	virtual bool execute() = 0;
 	virtual void undo() = 0;
 	virtual void* makeCopy() = 0;
 	

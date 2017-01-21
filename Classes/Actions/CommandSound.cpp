@@ -9,9 +9,10 @@ void CommandSound::init(Entity* ent, void* data)
 	m_soundID = SoundMgr::getSingleton()->addSound((char*)data, false, true);
 }
 
-void CommandSound::execute()
+bool CommandSound::execute()
 {
 	SoundMgr::getSingleton()->getSound(m_soundID)->play();
+	return true;
 }
 
 void CommandSound::undo()

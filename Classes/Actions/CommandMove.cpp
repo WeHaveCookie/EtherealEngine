@@ -10,11 +10,12 @@ void CommandMove::init(Entity* ent, void* data)
 	free(data);
 }
 
-void CommandMove::execute()
+bool CommandMove::execute()
 {
 	Entity* entity = getEntity();
 	m_lastPosition = entity->getPosition();
 	entity->addMotion(m_motion);
+	return true;
 }
 
 void CommandMove::undo()

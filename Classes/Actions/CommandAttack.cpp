@@ -7,13 +7,14 @@ void CommandAttack::init(Entity* ent, void* data)
 	Command::init(ent);
 }
 
-void CommandAttack::execute()
+bool CommandAttack::execute()
 {
 	Entity* entity = getEntity();
 	if (!entity->isAttack())
 	{
 		entity->attack();
 	}
+	return true;
 }
 
 void CommandAttack::undo()

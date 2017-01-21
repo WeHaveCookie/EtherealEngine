@@ -9,7 +9,7 @@ public:
 	~CommandLockInput() {};
 
 	virtual void init(Entity* ent = NULL, void* data = NULL) {};
-	virtual void execute();
+	virtual bool execute();
 	virtual void undo() {};
 	virtual void* makeCopy() { return (void*)new CommandLockInput(); }
 
@@ -23,7 +23,7 @@ public:
 	~CommandUnlockInput() {};
 
 	virtual void init(Entity* ent = NULL, void* data = NULL) {};
-	virtual void execute();
+	virtual bool execute();
 	virtual void undo() {};
 	virtual void* makeCopy() { return (void*)new CommandUnlockInput(); }
 
