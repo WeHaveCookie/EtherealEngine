@@ -793,3 +793,17 @@ const Vector2 InputMgr::getMousePosition() const
 {
 	return m_currentMousePosition;
 }
+
+std::vector<uint32_t> InputMgr::getActivePads()
+{
+	std::vector<uint32_t> activePads;
+	uint32_t id = 0;
+	for (auto& padStatus : m_padsStatus)
+	{
+		if (padStatus)
+		{
+			activePads.push_back(id++);
+		}
+	}
+	return activePads;
+}

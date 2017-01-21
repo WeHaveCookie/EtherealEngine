@@ -204,6 +204,7 @@ class InputMgr : public Manager
 
 		void showImGuiWindow(bool* window);
 
+		std::vector<uint32_t> getActivePads();
 	private:
 		static InputMgr*							s_singleton;
 
