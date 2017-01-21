@@ -2,6 +2,7 @@
 #include "CommandSpawn.h"
 #include "Manager/Entity/EntityMgr.h"
 #include "EtherealEngineManagers.h"
+#include "Manager/Level/LevelMgr.h"
 
 CommandSpawn::~CommandSpawn()
 {
@@ -14,9 +15,11 @@ void CommandSpawn::init(Entity* ent, void* data)
 	{
 		m_spawnHandler = *spawnHandler;
 		m_spawnHandler.valid = true;
-		free(data);
 	}
-	m_spawnHandler.valid = false;
+	else
+	{
+		m_spawnHandler.valid = false;
+	}
 }
 
 bool CommandSpawn::execute()
@@ -26,7 +29,9 @@ bool CommandSpawn::execute()
 	{
 		if (m_spawnHandler.valid)
 		{
-			EntityMgr::getSingleton()->createEntity(m_spawnHandler.path.c_str());
+			auto ent = EntityMgr::getSingleton()->createEntity(m_spawnHandler.path.c_str());
+			EntityMgr::getSingleton()->spawnIntoRegion(ent->getUID(), m_spawnHandler.spawnRegion);
+			LevelMgr::getSingleton()->registerEntityIntoLevel(ent);
 		}
 		return true;
 	}

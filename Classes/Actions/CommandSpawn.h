@@ -1,14 +1,15 @@
 #pragma once
 #include "Actions/Command.h"
 
+struct SpawnHandler {
+	std::string		path;
+	sf::FloatRect	spawnRegion;
+	float			timer;
+	bool			valid;
+};
+
 class CommandSpawn : public Command
 {
-	struct SpawnHandler {
-		std::string		path;
-		sf::Vector2f	position;
-		uint32_t		timer;
-		bool			valid;
-	};
 
 	public:
 		CommandSpawn() : Command("CommmandSpawn", CommandExeType::AtTime) {};

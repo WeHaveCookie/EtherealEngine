@@ -25,7 +25,9 @@ class GameMgr : public Manager
 		const char* getGameName() const { return m_gameName; }
 		const int getMovementSpeed() const { return m_movementSpeed; }
 		Entity* getEntityPlayer(uint32_t id = 0);
+		void setPlayer(uint32_t playerId, uint32_t entityUID);
 		void setNumberPlayer(uint32_t nbr);
+		const uint32_t getNumberPlayers() const { return m_nbrPlayers; }
 
     protected:
     private:

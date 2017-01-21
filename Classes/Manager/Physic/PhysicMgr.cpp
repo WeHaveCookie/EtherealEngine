@@ -34,9 +34,9 @@ void PhysicMgr::process(const float dt)
 {
 	sf::Clock clock;
 	processRegisteryQueue();
-	processPhysic(dt);
 	if (m_enable)
 	{
+		processPhysic(dt);
 		for (auto& entity : m_entitys)
 		{
 			checkValidityOfPosition(entity);
