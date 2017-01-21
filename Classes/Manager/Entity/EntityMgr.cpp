@@ -8,6 +8,7 @@
 #include "Manager/Physic/PhysicMgr.h"
 #include "Utils/wcharUtils.h"
 #include "Manager/Input/InputMgr.h"
+#include "Utils/Random.h"
 
 EntityMgr* EntityMgr::s_singleton = NULL;
 uint32_t Entity::newUID = 0;
