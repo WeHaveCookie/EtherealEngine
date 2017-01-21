@@ -16,7 +16,7 @@ bool CommandRotate::execute()
 	std::vector<uint32_t> pads = inputMgr->getActivePads();
 	auto padX = inputMgr->getPadKeyValue(KeyType::padX,pads[0]);
 	auto padY = inputMgr->getPadKeyValue(KeyType::padY,pads[0]);
-	float angle = atan2(padY, padX);
+	float angle = atan2(padY, padX) + 90*DEGTORAD;//Sale
 	entity->setAngle(angle);
 	return true;
 }

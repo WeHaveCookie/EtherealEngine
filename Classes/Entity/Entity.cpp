@@ -217,7 +217,7 @@ void Entity::update(const float dt)
 		m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
 	}
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
-	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf());
+	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2);
 	//Change origin of rotation to center of sprite
 	sf::Vector2f oldOrigin = currentAnim->getOrigin();
 	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width/2,getGlobalBounds().height/2));
