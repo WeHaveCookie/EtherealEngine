@@ -11,6 +11,7 @@
 #include "Actions/CommandSpawn.h"
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
+#include "Manager/Sound/SoundMgr.h"
 
 void Background::paint()
 {
@@ -210,6 +211,33 @@ bool Level::load(const char* path)
 			}
 		}
 	}
+
+	if (document.HasMember("Musics"))
+	{
+		const rapidjson::Value& musics = document["Musics"];
+		auto soundMgr = SoundMgr::getSingleton();
+		for (auto& music : musics.GetArray())
+		{
+			assert(music.HasMember("Path"));
+			auto musicPath = music["Path"].GetString();
+			float volume = 100.0;
+			uint32_t layer = 0;
+			if (music.HasMember("Volume"))
+			{
+				volume = music["Volume"].GetFloat();
+			}
+
+			if (music.HasMember("Layer"))
+			{
+				layer = music["Layer"].GetUint();
+			}
+
+			auto musicUID = soundMgr->addMusic(musicPath, true);
+			soundMgr->getMusic(musicUID)->setVolume(volume);
+			soundMgr->getMusic(musicUID)->setLayer(layer);
+		}
+	}
+
 	FileMgr::CloseFile(json);
 	return true;
 }

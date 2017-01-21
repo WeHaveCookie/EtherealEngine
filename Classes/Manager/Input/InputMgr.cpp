@@ -7,6 +7,7 @@
 #include "Manager/Game/GameMgr.h"
 #include "Actions/Command.h"
 #include "../../External/rapidjson/document.h"
+#include "Gesture/GestureRecognition.h"
 
 InputMgr* InputMgr::s_singleton = NULL;
 
@@ -332,6 +333,7 @@ InputMgr::InputMgr()
 	s_singleton = this;
 	m_updateWhenNoFocus = false;
 	m_lockInput = false;
+	m_gestureRecognition = new GestureRecognition();
 }
 
 InputMgr::~InputMgr()
@@ -344,6 +346,7 @@ InputMgr::~InputMgr()
 
 void InputMgr::init()
 {
+	m_gestureRecognition->init();
 	for (int i = 0; i < KeyType::endPadKey + 1; i++)
 	{
  		m_keyName[i] = (char*)malloc(sizeof(char)*(strlen(KeyTypeToString[i])+1));
@@ -565,6 +568,11 @@ void InputMgr::process(const float dt)
 		}
 	}
 	ImGui::SFML::Update(dt);
+	m_gestureRecognition->process(dt);
+	if (m_gestureRecognition->getGesture() != ShootType::None)
+	{
+		CommandMgr::getSingleton()->addCommand(m_gestureRecognition->getGestureCommand());
+	}
 }
 
 void InputMgr::end()
@@ -706,6 +714,11 @@ void InputMgr::showImGuiWindow(bool* window)
 	{
 		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
 		ImGui::Checkbox("Lock Input", &m_lockInput);
+		ImGui::Text("Gesture : %i", m_gestureRecognition->getGesture());
+		if (ImGui::IsItemClicked())
+		{
+			m_gestureRecognition->showInfo();
+		}
 		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
 		ImGui::Separator();
 		int i = 0;
