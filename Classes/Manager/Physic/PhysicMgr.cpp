@@ -182,6 +182,43 @@ bool PhysicMgr::CollisionLineAndSeg(Vector2 dStart, Vector2 dEnd, Vector2 sStart
 		return false;
 }
 
+Vector2 PhysicMgr::GetCollisionPointSegAndScreenBorder(Vector2 s1Start, Vector2 s1End)
+{
+	auto rdrSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
+	//TopBorder
+	if (CollisionSegAndSeg(s1Start,s1End,Vector2(0.0,0.0),Vector2(rdrSize.x,0.0))) {
+		return GetCollisionPointSegAndSeg(s1Start,s1End, Vector2(0.0, 0.0), Vector2(rdrSize.x, 0.0));
+	}
+	//RightBorder
+	if (CollisionSegAndSeg(s1Start, s1End, Vector2(rdrSize.x, 0.0), Vector2(rdrSize.x, rdrSize.y))) {
+		return GetCollisionPointSegAndSeg(s1Start, s1End, Vector2(rdrSize.x, 0.0), Vector2(rdrSize.x, rdrSize.y));
+	}
+	//BottomBorder
+	if (CollisionSegAndSeg(s1Start, s1End, Vector2(0.0, rdrSize.y), Vector2(rdrSize.x, rdrSize.y))) {
+		return GetCollisionPointSegAndSeg(s1Start, s1End, Vector2(0.0, rdrSize.y), Vector2(rdrSize.x, rdrSize.y));
+	}
+	//LeftBorder
+	if (CollisionSegAndSeg(s1Start, s1End, Vector2(0.0, 0.0), Vector2(0.0, rdrSize.y))) {
+		return GetCollisionPointSegAndSeg(s1Start, s1End, Vector2(0.0, 0.0), Vector2(0.0, rdrSize.y));
+	}
+}
+
+Vector2 PhysicMgr::GetCollisionPointSegAndSeg(Vector2 s1Start,Vector2 s1End, Vector2 s2Start, Vector2 s2End)
+{
+	float dxs1 = s1End.x - s1Start.x;
+	float dys1 = s1End.y - s1Start.y;
+	float dxs2 = s2End.x - s2Start.x;
+	float dys2 = s2End.y - s2Start.y;
+
+	float denominator = (dys1*dxs2 - dxs1*dys2);
+	float t1 = ((s1Start.x - s2Start.x) * dys2+ (s2Start.y - s1Start.y) * dxs2)
+		/ denominator;
+	float t2 =
+		((s2Start.x - s1Start.x) * dys1 + (s1Start.y - s2Start.y) * dxs1)
+		/ -denominator;
+	return Vector2(s1Start.x + dxs1 * t1, s1Start.y + dys1 * t1);
+}
+
 bool PhysicMgr::CollisionSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Start, Vector2 s2End)
 {
 	if (CollisionLineAndSeg(s1Start, s1End, s2Start, s2End) == false)
