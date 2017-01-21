@@ -6,6 +6,7 @@
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Entity/EntityMgr.h"
+#include "Manager/Action/CommandMgr.h"
 
 PhysicMgr* PhysicMgr::s_singleton = NULL;
 
@@ -30,10 +31,47 @@ void PhysicMgr::init()
 	m_gravity = 9.81F;
 }
 
+void PhysicMgr::processCollisionCore()
+{
+	while (CollisionEntToOthers(GameMgr::getSingleton()->getEntityPlayer()))
+	{
+	}
+	
+}
+
+bool isVisible(Entity* proj)
+{
+	auto winRes = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
+	auto bound = proj->getGlobalBounds();
+	return !(bound.left + bound.width <= 0 ||
+		bound.left >= winRes.x ||
+		bound.top + bound.height <= 0 ||
+		bound.top >= winRes.y);
+}
+
+void PhysicMgr::processProjectile()
+{
+	std::vector<Entity*> removeProjectiles;
+	for (auto& proj : m_projectiles)
+	{
+		if (!isVisible(proj))
+		{
+			removeProjectiles.push_back(proj);
+		}
+	}
+	for (auto& proj : removeProjectiles)
+	{
+		unregisterProjectile(proj);
+		EntityMgr::getSingleton()->deleteEntity(proj->getUID());
+	}
+}
+
 void PhysicMgr::process(const float dt)
 {
 	sf::Clock clock;
 	processRegisteryQueue();
+	processCollisionCore();
+	processProjectile();
 	if (m_enable)
 	{
 		processPhysic(dt);
@@ -79,6 +117,16 @@ void PhysicMgr::unregisterEntity(Entity* ent)
 	{
 		LevelMgr::getSingleton()->unregisterEntity(ent->getUID());
 		m_entitys.erase(pos);
+	}
+}
+
+void PhysicMgr::unregisterProjectile(Entity* ent)
+{
+	auto pos = std::find(m_projectiles.begin(), m_projectiles.end(), ent);
+	if (pos != m_projectiles.end())
+	{
+		LevelMgr::getSingleton()->unregisterEntity(ent->getUID());
+		m_projectiles.erase(pos);
 	}
 }
 
@@ -191,6 +239,23 @@ bool PhysicMgr::CollisionSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Sta
 	return true;
 }
 
+bool PhysicMgr::CollisionEntToOthers(Entity* ent)
+{
+	for (auto& entity : m_entitys)
+	{
+		if (ent->getUID() != entity->getUID() && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
+		{
+			int id;
+			auto cmdMgr = CommandMgr::getSingleton();
+			auto cmd = cmdMgr->getCommand("CommandChannelDowngrade", &id);
+			cmdMgr->addCommand(cmd);
+			unregisterEntity(entity);
+			EntityMgr::getSingleton()->deleteEntity(entity->getUID());
+			return true;
+		}
+	}
+	return false;
+}
 
 CollisionState::Enum getCollisionState(sf::FloatRect box1, sf::FloatRect box2)
 {
@@ -445,7 +510,14 @@ void PhysicMgr::processRegisteryQueue()
 	bool dequeue = m_registeryQueue->try_dequeue(ent);
 	while (dequeue)
 	{
-		m_entitys.push_back(ent);
+		if (ent->isProjectile())
+		{
+			m_projectiles.push_back(ent);
+		}
+		else
+		{
+			m_entitys.push_back(ent);
+		}
 		LevelMgr::getSingleton()->registerEntity(ent);
 		dequeue = m_registeryQueue->try_dequeue(ent);
 	}

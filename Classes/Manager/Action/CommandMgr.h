@@ -21,7 +21,10 @@ namespace CommandType
 		Sound,
 		LockInput,
 		UnlockInput,
-		Spawn
+		Spawn,
+		ChannelUpgrade,
+		ChannelDowngrade,
+		Shoot
 	};
 }
 

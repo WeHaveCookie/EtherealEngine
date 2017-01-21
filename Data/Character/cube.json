@@ -3,8 +3,12 @@
 	"Width" : 16,
 	"Height" : 16,
 	"Speed" : 1.0,
+	"MaxSpeed" : 10.0,
 	"Position" : [300.0, 500.0],
+	"Scale" : [1.0, 1.0],
 	"State" : "IDLE_RIGHT",	
+	"Type" : "Movable",
+	"Target" : "Core",
 	"Animations" : [
 		{
 			"State" : "IDLE_RIGHT",

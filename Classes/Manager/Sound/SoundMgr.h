@@ -26,6 +26,9 @@ class SoundMgr : public Manager
 		void removeMusic(uint32_t id);
 
 		sf::Time getProcessTime() { return m_processTime; }
+		
+		void addLayer();
+		void removeLayer();
 
 	private:
 

@@ -104,6 +104,18 @@ Entity* EntityPool::getEntity(uint32_t id)
 	return NULL;
 }
 
+Entity* EntityPool::getEntity(std::string name)
+{
+	for (auto& entity : m_entitys)
+	{
+		if (strcmp(entity->getName(),name.c_str()) == 0 && entity->isAlive())
+		{
+			return entity;
+		}
+	}
+	return NULL;
+}
+
 void EntityPool::release(uint32_t id)
 {
 	for (auto& entity : m_entitys)
