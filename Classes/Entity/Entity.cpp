@@ -11,7 +11,6 @@
 #include "Utils/VectorUtils.h"
 #include "Actions/Command.h"
 #include "Manager/Action/CommandMgr.h"
-#include "Manager/Entity/EntityMgr.h"
 #include "Utils/jsonUtils.h"
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Sound/SoundMgr.h"

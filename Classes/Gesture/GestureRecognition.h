@@ -1,6 +1,8 @@
 #pragma once
 #include "Manager/Entity/EntityMgr.h"
 
+class Command;
+
 struct GesturePoint
 {
 	sf::Vector2f	m_pos;

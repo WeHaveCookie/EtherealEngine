@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/Entity/EntityMgr.h"
 
 namespace EntityAction
 {

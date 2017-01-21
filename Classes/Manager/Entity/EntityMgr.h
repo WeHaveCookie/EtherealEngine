@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Manager/Manager.h"
-#include "Entity/Entity.h"
 
 class EntityPool;
+class Entity;
 
 namespace ShootType
 {

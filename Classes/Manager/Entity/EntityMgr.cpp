@@ -9,6 +9,7 @@
 #include "Utils/wcharUtils.h"
 #include "Manager/Input/InputMgr.h"
 #include "Utils/Random.h"
+#include "Entity/Entity.h"
 
 #define SINUSPATH "Data/FX/Sinus.json"
 #define SPIKEPAHT "Data/FX/Spike.json"
