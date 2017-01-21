@@ -29,7 +29,9 @@ class EntityMgr : public Manager
 		void setMainCharacter(uint32_t id) { m_mainCharacterID = id; }
 		const bool entityIsLoaded(uint32_t id) const;
 		int getNumberUsedEntity();
+		void spawnIntoRegion(uint32_t id, sf::FloatRect region);
 		
+		const bool isValidEntity(uint32_t UID) const;
 		sf::Time getProcessTime() { return m_processTime; }
 
 		void displayEntitysInfos();
