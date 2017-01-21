@@ -4,7 +4,7 @@
 	"Height" : 60,
 	"Speed" : 1.0,
 	"MaxSpeed" : 10.0,
-	"Position" : [930.0, 510.0],
+	"Layout" : "Center",
 	"Scale" : [1.0, 1.0],
 	"State" : "IDLE",	
 	"Type" : "Movable",
@@ -16,4 +16,5 @@
 			"Time" : 0.1
 		}
 	]
+	
 }

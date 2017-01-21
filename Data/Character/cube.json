@@ -9,6 +9,7 @@
 	"State" : "IDLE_RIGHT",	
 	"Type" : "Movable",
 	"Target" : "Core",
+	"Element" : "Sinus",
 	"Animations" : [
 		{
 			"State" : "IDLE_RIGHT",
