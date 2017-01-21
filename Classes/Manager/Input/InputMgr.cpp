@@ -819,8 +819,9 @@ std::vector<uint32_t> InputMgr::getActivePads()
 	{
 		if (padStatus)
 		{
-			activePads.push_back(id++);
+			activePads.push_back(id);
 		}
+		id++;
 	}
 	return activePads;
 }

@@ -24,7 +24,8 @@ namespace CommandType
 		Spawn,
 		ChannelUpgrade,
 		ChannelDowngrade,
-		Shoot
+		Shoot,
+		Rotate
 	};
 }
 
