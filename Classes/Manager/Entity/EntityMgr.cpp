@@ -14,7 +14,7 @@
 #include "Manager/Game/GameMgr.h"
 
 #define SINUSPATH "Data/FX/Sinus.json"
-#define SPIKEPAHT "Data/FX/Spike.json"
+#define SPIKEPATH "Data/FX/Spike.json"
 #define TRIANGLEPATH "Data/FX/Triangle.json"
 
 EntityMgr* EntityMgr::s_singleton = NULL;
@@ -248,17 +248,17 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 	{
 		ent = createEntity(SINUSPATH);
 		auto bound = ent->getGlobalBounds();
-		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
-			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
+		auto direction = Vector2(bound.left, -100000.0f) -
+			Vector2(bound.left, bound.top);
 		direction %= -60 * DEGTORAD;
 		
 		break;
 	}
 	case ShootType::Spike:
 	{
-		ent = createEntity(SPIKEPAHT);
+		ent = createEntity(SPIKEPATH);
 		auto bound = ent->getGlobalBounds();
-		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
+		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= 60 * DEGTORAD;
 		break;
@@ -278,10 +278,14 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 	
 	if (ent != nullptr)
 	{
-		direction %= getMainCharacter()->getAngle();
-		ent->setTarget(direction);
-		PhysicMgr::getSingleton()->registerEntity(ent);
-		LevelMgr::getSingleton()->registerEntity(ent);
+		auto player = getMainCharacter();
+		if (player != NULL)
+		{
+			direction %= player->getAngle();
+			ent->setTarget(direction);
+			PhysicMgr::getSingleton()->registerEntity(ent);
+			LevelMgr::getSingleton()->registerEntity(ent);
+		}
 	}
 }
 
