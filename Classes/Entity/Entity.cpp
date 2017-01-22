@@ -298,6 +298,10 @@ void Entity::setSpeed(float speed)
 
 void Entity::setState(EntityAnimationState::Enum state)
 {
+	if (m_state.m_live.m_currentState == EntityAnimationState::Dead)
+	{
+		return;
+	}
 	if (m_state.m_live.m_currentState != state)
 	{
 		switch (state)

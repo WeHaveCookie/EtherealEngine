@@ -35,6 +35,7 @@ void PhysicMgr::processCollisionCore()
 {
 	if (GameMgr::getSingleton()->getNumberPlayers() > 0)
 	{
+		//auto player = GameMgr::getSingleton()->getEntityPlayer();
 		auto core = EntityMgr::getSingleton()->getEntity("Core");
 		if (core == NULL)
 		{

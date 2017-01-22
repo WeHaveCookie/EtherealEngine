@@ -32,7 +32,12 @@
 			"Commands" : [
 				{
 					"Command" : "Sound",
-					"Path" : "Data/Sound/FX/workDone.ogg",
+					"Path" : "Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_2_1.ogg",
+					"StartFrame" : 1,
+					"EndFrame" : 1
+				},
+				{
+					"Command" : "Shake",
 					"StartFrame" : 1,
 					"EndFrame" : 1
 				}

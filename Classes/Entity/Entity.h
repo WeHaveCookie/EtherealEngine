@@ -376,6 +376,7 @@ class Entity
 					}
 					m_animate = true;
 					m_collisionState = CollisionState::None;
+					m_currentState = EntityAnimationState::Idle;
 					m_element = ShootType::None;
 					m_commandOnClick = NULL;
 				}

@@ -3,13 +3,14 @@
 	"Size" : [1920,1080],
 	"Backgrounds" : [
 		{
-			"Path" : "Data/Background/mainMenuBack.png",
+			"Path" : "Data/Background/Splash.png",
 			"BackgroundLevel" : 0
 		}
 	],
 	"Entitys" : [
 		{
 			"Path" : "Data/Gui/newGame.json",
+			"Position" : [[1400.0, 400.0]],
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
@@ -19,6 +20,7 @@
 		},
 		{
 			"Path" : "Data/Gui/credits.json",
+			"Position" : [[1400.0, 600.0]],
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
@@ -28,6 +30,7 @@
 		},
 		{
 			"Path" : "Data/Gui/exit.json",
+			"Position" : [[1400.0, 800.0]],
 			"OnClick" : [
 				{
 					"Command" : "Exit"
@@ -49,11 +52,6 @@
 			"Button" : "padButtonX",
 			"Command" : "LoadLevel",
 			"Path" : "Data/Level/credits.json"
-		},
-		{
-			"Button" : "padButtonY",
-			"Command" : "Sound",
-			"Path" : "Data/Level/WillBeBack.ogg"
 		}
 	]
 }

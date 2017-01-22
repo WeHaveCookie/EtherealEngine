@@ -60,11 +60,11 @@ void GameMgr::process(const float dt)
 	static SaveTask save;
 	static std::vector<uint32_t> ids;
 
-	auto ent = entityMgr->getMainCharacter();
+	auto ent = entityMgr->getEntity("Core");
 	if (ent != NULL)
 	{
 		auto anim = ent->getAnimation(ent->getState());
-		if (ent->isDead() && anim->getIndexOfAnim() >= anim->getSizeOfAnim() - 1 && LevelMgr::getSingleton()->isPlayableLevel())
+		if (ent->isDead() && anim->getIndexOfAnim() >= anim->getSizeOfAnim() - 2 && LevelMgr::getSingleton()->isPlayableLevel())
 		{
 			LevelMgr::getSingleton()->loadLevel("Data/Level/gameOver.json");
 		}

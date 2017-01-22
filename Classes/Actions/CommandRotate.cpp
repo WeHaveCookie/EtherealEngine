@@ -12,6 +12,10 @@ void CommandRotate::init(Entity* ent, void* data)
 bool CommandRotate::execute()
 {
 	Entity* entity = getEntity();
+	if (entity == NULL)
+	{
+		return true;
+	}
 	auto inputMgr = InputMgr::getSingleton();
 	std::vector<uint32_t> pads = inputMgr->getActivePads();
 	auto padX = inputMgr->getPadKeyValue(KeyType::padX,pads[0]);

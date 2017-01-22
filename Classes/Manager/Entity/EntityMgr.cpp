@@ -242,6 +242,7 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 {
 	Entity* ent;
 	Vector2 direction;
+	float angle;
 	switch (shootType)
 	{
 	case ShootType::Sinus:
@@ -253,8 +254,8 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 
 // 		auto direction = Vector2(bound.left, -100000.0f) -
 // 			Vector2(bound.left, bound.top);
-		direction %= -60 * DEGTORAD;
-		
+		direction %= -60.0f * DEGTORAD;
+		angle = 25.0f * DEGTORAD;
 		break;
 	}
 	case ShootType::Spike:
@@ -265,7 +266,8 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 
 		//auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
-		direction %= 60 * DEGTORAD;
+		direction %= 60.0f * DEGTORAD;
+		angle = 220.0f * DEGTORAD;
 		break;
 	}
 	case ShootType::Triangle:
@@ -274,7 +276,9 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		auto bound = ent->getGlobalBounds();
 		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) - 
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
-		direction %= 180 * DEGTORAD;
+		direction %= 180.0f * DEGTORAD;
+		angle = 180.0f * DEGTORAD;
+		
 		break;
 	}
 	default:
@@ -289,6 +293,7 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		{
 			direction %= player->getAngle();
 			ent->setTarget(direction);
+			ent->setAngle(player->getAngle() + angle);
 			PhysicMgr::getSingleton()->registerEntity(ent);
 			LevelMgr::getSingleton()->registerEntity(ent);
 		}
@@ -297,7 +302,7 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 
 const bool EntityMgr::playerIsDead() const
 {
-	auto player = getMainCharacter();
+	auto player = getEntity("Core");
 	if (player == NULL)
 	{
 		return false;

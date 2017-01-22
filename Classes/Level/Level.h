@@ -36,6 +36,13 @@ class Level
 		void killEnemyType(ShootType::Enum type);
 		void startExtermination();
 		void endExtermination();
+		const int getLocalSinusDead() const { return m_sinusLocalDead; }
+		const int getTotalSinusDead() const { return m_sinusTotalDead; }
+		const int getLocalSpikeDead() const { return m_spikeLocalDead; }
+		const int getTotalSpikeDead() const { return m_spikeTotalDead; }
+		const int getLocalTriangleDead() const { return m_triangleLocalDead; }
+		const int getTotalTriangleDead() const { return m_triangleTotalDead; }
+		const int getScore() const { return m_score; }
 
 	private:
 

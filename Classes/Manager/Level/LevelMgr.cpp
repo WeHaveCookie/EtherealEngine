@@ -61,6 +61,11 @@ void LevelMgr::showImGuiWindow(bool* window)
 		{
 			m_level->shake(true);
 		}
+
+		ImGui::Text("Local Sinus : %i => total %i", m_level->getLocalSinusDead(), m_level->getTotalSinusDead());
+		ImGui::Text("Local Spike : %i => total %i", m_level->getLocalSpikeDead(), m_level->getTotalSpikeDead());
+		ImGui::Text("Local Triangle : %i => total %i", m_level->getLocalTriangleDead(), m_level->getTotalTriangleDead());
+		ImGui::Text("Score total : %i", m_level->getScore());
 		auto view = m_level->getCamera().getCenter();
 		auto size = m_level->getCamera().getSize();
 		ImGui::Text("View : x = %f | y = %f | w = %f | h = %f", view.x, view.y, size.x, size.y);
