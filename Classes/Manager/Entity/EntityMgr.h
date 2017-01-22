@@ -17,15 +17,15 @@ namespace ShootType
 
 	static ShootType::Enum GetType(const char* name)
 	{
-		if (strcmp(name, "Sinus"))
+		if (strcmp(name, "Sinus") == 0)
 		{
 			return ShootType::Sinus;
 		}
-		else if (strcmp(name, "Spike"))
+		else if (strcmp(name, "Spike") == 0)
 		{
 			return ShootType::Spike;
 		}
-		else if (strcmp(name, "Triangle"))
+		else if (strcmp(name, "Triangle") == 0)
 		{
 			return ShootType::Triangle;
 		}
@@ -57,7 +57,7 @@ class EntityMgr : public Manager
 		void deleteEntity(uint32_t id);
 		Entity* getEntity(uint32_t id) const;
 		Entity* getEntity(std::string name) const;
-		Entity* getMainCharacter() const { return getEntity(m_mainCharacterID); }
+		Entity* getMainCharacter() const;
 		void setMainCharacter(uint32_t id) { m_mainCharacterID = id; }
 		const bool entityIsLoaded(uint32_t id) const;
 		int getNumberUsedEntity();
@@ -69,6 +69,9 @@ class EntityMgr : public Manager
 		void displayEntitysInfos();
 
 		void createShoot(ShootType::Enum shootType);
+
+		const bool playerIsDead() const;
+		void unload();
 
 	private:
 		static EntityMgr*		s_singleton;

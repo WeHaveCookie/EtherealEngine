@@ -117,7 +117,6 @@ void LevelMgr::showImGuiWindow(bool* window)
 
 void LevelMgr::registerEntity(Entity* ent)
 {
-	m_quadtree->registerEntity(ent);
 	m_level->registerEntity(ent);
 }
 
@@ -170,6 +169,7 @@ void LevelMgr::unloadLevel()
 
 void LevelMgr::registerEntityIntoLevel(Entity* ent)
 {
+	registerEntity(ent);
 	m_level->registerEntity(ent);
 }
 

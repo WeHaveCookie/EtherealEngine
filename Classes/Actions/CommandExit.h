@@ -7,7 +7,7 @@ public:
 	CommandExit() : Command("CommandExit", CommandExeType::AtOnce) {};
 	~CommandExit();
 
-	virtual void init(Entity* ent, void* data) {};
+	virtual void init(Entity* ent, void* data) { Command::initDone(); };
 	virtual bool execute();
 	virtual void undo() {};
 	virtual void* makeCopy();

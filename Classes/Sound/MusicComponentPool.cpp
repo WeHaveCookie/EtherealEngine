@@ -155,10 +155,10 @@ void MusicComponentPool::addLayer()
 
 void MusicComponentPool::removeLayer()
 {
-	auto musics = getUsedMusicsSortedLTH();
+	auto musics = getUsedMusicsSortedHTL();
 	for (auto& music : musics)
 	{
-		if (music->getVolume() > 0.0f)
+		if (music->getVolume() > 0.0f && music->getLayerLevel() > 0)
 		{
 			music->mute();
 			break;

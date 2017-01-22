@@ -257,6 +257,10 @@ void InputMgr::Key::executeCommand(uint32_t id)
 			exeType == CommandExeType::AtOnce)
 		{
 			auto gameMgr = GameMgr::getSingleton();
+			if (m_command->isInit())
+			{
+				CommandMgr::getSingleton()->addCommand(m_command);
+			}
 			if (gameMgr->getNumberPlayers() > 0)
 			{
 				if (m_hasValue)
@@ -843,4 +847,40 @@ void InputMgr::SetVibrations(unsigned int Value, uint32_t padID)
 const bool InputMgr::padIsActive(uint32_t padID) const
 {
 	return m_padsStatus[padID];
+}
+
+InputMgr::Key* InputMgr::getKeyByName(char* name)
+{
+	for (auto& key : m_keyboard)
+	{
+		if (strcmp(name, KeyTypeToString[key.first]) == 0)
+		{
+			return &key.second;
+		}
+	}
+
+	for (auto& key : m_mouse)
+	{
+		if (strcmp(name, KeyTypeToString[key.first]) == 0)
+		{
+			return &key.second;
+		}
+	}
+
+	int padID = 0;
+	for (auto& pad : m_pads)
+	{
+		if (m_padsStatus[padID])
+		{
+			for (auto& key : pad)
+			{
+				if (strcmp(name, KeyTypeToString[key.first]) == 0)
+				{
+					return &key.second;
+				}
+			}
+		}
+		padID++;
+	}
+	return NULL;
 }

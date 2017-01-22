@@ -11,6 +11,7 @@
 #include "Utils/Random.h"
 #include "Entity/Entity.h"
 #include "Manager/Level/LevelMgr.h"
+#include "Manager/Game/GameMgr.h"
 
 #define SINUSPATH "Data/FX/Sinus.json"
 #define SPIKEPAHT "Data/FX/Spike.json"
@@ -126,7 +127,11 @@ void EntityMgr::showImGuiWindow(bool* window)
 		}
 		free(filesLabel);
 
-		ImGui::Text("Main character : %i", getMainCharacter()->getUID());
+		auto mainChar = getMainCharacter();
+		if (mainChar != NULL)
+		{
+			ImGui::Text("Main character : %i", mainChar->getUID());
+		}
 		if (ImGui::IsItemClicked())
 		{
 			getMainCharacter()->showInfo();
@@ -134,17 +139,20 @@ void EntityMgr::showImGuiWindow(bool* window)
 
 		if(ImGui::CollapsingHeader("Entitys"))
 		{
-			int mainID = getMainCharacter()->getUID();
-			int previousMainID = mainID;
-			ImGui::InputInt("Main Character", &mainID);
-			if (mainID != previousMainID)
+			if (mainChar != NULL)
 			{
-				if (mainID >= 0 && mainID < m_entitys->getPoolSize())
+				int mainID = mainChar->getUID();
+				int previousMainID = mainID;
+				ImGui::InputInt("Main Character", &mainID);
+				if (mainID != previousMainID)
 				{
-					setMainCharacter(mainID);
+					if (mainID >= 0 && mainID < m_entitys->getPoolSize())
+					{
+						setMainCharacter(mainID);
+					}
 				}
+				ImGui::Text("Main character : %i | %s", getMainCharacter()->getUID(), getMainCharacter()->getName());
 			}
-			ImGui::Text("Main character : %i | %s", getMainCharacter()->getUID(), getMainCharacter()->getName());
 			for (auto& entity : m_entitys->getEntitys())
 			{
 				if (!entity->isAlive() && showAll)
@@ -274,5 +282,37 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 		ent->setTarget(direction);
 		PhysicMgr::getSingleton()->registerEntity(ent);
 		LevelMgr::getSingleton()->registerEntity(ent);
+	}
+}
+
+const bool EntityMgr::playerIsDead() const
+{
+	auto player = getMainCharacter();
+	if (player == NULL)
+	{
+		return false;
+	}
+	else
+	{
+		return player->isDead();
+	}
+}
+
+Entity* EntityMgr::getMainCharacter() const
+{
+	auto ent = getEntity(m_mainCharacterID);
+	if (ent != NULL && ent->isAlive())
+	{
+		return ent;
+	}
+	return NULL;
+}
+
+void EntityMgr::unload()
+{
+	auto entities = m_entitys->getUsedEntitys();
+	for (auto& ent : entities)
+	{
+		m_entitys->release(ent->getUID());
 	}
 }

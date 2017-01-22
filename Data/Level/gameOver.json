@@ -9,19 +9,16 @@
 	],
 	"Entitys" : [
 		{
-			"Path" : "Data/FX/Sinus.json",
-			"Position" : [[480.0, 100.0]],
-			"Type" : "Anchor"
+			"Path" : "Data/FX/Sinus1.json",
+			"Position" : [[480.0, 100.0]]
 		},
 		{
-			"Path" : "Data/FX/Spike.json",
-			"Position" : [[960.0, 100.0]],
-			"Type" : "Anchor"
+			"Path" : "Data/FX/Spike1.json",
+			"Position" : [[960.0, 100.0]]
 		},
 		{
-			"Path" : "Data/FX/Triangle.json",
-			"Position" : [[1440.0, 100.0]],
-			"Type" : "Anchor"
+			"Path" : "Data/FX/Triangle1.json",
+			"Position" : [[1440.0, 100.0]]
 		},
 		{
 			"Path" : "Data/Gui/newGame.json",

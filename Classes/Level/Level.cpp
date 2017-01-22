@@ -12,6 +12,7 @@
 #include "Manager/Game/GameMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Sound/SoundMgr.h"
+#include "Utils/Random.h"
 
 void Background::paint()
 {
@@ -273,7 +274,10 @@ bool Level::load(const char* path)
 		for (auto& music : musics.GetArray())
 		{
 			assert(music.HasMember("Path"));
-			auto musicPath = music["Path"].GetString();
+			const rapidjson::Value& musicPaths = music["Path"];
+			int musicID = randIntBorned(0, musicPaths.GetArray().Size());
+			auto musicPath = musicPaths[musicID].GetString();
+
 			float volume = 100.0;
 			uint32_t layer = 0;
 			if (music.HasMember("Volume"))
@@ -330,6 +334,42 @@ bool Level::load(const char* path)
 		}
 	}
 
+	if (document.HasMember("Inputs"))
+	{
+		const rapidjson::Value& inputs = document["Inputs"];
+		for (auto& input : inputs.GetArray())
+		{
+			assert(input.HasMember("Button") && input.HasMember("Command"));
+			auto keyType = input["Button"].GetString();
+			auto commandType = "Command" + std::string(input["Command"].GetString());
+			std::string commandPath = "";
+			if (input.HasMember("Path"))
+			{
+				commandPath = input["Path"].GetString();
+			}
+			auto key = InputMgr::getSingleton()->getKeyByName((char*)keyType);
+			if (key == NULL)
+			{
+				continue;
+			}
+			if (commandType == "Command")
+			{
+				key->m_command = NULL;
+			}
+			else
+			{
+				int id;
+				auto cmd = CommandMgr::getSingleton()->getCommand(commandType.c_str(), &id);
+				if (commandPath != "")
+				{
+					cmd->init(NULL, (void**)&commandPath);
+				}
+				cmd->setExeType(CommandExeType::JustPressed);
+				key->m_command = cmd;
+			}
+		}
+	}
+	
 	FileMgr::CloseFile(json);
 	return true;
 }
@@ -350,9 +390,11 @@ void Level::unload()
 	}
 	SoundMgr::getSingleton()->unloadContent();
 	CommandMgr::getSingleton()->releaseCommands();
+	InputMgr::getSingleton()->SetVibrations(0);
 	m_entitys.clear();
 	m_name = "";
 	m_size = sf::Vector2f();
+	EntityMgr::getSingleton()->unload();
 }
 
 void Level::registerEntity(Entity* ent)

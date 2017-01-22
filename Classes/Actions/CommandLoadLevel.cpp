@@ -12,6 +12,7 @@ void CommandLoadLevel::init(Entity* ent, void* data)
 	if (levelPath != nullptr)
 	{
 		m_levePath = *levelPath;
+		Command::initDone();
 	}
 }
 

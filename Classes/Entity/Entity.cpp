@@ -67,7 +67,8 @@ std::map<std::string, EntityAnimationState::Enum> stringToEntityAnimationState =
 	{ "ATTACK_LEFT", EntityAnimationState::AttackLeft },
 	{ "HIT", EntityAnimationState::Hit },
 	{ "HIT_RIGHT", EntityAnimationState::HitRight },
-	{ "HIT_LEFT", EntityAnimationState::HitLeft }
+	{ "HIT_LEFT", EntityAnimationState::HitLeft },
+	{ "DEAD", EntityAnimationState::Dead},
 };
 
 std::vector<const char*> entityAnimationStateToString = 
@@ -88,7 +89,8 @@ std::vector<const char*> entityAnimationStateToString =
 	"ATTACK_LEFT",
 	"HIT",
 	"HIT_RIGHT",
-	"HIT_LEFT"
+	"HIT_LEFT",
+	"DEAD"
 };
 
 Entity::Entity()
@@ -131,7 +133,13 @@ void Entity::moveToTarget(const float dt)
 			Vector2 vect = targetPos - pos;
 			Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
 
-			move(DesiredVelocity * dt * 10);
+			Vector2 lastVelocity = DesiredVelocity * dt * 10 * m_state.m_live.m_speed;
+			if (EntityMgr::getSingleton()->playerIsDead())
+			{
+				lastVelocity = lastVelocity % 180 *RADTODEG;
+				lastVelocity /= 9;
+			}
+			move(lastVelocity);
 			return;
 		}
 	}
@@ -142,7 +150,13 @@ void Entity::moveToTarget(const float dt)
 		Vector2 vect = m_state.m_live.m_targetPos - pos;
 		Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
 
-		move(DesiredVelocity * dt * 10);
+		Vector2 lastVelocity = DesiredVelocity * dt * 10 * m_state.m_live.m_speed;
+		if (EntityMgr::getSingleton()->playerIsDead())
+		{
+			lastVelocity = lastVelocity % 180 * RADTODEG;
+			lastVelocity /= 9;
+		}
+		move(lastVelocity);
 	}
 }
 
@@ -158,100 +172,100 @@ void Entity::update(const float dt)
 		m_state.m_live.m_sleepTime += dt;
 	}
 	Vector2 motion = m_state.m_live.m_currentPosition - m_state.m_live.m_lastPosition;
-	if (m_state.m_live.m_type != EntityType::Anchor && !m_edition && m_state.m_live.m_animate)
-	{
-		if (dt > 0.0f)
-		{
-			if (isInAction(EntityAction::Attack))
-			{
-				if ((m_state.m_live.m_currentState == EntityAnimationState::AttackLeft || m_state.m_live.m_currentState == EntityAnimationState::AttackRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
-				{
-					setAction(EntityAction::Attack, false);
-					setState(EntityAnimationState::Idle);
-				}
-				else
-				{
-					setState(EntityAnimationState::Attack);
-				}
-			}
-			else if (isInAction(EntityAction::Jump))
-			{
-				if ((m_state.m_live.m_currentState == EntityAnimationState::JumpLeft || m_state.m_live.m_currentState == EntityAnimationState::JumpRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
-				{
-					if (m_state.m_live.m_vy > 0.0f)
-					{
-						setAction(EntityAction::Jump, false);
-						setState(EntityAnimationState::Fall);
-					}
-					else
-					{
-
-						m_state.m_live.m_animations[m_state.m_live.m_currentState].m_currentFrame = 2;
-					}
-					
-				}
-				else
-				{
-					setState(EntityAnimationState::Jump);
-				}
-			}
-			else if (isInAction(EntityAction::Hit))
-			{
-				setState(EntityAnimationState::Hit);
-			} 
-			else if (motion.x < 0.0f)
-			{
-				if (!isFall())
-				{
-					m_state.m_live.m_orientation = EntityOrientation::Left;
-					setState(EntityAnimationState::Left);
-				}
-				else
-				{
-					setState(EntityAnimationState::FallLeft);
-				}
-			}
-			else if (motion.x > 0.0f)
-			{
-				if(!isFall())
-				{
-					m_state.m_live.m_orientation = EntityOrientation::Right;
-					setState(EntityAnimationState::Right);
-				}
-				else
-				{
-					setState(EntityAnimationState::FallRight);
-				}
-			}
-			else if (m_state.m_live.m_vy < 0.0f)
-			{
-				setState(EntityAnimationState::Jump);
-			}
-			else if (m_state.m_live.m_vy > 0.0f)
-			{
-				if (isFall())
-				{
-					setState(EntityAnimationState::Fall);
-				} else
-				{
-					setState(EntityAnimationState::Idle);
-				}
-			}
-			else
-			{
-				setState(EntityAnimationState::Idle);
-			}
-		}
-	}
+// 	if (m_state.m_live.m_type != EntityType::Anchor && !m_edition && m_state.m_live.m_animate)
+// 	{
+// 		if (dt > 0.0f)
+// 		{
+// 			if (isInAction(EntityAction::Attack))
+// 			{
+// 				if ((m_state.m_live.m_currentState == EntityAnimationState::AttackLeft || m_state.m_live.m_currentState == EntityAnimationState::AttackRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
+// 				{
+// 					setAction(EntityAction::Attack, false);
+// 					setState(EntityAnimationState::Idle);
+// 				}
+// 				else
+// 				{
+// 					setState(EntityAnimationState::Attack);
+// 				}
+// 			}
+// 			else if (isInAction(EntityAction::Jump))
+// 			{
+// 				if ((m_state.m_live.m_currentState == EntityAnimationState::JumpLeft || m_state.m_live.m_currentState == EntityAnimationState::JumpRight) && m_state.m_live.m_animations[m_state.m_live.m_currentState].m_finish)
+// 				{
+// 					if (m_state.m_live.m_vy > 0.0f)
+// 					{
+// 						setAction(EntityAction::Jump, false);
+// 						setState(EntityAnimationState::Fall);
+// 					}
+// 					else
+// 					{
+// 
+// 						m_state.m_live.m_animations[m_state.m_live.m_currentState].m_currentFrame = 2;
+// 					}
+// 					
+// 				}
+// 				else
+// 				{
+// 					setState(EntityAnimationState::Jump);
+// 				}
+// 			}
+// 			else if (isInAction(EntityAction::Hit))
+// 			{
+// 				setState(EntityAnimationState::Hit);
+// 			} 
+// 			else if (motion.x < 0.0f)
+// 			{
+// 				if (!isFall())
+// 				{
+// 					m_state.m_live.m_orientation = EntityOrientation::Left;
+// 					setState(EntityAnimationState::Left);
+// 				}
+// 				else
+// 				{
+// 					setState(EntityAnimationState::FallLeft);
+// 				}
+// 			}
+// 			else if (motion.x > 0.0f)
+// 			{
+// 				if(!isFall())
+// 				{
+// 					m_state.m_live.m_orientation = EntityOrientation::Right;
+// 					setState(EntityAnimationState::Right);
+// 				}
+// 				else
+// 				{
+// 					setState(EntityAnimationState::FallRight);
+// 				}
+// 			}
+// 			else if (m_state.m_live.m_vy < 0.0f)
+// 			{
+// 				setState(EntityAnimationState::Jump);
+// 			}
+// 			else if (m_state.m_live.m_vy > 0.0f)
+// 			{
+// 				if (isFall())
+// 				{
+// 					setState(EntityAnimationState::Fall);
+// 				} else
+// 				{
+// 					setState(EntityAnimationState::Idle);
+// 				}
+// 			}
+// 			else
+// 			{
+// 				setState(EntityAnimationState::Idle);
+// 			}
+// 		}
+// 	}
 
 	if (m_state.m_live.m_animate)
 	{
 		m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
 	}
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
-	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2);
-	sf::Vector2f oldOrigin = currentAnim->getOrigin();
-	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width/2,getGlobalBounds().height/2));
+	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2.0f, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2.0f);
+	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f));
+	auto mumu = currentAnim->getOrigin();
 	currentAnim->setRotation(m_state.m_live.m_angle);
 
 }
@@ -293,6 +307,7 @@ void Entity::setState(EntityAnimationState::Enum state)
 		case EntityAnimationState::AttackLeft:
 		case EntityAnimationState::HitRight:
 		case EntityAnimationState::HitLeft:
+		case EntityAnimationState::Dead:
 			// Intentional fall through
 			if (m_state.m_live.m_animations[m_state.m_live.m_currentState].isFinished())
 			{
@@ -427,7 +442,7 @@ void Entity::setState(EntityAnimationState::Enum state)
 	}
 }
 
-const EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
+EntityAnimation* Entity::getAnimation(EntityAnimationState::Enum state)
 {
 	if (m_state.m_live.m_animations[state].m_animation.size() != 0)
 	{
@@ -590,7 +605,7 @@ void Entity::build(const char* path)
 		if (strcmp(document["Layout"].GetString(), "Center") == 0)
 		{
 			auto rdrSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
-			auto pos = Vector2((rdrSize.x / 2.0f) - (m_state.m_live.m_width / 2.0f), (rdrSize.y / 2.0f) - (m_state.m_live.m_height / 2.0f));
+			auto pos = Vector2((rdrSize.x / 2.0f) - (getWidth() / 2.0f), (rdrSize.y / 2.0f) - (getHeight() / 2.0f));
 			setTarget(pos);
 			setPosition(pos);
 		}
@@ -729,6 +744,7 @@ void Entity::build(const char* path)
 			{
 				AnimationHandler animHandler;
 				spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
+				spr.setScale(m_state.m_live.m_scale.sf());
 				animHandler.m_sprite = spr;
 				anim.m_animation.push_back(animHandler);
 			}
@@ -739,6 +755,7 @@ void Entity::build(const char* path)
 			{
 				AnimationHandler animHandler;
 				spr.setTextureRect(sf::IntRect(m_state.m_live.m_width * column, m_state.m_live.m_height * line, m_state.m_live.m_width, m_state.m_live.m_height));
+				spr.setScale(m_state.m_live.m_scale.sf());
 				animHandler.m_sprite = spr;
 				anim.m_animation.push_back(animHandler);
 			}
@@ -1042,6 +1059,7 @@ void Entity::showImGuiWindow()
 			
 			m_state.m_live.m_currentState = (EntityAnimationState::Enum)currentState;
 			sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
+			ImGui::Text("Origin = x : %f | y : %f", currentAnim->getOrigin());
 			ImGui::Image(*currentAnim);
 			if (ImGui::IsItemHovered())
 			{

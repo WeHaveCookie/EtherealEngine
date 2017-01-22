@@ -22,7 +22,7 @@
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
-					"Path" : "Data/Level/gameOver.json"
+					"Path" : "Data/Level/credits.json"
 				}
 			]
 		},
@@ -33,6 +33,27 @@
 					"Command" : "Exit"
 				}
 			]
+		}
+	],
+	"Inputs" : [
+		{
+			"Button" : "padButtonA",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/level1.json"
+		},
+		{
+			"Button" : "padButtonB",
+			"Command" : "Exit"
+		},
+		{
+			"Button" : "padButtonX",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/credits.json"
+		},
+		{
+			"Button" : "padButtonY",
+			"Command" : "Sound",
+			"Path" : "Data/Level/WillBeBack.ogg"
 		}
 	]
 }

@@ -61,10 +61,13 @@ void GameMgr::process(const float dt)
 	static std::vector<uint32_t> ids;
 
 	auto ent = entityMgr->getMainCharacter();
-
-	if (soundMgr->getLayer() == 0 && LevelMgr::getSingleton()->isPlayableLevel())
+	if (ent != NULL)
 	{
-		LevelMgr::getSingleton()->loadLevel("Data/Level/gameOver.json");
+		auto anim = ent->getAnimation(ent->getState());
+		if (ent->isDead() && anim->getIndexOfAnim() >= anim->getSizeOfAnim() - 1 && LevelMgr::getSingleton()->isPlayableLevel())
+		{
+			LevelMgr::getSingleton()->loadLevel("Data/Level/gameOver.json");
+		}
 	}
 	m_processTime = clock.getElapsedTime();
 }

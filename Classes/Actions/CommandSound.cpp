@@ -7,6 +7,7 @@ void CommandSound::init(Entity* ent, void* data)
 {
 	Command::init(ent);
 	m_soundID = SoundMgr::getSingleton()->addSound((char*)data, false, true);
+	Command::initDone();
 }
 
 bool CommandSound::execute()

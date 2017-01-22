@@ -209,6 +209,8 @@ class InputMgr : public Manager
 		void SetVibrations(unsigned int Value, uint32_t padID = 0); // Min 0 Max 100
 		const bool padIsActive(uint32_t padID = 0) const;
 
+		Key* getKeyByName(char* name);
+
 		std::vector<uint32_t> getActivePads();
 	private:
 		static InputMgr*							s_singleton;

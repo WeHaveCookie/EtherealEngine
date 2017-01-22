@@ -155,6 +155,16 @@ struct EntityAnimation {
 		m_currentFrame = 0;
 	}
 
+	const uint32_t getIndexOfAnim() const
+	{
+		return m_currentFrame;
+	}
+
+	const uint32_t getSizeOfAnim() const 
+	{
+		return m_animation.size();
+	}
+
 	~EntityAnimation()
 	{
 		m_animation.clear();
@@ -184,6 +194,7 @@ namespace EntityAnimationState {
 		HitRight,
 		HitLeft,
 		endAction = HitLeft,
+		Dead,
 		endEnum = endAction
 	};
 }
@@ -208,7 +219,7 @@ class Entity
 		void setAngle(float rad) { m_state.m_live.m_angle = rad * RADTODEG; }
 		const float getAngle() const { return m_state.m_live.m_angle * DEGTORAD; }
 		void setState(EntityAnimationState::Enum state);
-		const EntityAnimation* getAnimation(EntityAnimationState::Enum state);
+		EntityAnimation* getAnimation(EntityAnimationState::Enum state);
 		void setNext(Entity* ent) { m_state.m_next = ent; }
 		Entity* getNext() const { return m_state.m_next; }
 		const sf::FloatRect getGlobalBounds() const;
@@ -255,6 +266,7 @@ class Entity
 		const bool isFall() const { return isInAction(EntityAction::Fall); }
 		const bool isAttack() const { return isInAction(EntityAction::Attack); }
 		const bool isHit() const { return isInAction(EntityAction::Hit); }
+		const bool isDead() const { return m_state.m_live.m_currentState == EntityAnimationState::Dead; }
 		void attack() { m_state.m_live.m_action = EntityAction::Attack; }
 		void hit() { setAction(EntityAction::Hit, true); }
 
@@ -280,6 +292,11 @@ class Entity
 		void setCommandOnClick(Command* cmd) { m_state.m_live.m_commandOnClick = cmd; }
 		void setType(EntityType::Enum type) { m_state.m_live.m_type = type; }
 		const EntityType::Enum getTypeByName(const char* name) const;
+		const float getWidth() const { return m_state.m_live.m_width * m_state.m_live.m_scale.x; }
+		const float getHeight() const { return m_state.m_live.m_height * m_state.m_live.m_scale.y; }
+		const EntityAnimationState::Enum getState() const { return m_state.m_live.m_currentState; }
+		void setAnimate(bool b) { m_state.m_live.m_animate = b; }
+		const ShootType::Enum getElement() const { return m_state.m_live.m_element; }
 
 	protected:
 		static uint32_t		newUID;
@@ -353,6 +370,7 @@ class Entity
 						sf::Sprite spr;
 						spr.setTexture(m_errorTexture);
 						spr.setTextureRect(sf::IntRect(0 , 0, m_width, m_height));
+						spr.setScale(m_scale.sf());
 						animHandler.m_sprite = spr;
 						m_animations[ste].m_animation.push_back(animHandler);
 					}

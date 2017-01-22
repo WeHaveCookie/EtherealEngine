@@ -35,10 +35,19 @@ void PhysicMgr::processCollisionCore()
 {
 	if (GameMgr::getSingleton()->getNumberPlayers() > 0)
 	{
-		while (CollisionEntToOthers(GameMgr::getSingleton()->getEntityPlayer()))
+		auto player = GameMgr::getSingleton()->getEntityPlayer();
+		while (CollisionEntToOthers(player))
 		{
 		}
+		for (auto& ent : m_entitys)
+		{
+			if (ent->getUID() != player->getUID() && ent->getDistance(player) < 300.0f)
+			{
+				ent->setState(EntityAnimationState::Right);
+			}
+		}
 	}
+	
 }
 
 bool isVisible(Entity* proj)
@@ -255,6 +264,13 @@ bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 			cmd = cmdMgr->getCommand("CommandShake", &id);
 			cmdMgr->addCommand(cmd);
 			m_deletedEntities.push_back(entity);
+			auto anim = ent->getAnimation(ent->getState());
+			anim->nextFrame();
+			if (anim->getIndexOfAnim() >= anim->getSizeOfAnim() - 1)
+			{
+				ent->setAnimate(true);
+				ent->setState(EntityAnimationState::Dead);
+			}
 		}
 	}
 
