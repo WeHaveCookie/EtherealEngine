@@ -21,7 +21,7 @@
 			"Commands" : [
 				{
 					"Command" : "Sound",
-					"Path" : "Data/Sound/FX/SFX_Earthquake/SFX_Earthquake.ogg",
+					"Path" : ["Data/Sound/FX/SFX_Earthquake/SFX_Earthquake.ogg"],
 					"StartFrame" : 1,
 					"EndFrame" : 1
 				},

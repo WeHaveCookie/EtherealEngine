@@ -5,6 +5,11 @@
 		{
 			"Path" : "Data/Background/Splash.png",
 			"BackgroundLevel" : 0
+		},
+		{
+			"Path" : "Data/Background/Title.png",
+			"BackgroundLevel" : 1,
+			"Position" : [1250.0, 100.0]
 		}
 	],
 	"Entitys" : [

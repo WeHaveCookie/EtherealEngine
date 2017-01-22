@@ -794,7 +794,9 @@ void Entity::build(const char* path)
 					}
 					else if (command.HasMember("Path"))
 					{
-						auto path = command["Path"].GetString();
+						const rapidjson::Value& paths = command["Path"];
+						int pathID = randIntBorned(0, paths.GetArray().Size());
+						auto path = paths[pathID].GetString();
 						cmd->init(this, (void*)path);
 					} 
 					else

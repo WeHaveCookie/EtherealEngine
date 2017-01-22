@@ -31,7 +31,13 @@
 			"Commands" : [
 				{
 					"Command" : "Sound",
-					"Path" : "Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_3_1.ogg",
+					"Path" : 
+					[
+						"Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_3_1.ogg",
+						"Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_3_2.ogg",
+						"Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_3_3.ogg",
+						"Data/Sound/FX/SFX_Monster_Die/SFX_Monster_DIE_3_4.ogg"
+					],
 					"StartFrame" : 1,
 					"EndFrame" : 1
 				},
