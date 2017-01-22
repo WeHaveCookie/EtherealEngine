@@ -41,10 +41,23 @@ void EntityMgr::init()
 void EntityMgr::process(const float dt)
 {
 	sf::Clock clock;
+	auto core = getEntity("Core");
+	if (core != NULL)
+	{
+		core->setAngle(core->getAngle() + (0.5 * DEGTORAD));
+	}
 	auto entitys = m_entitys->getUsedEntitysSortedHTL();
 	for (auto& entity : entitys)
 	{
 		auto mouseCurrentPosition = InputMgr::getSingleton()->getMousePosition();
+		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && entity->getType() == EntityType::Button)
+		{
+			entity->setState(EntityAnimationState::IdleRight);
+		}
+		else if (entity->getType() == EntityType::Button)
+		{
+			entity->setState(EntityAnimationState::IdleLeft);
+		}
 		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
 		{
 			entity->showInfo();
@@ -240,6 +253,10 @@ void EntityMgr::spawnIntoRegion(uint32_t id, sf::FloatRect region)
 
 void EntityMgr::createShoot(ShootType::Enum shootType)
 {
+	if (!LevelMgr::getSingleton()->isPlayableLevel())
+	{
+		return;
+	}
 	Entity* ent;
 	Vector2 direction;
 	float angle;

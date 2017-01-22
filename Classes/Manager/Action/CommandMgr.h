@@ -28,7 +28,8 @@ namespace CommandType
 		Rotate,
 		LoadLevel,
 		Exit,
-		Shake
+		Shake,
+		MoveSprite
 	};
 }
 

@@ -1,40 +1,221 @@
 {
-	"Name" : "Level2",
+	"Name" : "Level1",
 	"Size" : [1920,1080],
+	"NbrPlayer" : 1,
+	"DefaultPlayerPath" : "Data/Character/defenseLine.json",
+	"Physics" : false,
 	"Backgrounds" : [
 		{
-			"Path" : "Data/Background/ciel.png",
-			"BackgroundLevel" : 0 
+			"Path" : "Data/Background/filter.png",
+			"Position" : [-10.0, -10.0],
+			"BackgroundLevel" : 10
+		},
+		{
+			"Path" : "Data/Environment/BG_Left_Door.png",
+			"Position" : [-1010.0, -10.0],
+			"BackgroundLevel" : 0,
+			"Commands" : [
+				{
+					"Command" : "Shake",
+					"Timer" : 1.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [50.0, 0],
+					"Timer" : 2.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 3.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [100.0, 0],
+					"Timer" : 5.0
+				},
+				
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [100.0, 0],
+					"Timer" : 6.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 5.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 6.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [150.0, 0],
+					"Timer" : 7.0
+				},
+				
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [100.0, 0],
+					"Timer" : 8.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 7.0
+				}
+			]
+		},
+		{
+			"Path" : "Data/Environment/BG_Right_Door.png",
+			"Position" : [1420.0, -10.0],
+			"BackgroundLevel" : 0,
+			"Commands" : [
+				{
+					"Command" : "Shake",
+					"Timer" : 1.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-50.0, 0],
+					"Timer" : 2.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 3.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-100.0, 0],
+					"Timer" : 5.0
+				},
+				
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-100.0, 0],
+					"Timer" : 6.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 5.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 6.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-150.0, 0],
+					"Timer" : 7.0
+				},
+				
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-100.0, 0],
+					"Timer" : 8.0
+				},
+				{
+					"Command" : "Shake",
+					"Timer" : 7.0
+				}
+			]
 		}
 	],
 	"Entitys" : [
 		{
-			"Path" : "Data/Character/Ground.json"
-		},
-		{
-			"Path" : "Data/Character/cow.json",
-			"Position" : [[800.0, 800.0]]
-		},
-		{
-			"Path" : "Data/Environment/Arbre_01.json",
-			"Position" : [
-				[400.0, 780.0],
-				[600.0, 780.0],
-				[800.0, 780.0]
-			]
-		},
-		{
-			"Path" : "Data/Environment/Arbre_02.json",
-			"Position" : [[100.0, 885.0]]
-		},
-		{
-			"Path" : "Data/Environment/Arbre_03.json",
-			"Position" : [[250.0, 845.0]]
-		},
-		{
-			"Path" : "Data/Environment/Arbre_04.json",
-			"Position" : [[1000.0, 835.0]]
+			"Path" : "Data/Character/core.json"
 		}
-
+	],
+	"Commands" : [
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/BlueTriangle.json",
+			"SpawnRegion" : [-144, -144, 2064, 72],
+			"Timers" : [4.2, 8.4, 6.4, 9.2, 34.2, 23.0, 14.0, 67.0, 13.0, 45.0, 62.0, 45.0, 31.0, 24.07, 75.0, 11.0, 17.0, 27.0]
+		},
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/RedSinus.json",
+			"SpawnRegion" : [-144, -144, 72, 1224],
+			"Timers" : [12.0, 23.0, 31.3, 20.9, 5.3, 7.2, 9.0, 7.0, 6.0, 4.0, 4.0, 6.0, 7.0, 4.0, 6.0, 23.0, 4.0, 8.05, 76.0, 15.0, 34.0, 26.0, 5.0, 13.0, 45.0, 65.0]
+		},
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/GreenSpike.json",
+			"SpawnRegion" : [-144, 1080, 2064, 72],
+			"Timers" : [8.0, 20.0, 30.0, 32.0, 41.0, 35.0, 67.0, 48.0, 13.0, 45.0, 31.0, 6.07, 8.04, 9.03, 15.0, 31.0, 4.0, 62.01, 15.0, 7.08, 96.0, 12.0, 43.0, 52.0, 61.0]
+		},
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/BlueTriangle.json",
+			"SpawnRegion" : [1920, -144, 72, 1224],
+			"Timers" : [5.0, 15.0, 4.0, 6.0, 7.0, 8.0, 12.0, 14.0, 16.0, 18.0, 19.0, 20.0, 24.0, 26.0, 27.0, 29.0, 30.0, 34.0, 36.0, 38.0, 39.0, 33.0, 40.0, 46.0, 42.0, 4.07, 48.0, 43.0, 49.0, 54.0, 52.0, 57.0, 56.0, 59.0, 61.0, 62.0]
+		}
+	],
+	"Musics" : [
+		{
+			"Path" : ["Data/Sound/Ambiant/Drum/Drum_Layer_1_Start_Map.ogg"],
+			"Volume" : 100.0,
+			"Layer" : 0
+		},
+		{
+			"Path" : ["Data/Sound/Ambiant/Drum/Drum_Layer_2.ogg"],
+			"Volume" : 0.0,
+			"Layer" : 1
+		},
+		{
+			"Path" :
+			[
+				"Data/Sound/Ambiant/Bass/Bass_Layer_1.ogg",
+				"Data/Sound/Ambiant/Bass/Bass_Layer_2.ogg",
+				"Data/Sound/Ambiant/Bass/Bass_Layer_3.ogg",
+				"Data/Sound/Ambiant/Bass/Bass_Layer_4.ogg"
+			],
+			"Volume" : 0.0,
+			"Layer" : 2
+		},
+		{
+			"Path" : 
+			[
+				"Data/Sound/Ambiant/Clavier/Clavier_Layer_1.ogg",
+				"Data/Sound/Ambiant/Clavier/Clavier_Layer_2.ogg",
+				"Data/Sound/Ambiant/Clavier/Clavier_Layer_3.ogg",
+				"Data/Sound/Ambiant/Clavier/Clavier_Layer_4.ogg"
+			],
+			"Volume" : 0.0,
+			"Layer" : 3
+		},
+		{
+			"Path" : 
+			[
+				"Data/Sound/Ambiant/Synth/Synth_Layer_1.ogg",
+				"Data/Sound/Ambiant/Synth/Synth_Layer_2.ogg",
+				"Data/Sound/Ambiant/Synth/Synth_Layer_3.ogg",
+				"Data/Sound/Ambiant/Synth/Synth_Layer_4.ogg"
+			],
+			"Volume" : 0.0,
+			"Layer" : 4
+		}
+	],
+	"Inputs" : [
+		{
+			"Button" : "padStart",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/mainMenu.json"
+		},
+		{
+			"Button" : "padButtonB",
+			"Command" : ""
+		},
+		{
+			"Button" : "padButtonX",
+			"Command" : ""
+		},
+		{
+			"Button" : "padButtonY",
+			"Command" : ""
+		},
+		{
+			"Button" : "padButtonA",
+			"Command" : "Shoot"
+		}
 	]
 }

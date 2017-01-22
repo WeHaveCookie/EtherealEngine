@@ -6,7 +6,7 @@ Command::Command(const char* name, CommandExeType::Enum exeType)
 	:m_name(name),
 	m_exeType(exeType)
 {
-
+	m_init = false;
 }
 
 Command::~Command()

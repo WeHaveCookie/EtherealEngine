@@ -50,7 +50,7 @@ void LevelMgr::end()
 void LevelMgr::paint()
 {
 	m_level->paint();
-	m_quadtree->paint();
+	//m_quadtree->paint();
 }
 
 void LevelMgr::showImGuiWindow(bool* window)
@@ -159,7 +159,12 @@ int LevelMgr::getQueryCount()
 bool LevelMgr::loadLevel(char* path)
 {
 	unloadLevel();
-	return m_level->load(path);
+	m_level->load(path);
+	if (isPlayableLevel())
+	{
+		m_level->clearScore();
+	}
+	return true;
 }
 
 uint32_t LevelMgr::loadLevelAsync()

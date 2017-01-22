@@ -81,6 +81,7 @@ void PhysicMgr::processProjectile()
 		{
 			if (CollisionAABBandAABB(proj->getGlobalBounds(), ent->getGlobalBounds()))
 			{
+				ent->setState(EntityAnimationState::Dead);
 				LevelMgr::getSingleton()->killEnemyType(ent->getElement());
 				removeEntities.push_back(ent);
 			}
@@ -90,7 +91,10 @@ void PhysicMgr::processProjectile()
 
 	for (auto& ent : removeEntities)
 	{
-		ent->setState(EntityAnimationState::Dead);
+		auto cmdMgr = CommandMgr::getSingleton();
+		int id;
+		auto cmd = cmdMgr->getCommand("CommandChannelUpgrade", &id);
+		cmdMgr->addCommand(cmd);	
 		unregisterProjectile(ent);
 	}
 	for (auto& proj : removeProjectiles)
@@ -429,7 +433,7 @@ std::vector<Entity*> PhysicMgr::GetEntityInArea(Entity* ent, ShootType::Enum sho
 			CollisionKDOPAndPoint(&zoneFinale, Vector2(entity->getPosition().x, entity->getPosition().y+entity->getGlobalBounds().height))//BasGauche
 			))
 		{
-			if (entity->getType() != EntityType::Projectile)
+			if (entity->getType() != EntityType::Projectile && entity->getState() != EntityAnimationState::Dead)
 			{
 				enemyInZone.push_back(entity);
 			}

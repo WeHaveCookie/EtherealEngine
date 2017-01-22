@@ -9,12 +9,12 @@
 	],
 	"Entitys" : [
 		{
-			"Path" : "Data/Gui/newGame.json",
+			"Path" : "Data/Gui/start.json",
 			"Position" : [[1400.0, 400.0]],
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
-					"Path" : "Data/Level/level1.json"
+					"Path" : "Data/Level/howToPlay.json"
 				}
 			]
 		},
@@ -42,7 +42,7 @@
 		{
 			"Button" : "padButtonA",
 			"Command" : "LoadLevel",
-			"Path" : "Data/Level/level1.json"
+			"Path" : "Data/Level/howToPlay.json"
 		},
 		{
 			"Button" : "padButtonB",

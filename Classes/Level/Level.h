@@ -43,6 +43,7 @@ class Level
 		const int getLocalTriangleDead() const { return m_triangleLocalDead; }
 		const int getTotalTriangleDead() const { return m_triangleTotalDead; }
 		const int getScore() const { return m_score; }
+		void clearScore();
 
 	private:
 

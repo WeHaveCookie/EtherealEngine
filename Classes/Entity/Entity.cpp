@@ -39,14 +39,16 @@ std::map<std::string, EntityType::Enum> stringToEntityType =
 {
 	{"Anchor", EntityType::Anchor },
 	{"Movable", EntityType::Movable },
-	{"Projectile", EntityType::Projectile}
+	{"Projectile", EntityType::Projectile},
+	{ "Button", EntityType::Button }
 };
 
 std::vector<const char*> entityTypeToString =
 {
 	"Anchor",
 	"Movable",
-	"Projectile"
+	"Projectile",
+	"Button"
 };
 
 std::map<std::string, EntityAnimationState::Enum> stringToEntityAnimationState =
@@ -123,7 +125,7 @@ void Entity::paint()
 
 void Entity::moveToTarget(const float dt)
 {
-	if (getState() != EntityAnimationState::Dead)
+	if (getState() != EntityAnimationState::Dead && getType() != EntityType::Button)
 	{
 		if (m_state.m_live.m_targetName != "")
 		{

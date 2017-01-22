@@ -13,7 +13,7 @@
 #include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Sound/SoundMgr.h"
 #include "Utils/Random.h"
-
+#include "Actions/CommandMove.h"
 
 void Background::paint()
 {
@@ -29,8 +29,12 @@ Level::Level()
 	m_maxShakeFactor = 30.0f;
 	m_font.loadFromFile("Data/Fonts/wonder.ttf");
 	m_sinusTotalDead = 0;
+	m_sinusLocalDead = 0;
 	m_spikeTotalDead = 0;
+	m_spikeLocalDead = 0;
 	m_triangleTotalDead = 0;
+	m_triangleLocalDead = 0;
+	
 	m_score = 0;
 }
 
@@ -106,6 +110,7 @@ bool Level::load(const char* path)
 	checkAndAffect(&document, "Physics", ValueType::Bool, (void**)&physicsEnablePtr);
 	PhysicMgr::getSingleton()->enable(physicsEnable);
 
+	GameMgr::getSingleton()->setNumberPlayer(0);
 	GameMgr::getSingleton()->setNumberPlayer(nbrPlayer);
 
 	if (document.HasMember("Backgrounds"))
@@ -127,6 +132,48 @@ bool Level::load(const char* path)
 				back->m_sprite.setPosition(sf::Vector2f(background["Position"][0].GetFloat(), background["Position"][1].GetFloat()));
 			}
 			pushSorted(&m_backgrounds, back, cmpDisplayLevelLTH);
+
+			if (background.HasMember("Commands"))
+			{
+				const rapidjson::Value& commands = background["Commands"];
+				auto cmdMgr = CommandMgr::getSingleton();
+				for (auto& command : commands.GetArray())
+				{
+					assert(command.HasMember("Command"));
+					std::string commandName = command["Command"].GetString();
+					std::string cmdPath = "Command" + commandName;
+					
+					sf::Vector2f motion;
+					if (command.HasMember("Motion") && command["Motion"].GetArray().Size() == 2)
+					{
+						motion.x = command["Motion"][0].GetFloat();
+						motion.y = command["Motion"][1].GetFloat();
+					}
+
+					float timer = 0.0f;
+
+					if (command.HasMember("Timer"))
+					{
+						timer = command["Timer"].GetFloat();
+					}
+					int id;
+					auto cmd = cmdMgr->getCommand(cmdPath.c_str(), &id);
+
+					if (commandName == "MoveSprite")
+					{
+						MoveSpriteHandler handler;
+						handler.m_motion = motion;
+						handler.m_sprite = &back->m_sprite;
+						handler.m_timer = timer;
+						cmd->init(NULL, (void*)&handler);
+					}
+					else
+					{
+						cmd->init(NULL, (void*)&timer);
+					}
+					cmdMgr->addCommand(cmd);
+				}
+			}
 		}
 	}
 
@@ -482,8 +529,25 @@ void Level::startExtermination()
 
 void Level::endExtermination()
 {
+	m_triangleTotalDead += m_triangleLocalDead;
+	m_sinusTotalDead += m_sinusLocalDead;
+	m_spikeTotalDead += m_spikeLocalDead;
 	m_score += m_sinusLocalDead + m_spikeLocalDead + m_triangleLocalDead;
 	m_score *= 1 + (m_sinusLocalDead / 10.0f);
 	m_score *= 1 + (m_spikeLocalDead / 10.0f);
 	m_score *= 1 + (m_triangleLocalDead / 10.0f);
+	m_triangleLocalDead = 0;
+	m_sinusLocalDead = 0;
+	m_spikeLocalDead = 0;
+}
+
+void Level::clearScore()
+{
+	m_sinusTotalDead = 0;
+	m_sinusLocalDead = 0;
+	m_spikeTotalDead = 0;
+	m_spikeLocalDead = 0;
+	m_triangleTotalDead = 0;
+	m_triangleLocalDead = 0;
+	m_score = 0;
 }

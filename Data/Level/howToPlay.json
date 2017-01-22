@@ -1,0 +1,58 @@
+{
+	"Name" : "HowToPlay",
+	"Size" : [1920,1080],
+	"NbrPlayer" : 1,
+	"DefaultPlayerPath" : "Data/Character/defenseLine.json",
+	"Backgrounds" : [
+		{
+			"Path" : "Data/Background/Closed_Doors_Instructions.png",
+			"BackgroundLevel" : 0
+		}
+	],
+	"Entitys" : [
+		{
+			"Path" : "Data/Character/RedSinus.json",
+			"Position" : [[600.0, 740.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/Character/GreenSpike.json",
+			"Position" : [[600.0, 820.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/Character/BlueTriangle.json",
+			"Position" : [[600.0, 670.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/Character/core.json"
+		},
+		{
+			"Path" : "Data/Gui/start.json",
+			"Position" : [[832.0, 800.0]],
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/level1.json"
+				}
+			]
+		}
+	],
+	"Inputs" : [
+		{
+			"Button" : "padButtonA",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/level1.json"
+		},
+		{
+			"Button" : "padButtonB",
+			"Command" : "Exit"
+		},
+		{
+			"Button" : "padButtonX",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/credits.json"
+		}
+	]
+}

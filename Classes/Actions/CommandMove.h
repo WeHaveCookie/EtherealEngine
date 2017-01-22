@@ -80,3 +80,25 @@ public:
 	virtual void init(Entity* ent, void* data);
 	virtual void* makeCopy();
 };
+
+struct MoveSpriteHandler
+{
+	sf::Sprite*		m_sprite;
+	sf::Vector2f	m_motion;
+	float			m_timer;
+};
+
+class CommandMoveSprite : public Command
+{
+public:
+	CommandMoveSprite() : Command("MoveSprite", CommandExeType::AtTime) {};
+	~CommandMoveSprite() {};
+
+	virtual void init(Entity* ent, void* data);
+	virtual bool execute();
+	virtual void undo() {};
+	virtual void* makeCopy();
+
+private:
+	MoveSpriteHandler m_moveSpriteHandler;
+};

@@ -40,6 +40,7 @@ namespace EntityType
 		Anchor = 0,
 		Movable,
 		Projectile,
+		Button,
 		All
 	};
 }

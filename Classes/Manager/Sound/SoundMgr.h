@@ -39,4 +39,7 @@ class SoundMgr : public Manager
 		sf::Time				m_processTime;
 		MusicComponentPool*		m_musics;
 		SoundComponentPool*		m_sounds;
+
+		int						m_addLayerAttempts;
+		int						m_removeLayerAttempts;
 };

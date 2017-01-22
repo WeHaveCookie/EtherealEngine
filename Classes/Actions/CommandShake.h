@@ -7,10 +7,12 @@ public:
 	CommandShake() : Command("CommandShake", CommandExeType::AtOnce) { };
 	~CommandShake();
 
-	virtual void init(Entity* ent, void* data) {};
+	virtual void init(Entity* ent, void* data);
 	virtual bool execute();
 	virtual void undo() {};
 	virtual void* makeCopy();
 
+private:
+	float	m_timer;
 };
 

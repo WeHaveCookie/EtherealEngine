@@ -3,25 +3,62 @@
 	"Size" : [1920,1080],
 	"Backgrounds" : [
 		{
-			"Path" : "Data/Background/mainMenuBack.png",
-			"BackgroundLevel" : 0
-		}
+			"Path" : "Data/Background/filter.png",
+			"Position" : [-10.0, -10.0],
+			"BackgroundLevel" : 10
+		},
+		{
+			"Path" : "Data/Environment/BG_Left_Door.png",
+			"Position" : [-510.0, -10.0],
+			"BackgroundLevel" : 0,
+			"Commands" : [
+				{
+					"Command" : "Shake",
+					"Timer" : 2.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [25.0, 0],
+					"Timer" : 2.0
+				}
+			]
+		},
+		{
+			"Path" : "Data/Environment/BG_Right_Door.png",
+			"Position" : [920.0, -10.0],
+			"BackgroundLevel" : 0,
+			"Commands" : [
+				{
+					"Command" : "Shake",
+					"Timer" : 2.0
+				},
+				{
+					"Command" : "MoveSprite",
+					"Motion" : [-25.0, 0],
+					"Timer" : 2.0
+				}
+			]
+		 }
 	],
 	"Entitys" : [
 		{
-			"Path" : "Data/FX/Sinus1.json",
-			"Position" : [[480.0, 100.0]]
+			"Path" : "Data/Character/RedSinus.json",
+			"Position" : [[480.0, 50.0]],
+			"Type" : "Anchor"
 		},
 		{
-			"Path" : "Data/FX/Spike1.json",
-			"Position" : [[960.0, 100.0]]
+			"Path" : "Data/Character/GreenSpike.json",
+			"Position" : [[960.0, 50.0]],
+			"Type" : "Anchor"
 		},
 		{
-			"Path" : "Data/FX/Triangle1.json",
-			"Position" : [[1440.0, 100.0]]
+			"Path" : "Data/Character/BlueTriangle.json",
+			"Position" : [[1440.0, 50.0]],
+			"Type" : "Anchor"
 		},
 		{
-			"Path" : "Data/Gui/newGame.json",
+			"Path" : "Data/Gui/start.json",
+			"Position" : [[832.0, 300.0]],
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
@@ -31,6 +68,7 @@
 		},
 		{
 			"Path" : "Data/Gui/credits.json",
+			"Position" : [[832.0, 600.0]],
 			"OnClick" : [
 				{
 					"Command" : "LoadLevel",
@@ -40,6 +78,7 @@
 		},
 		{
 			"Path" : "Data/Gui/exit.json",
+			"Position" : [[832.0, 800.0]],
 			"OnClick" : [
 				{
 					"Command" : "Exit"
@@ -66,7 +105,7 @@
 		},
 		{
 			"Text" : "Your score : ",
-			"Position" : [900.0, 500.0],
+			"Position" : [840.0, 500.0],
 			"Value" : "Score"
 		}
 	]

@@ -1,17 +1,24 @@
 {
 	"Name" : "exit",
-	"Width" : 128,
-	"Height" : 64,
+	"Width" : 256,
+	"Height" : 80,
 	"Speed" : 1.0,
-	"Position" : [960.0, 634.0],
-	"State" : "IDLE",
+	"Position" : [960.0, 466.0],
+	"State" : "IDLE_LEFT",
 	"Collidable" : false,
 	"BackgroundLevel" : 10,
+	"Type" : "Button",
 	"Animations" : [
 		{
-			"State" : "IDLE",
+			"State" : "IDLE_LEFT",
 			"Frame" : 1,
 			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "IDLE_RIGHT",
+			"Frame" : 1,
+			"Line" : 2,
 			"Time" : 0.0
 		}
 	]

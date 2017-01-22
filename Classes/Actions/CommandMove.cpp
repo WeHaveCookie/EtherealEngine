@@ -2,6 +2,7 @@
 #include "CommandMove.h"
 #include "Entity/Entity.h"
 #include "Manager/Game/GameMgr.h"
+#include "EtherealEngineManagers.h"
 
 void CommandMove::init(Entity* ent, void* data)
 {
@@ -121,4 +122,32 @@ void CommandMoveYAxis::init(Entity* ent, void* data)
 void* CommandMoveYAxis::makeCopy()
 {
 	return (void*)new CommandMoveYAxis();
+}
+
+void CommandMoveSprite::init(Entity* ent, void* data)
+{
+	MoveSpriteHandler* handle = static_cast<MoveSpriteHandler*>(data);
+	if (handle != NULL)
+	{
+		m_moveSpriteHandler = *handle;
+	}
+}
+
+bool CommandMoveSprite::execute()
+{
+	m_moveSpriteHandler.m_timer -= g_DeltaTime;
+	if (m_moveSpriteHandler.m_timer <= 0.0)
+	{
+		m_moveSpriteHandler.m_sprite->move(m_moveSpriteHandler.m_motion);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void* CommandMoveSprite::makeCopy()
+{
+	return (void*)new CommandMoveSprite();
 }

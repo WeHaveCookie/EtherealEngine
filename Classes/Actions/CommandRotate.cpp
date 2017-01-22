@@ -7,12 +7,13 @@
 void CommandRotate::init(Entity* ent, void* data)
 {
 	Command::init(ent);
+	Command::initDone();
 }
 
 bool CommandRotate::execute()
 {
 	Entity* entity = getEntity();
-	if (entity == NULL)
+	if (entity == NULL || !isInit())
 	{
 		return true;
 	}

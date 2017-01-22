@@ -22,6 +22,8 @@ void SoundMgr::init()
 	m_processTime = sf::Time::Zero;
 	m_musics = new MusicComponentPool(10);
 	m_sounds = new SoundComponentPool(244);
+	m_addLayerAttempts = 0;
+	m_removeLayerAttempts = 0;
 }
 
 void SoundMgr::process(const float dt)
@@ -205,12 +207,20 @@ MusicComponent* SoundMgr::getMusic(uint32_t id)
 
 void SoundMgr::addLayer()
 {
-	m_musics->addLayer();
+	if (++m_addLayerAttempts > 10)
+	{
+		m_musics->addLayer();
+		m_addLayerAttempts = 0;
+	}
 }
 
 void SoundMgr::removeLayer()
 {
-	m_musics->removeLayer();
+	if (++m_removeLayerAttempts > 2)
+	{
+		m_musics->removeLayer();
+		m_removeLayerAttempts = 0;
+	}
 }
 
 void SoundMgr::unloadContent()
