@@ -24,12 +24,12 @@ LevelMgr::~LevelMgr()
 void LevelMgr::init()
 {
 	m_processTime = sf::Time::Zero;
+	auto winSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
 	m_quadtree = new Quadtree();
-	m_quadtree->init(0.0f, 0.0f, 1920.0f, 1080.0f);
+	m_quadtree->init(0.0f, 0.0f, winSize.x, winSize.y);
 	m_quadtree->setNodeCapacity(50);
 	m_level = new Level();
-	GameMgr::getSingleton()->setNumberPlayer(1);
-	loadLevel("Data/Level/level2.json");
+	loadLevel("Data/Level/level1.json");
 }
 
 void LevelMgr::process(const float dt)
@@ -153,4 +153,14 @@ uint32_t LevelMgr::loadLevelAsync()
 void LevelMgr::unloadLevel()
 {
 	m_level->unload();
+}
+
+void LevelMgr::registerEntityIntoLevel(Entity* ent)
+{
+	m_level->registerEntity(ent);
+}
+
+const char* LevelMgr::getCharacterPath()
+{
+	return m_level->getCharacterPath();
 }

@@ -1,19 +1,55 @@
 {
 	"Name" : "Level1",
 	"Size" : [1920,1080],
+	"NbrPlayer" : 1,
+	"DefaultPlayerPath" : "Data/Character/cursor.json",
+	"Physics" : false,
 	"Backgrounds" : [
-		{
-			"Path" : "Data/Background/ciel.png",
-			"BackgroundLevel" : 0 
-		}
 	],
 	"Entitys" : [
+	],
+	"Commands" : [
 		{
-			"Path" : "Data/Character/Ground.json"
+			"Command" : "Spawn",
+			"Path" : "Data/Character/cube.json",
+			"SpawnRegion" : [-20, -20, 1920, 20],
+			"Timers" : [1.0]
 		},
 		{
-			"Path" : "Data/Character/assassinAttack.json",
-			"Position" : [800.0, 500.0]
+			"Command" : "Spawn",
+			"Path" : "Data/Character/cube.json",
+			"SpawnRegion" : [0, -20, 20, 1080],
+			"Timers" : [10.0]
+		},
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/cube.json",
+			"SpawnRegion" : [-20, 1080, 1920, 20],
+			"Timers" : [120.0]
+		},
+		{
+			"Command" : "Spawn",
+			"Path" : "Data/Character/cube.json",
+			"SpawnRegion" : [1940, 0, 20, 1080],
+			"Timers" : [100.0]
+		}
+	],
+	"Musics" : [
+		{
+			"Path" : "Data/Sound/Ambiant/MainTheme.ogg",
+			"Volume" : 100.0,
+			"Layer" : 0
+		},
+		{
+			"Path" : "Data/Sound/Ambiant/theme.ogg",
+			"Volume" : 100.0,
+			"Layer" : 1
+		},
+		{
+			"Path" : "Data/Sound/Ambiant/menu.ogg",
+			"Volume" : 0.0,
+			"Layer" : 2
 		}
 	]
+		
 }

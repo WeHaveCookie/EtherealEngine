@@ -7,6 +7,7 @@
 #include "Manager/Game/GameMgr.h"
 #include "Actions/Command.h"
 #include "../../External/rapidjson/document.h"
+#include "Gesture/GestureRecognition.h"
 
 InputMgr* InputMgr::s_singleton = NULL;
 
@@ -253,16 +254,20 @@ void InputMgr::Key::executeCommand(uint32_t id)
 			m_hasValue && (m_value >= 30.0f || m_value <= -30.0f) ||
 			exeType == CommandExeType::AtOnce)
 		{
-			if (m_hasValue)
+			auto gameMgr = GameMgr::getSingleton();
+			if (gameMgr->getNumberPlayers() > 0)
 			{
-				float value = m_value * 0.1f;
-				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id), (void*)&value);
+				if (m_hasValue)
+				{
+					float value = m_value * 0.1f;
+					m_command->init(gameMgr->getEntityPlayer(id), (void*)&value);
+				}
+				else
+				{
+					m_command->init(gameMgr->getEntityPlayer(id));
+				}
+				CommandMgr::getSingleton()->addCommand(m_command);
 			}
-			else
-			{
-				m_command->init(GameMgr::getSingleton()->getEntityPlayer(id));
-			}
-			CommandMgr::getSingleton()->addCommand(m_command);
 		}
 	}
 }
@@ -328,6 +333,7 @@ InputMgr::InputMgr()
 	s_singleton = this;
 	m_updateWhenNoFocus = false;
 	m_lockInput = false;
+	m_gestureRecognition = new GestureRecognition();
 }
 
 InputMgr::~InputMgr()
@@ -340,6 +346,7 @@ InputMgr::~InputMgr()
 
 void InputMgr::init()
 {
+	m_gestureRecognition->init();
 	for (int i = 0; i < KeyType::endPadKey + 1; i++)
 	{
  		m_keyName[i] = (char*)malloc(sizeof(char)*(strlen(KeyTypeToString[i])+1));
@@ -561,6 +568,11 @@ void InputMgr::process(const float dt)
 		}
 	}
 	ImGui::SFML::Update(dt);
+	m_gestureRecognition->process(dt);
+	if (m_gestureRecognition->getGesture() != ShootType::None)
+	{
+		CommandMgr::getSingleton()->addCommand(m_gestureRecognition->getGestureCommand());
+	}
 }
 
 void InputMgr::end()
@@ -702,6 +714,11 @@ void InputMgr::showImGuiWindow(bool* window)
 	{
 		ImGui::Checkbox("Update when no focus", &m_updateWhenNoFocus);
 		ImGui::Checkbox("Lock Input", &m_lockInput);
+		ImGui::Text("Gesture : %i", m_gestureRecognition->getGesture());
+		if (ImGui::IsItemClicked())
+		{
+			m_gestureRecognition->showInfo();
+		}
 		ImGui::Text("Cursor pos : x = %f | y = %f", getMousePosition().x, getMousePosition().y);
 		ImGui::Separator();
 		int i = 0;
@@ -792,4 +809,19 @@ void InputMgr::showImGuiWindow(bool* window)
 const Vector2 InputMgr::getMousePosition() const
 {
 	return m_currentMousePosition;
+}
+
+std::vector<uint32_t> InputMgr::getActivePads()
+{
+	std::vector<uint32_t> activePads;
+	uint32_t id = 0;
+	for (auto& padStatus : m_padsStatus)
+	{
+		if (padStatus)
+		{
+			activePads.push_back(id);
+		}
+		id++;
+	}
+	return activePads;
 }

@@ -119,6 +119,18 @@ Entity* GameMgr::getEntityPlayer(uint32_t id)
 	return EntityMgr::getSingleton()->getEntity(m_playersId[id]);
 }
 
+void GameMgr::setPlayer(uint32_t playerId, uint32_t entityUID)
+{
+	if (playerId == 0)
+	{
+		EntityMgr::getSingleton()->setMainCharacter(entityUID);
+	}
+	if (EntityMgr::getSingleton()->isValidEntity(entityUID) && playerId < m_nbrPlayers - 1)
+	{
+		m_playersId[playerId] = entityUID;
+	}
+}
+
 void GameMgr::setNumberPlayer(uint32_t nbr)
 {
 	if (m_nbrPlayers != nbr && nbr >= 0 && nbr <= sf::Joystick::Count)
@@ -127,7 +139,11 @@ void GameMgr::setNumberPlayer(uint32_t nbr)
 		{
 			for (uint32_t i = m_nbrPlayers; i < nbr; i++)
 			{
-				m_playersId.push_back(EntityMgr::getSingleton()->createEntity("Data/Character/assassinAttack.json")->getUID());
+				m_playersId.push_back(EntityMgr::getSingleton()->createEntity(LevelMgr::getSingleton()->getCharacterPath())->getUID());
+				if (i == 0)
+				{
+					EntityMgr::getSingleton()->setMainCharacter(m_playersId[0]);
+				}
 			}
 		}
 		else

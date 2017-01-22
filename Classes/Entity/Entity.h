@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/Entity/EntityMgr.h"
 
 namespace EntityAction
 {
@@ -38,6 +39,7 @@ namespace EntityType
 	{
 		Anchor = 0,
 		Movable,
+		Projectile,
 		All
 	};
 }
@@ -272,6 +274,8 @@ class Entity
 		void setVY(float v) { m_state.m_live.m_vy = std::min(v, m_state.m_live.m_vMax); }
 		void setBackgroundLevel(uint32_t level) { m_state.m_live.m_backgroundLevel = level; }
 		void showImGuiWindow();
+		void setTarget(Vector2 pos) { m_state.m_live.m_targetPos = pos; }
+		const bool isProjectile() const { return m_state.m_live.m_type == EntityType::Projectile; }
 
 	protected:
 		static uint32_t		newUID;
@@ -280,6 +284,7 @@ class Entity
 	private:
 		void updatePosition();
 		
+		void moveToTarget(const float dt);
 
 		bool m_live;
 		bool m_loaded;
@@ -327,6 +332,10 @@ class Entity
 				Vector2													m_scale;
 				EntityAction::Enum										m_action;
 				uint32_t												m_backgroundLevel; //  0 => foreground | Higher => background
+				std::string												m_targetName;
+				Vector2													m_targetPos;
+				float													m_maxSpeed;
+				ShootType::Enum											m_element;
 
 				void clear()
 				{

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MusicComponentPool.h"
+#include "Utils/containerUtils.h"
 
 MusicComponentPool::MusicComponentPool(int size)
 	:m_poolSize(size)
@@ -98,4 +99,69 @@ void MusicComponentPool::release(MusicComponent* music)
 {
 	music->setNext(m_firstAvailable);
 	m_firstAvailable = music;
+}
+
+bool cmpLayerMusicLTH(MusicComponent* a, MusicComponent* b)
+{
+	return a->getLayerLevel() >= b->getLayerLevel();
+
+}
+
+const std::vector<MusicComponent*> MusicComponentPool::getUsedMusicsSortedLTH() const
+{
+	std::vector<MusicComponent*> res;
+	for (auto& music : m_musics)
+	{
+		if (music->isPlayed())
+		{
+			pushSorted(&res, music, cmpLayerMusicLTH);
+		}
+	}
+	return res;
+}
+
+bool cmpDisplayLevelHTL(MusicComponent* a, MusicComponent* b)
+{
+	return a->getLayerLevel() < b->getLayerLevel();
+
+}
+
+const std::vector<MusicComponent*> MusicComponentPool::getUsedMusicsSortedHTL() const
+{
+	std::vector<MusicComponent*> res;
+	for (auto& music : m_musics)
+	{
+		if (music->isPlayed())
+		{
+			pushSorted(&res, music, cmpDisplayLevelHTL);
+		}
+	}
+	return res;
+}
+
+
+void MusicComponentPool::addLayer()
+{
+	auto musics = getUsedMusicsSortedHTL();
+	for (auto& music : musics)
+	{
+		if (music->getVolume() == 0)
+		{
+			music->unmute();
+			break;
+		}
+	}
+}
+
+void MusicComponentPool::removeLayer()
+{
+	auto musics = getUsedMusicsSortedLTH();
+	for (auto& music : musics)
+	{
+		if (music->getVolume() > 0)
+		{
+			music->mute();
+			break;
+		}
+	}
 }

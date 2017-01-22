@@ -44,7 +44,7 @@ static void checkAndAffect(rapidjson::Document* doc, const char* nameAttribut, V
 			if ((*doc)[nameAttribut].IsString())
 			{
 				std::string value = (*doc)[nameAttribut].GetString();
-				memcpy(*attPtr, (void*)&value, sizeof(std::string));
+				memcpy(*attPtr, (void*)&value, sizeof(value));
 			}
 			break;
 		case ValueType::Bool:

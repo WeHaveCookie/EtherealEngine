@@ -202,3 +202,13 @@ MusicComponent* SoundMgr::getMusic(uint32_t id)
 {
 	return m_musics->getMusic(id);
 }
+
+void SoundMgr::addLayer()
+{
+	m_musics->addLayer();
+}
+
+void SoundMgr::removeLayer()
+{
+	m_musics->removeLayer();
+}

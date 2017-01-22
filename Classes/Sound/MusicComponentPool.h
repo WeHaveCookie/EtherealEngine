@@ -13,6 +13,12 @@ public:
 	std::vector<MusicComponent*> getMusicsUsed();
 	void release(uint32_t id);
 
+	const std::vector<MusicComponent*> getUsedMusicsSortedLTH() const;
+	const std::vector<MusicComponent*> getUsedMusicsSortedHTL() const;
+
+	void addLayer();
+	void removeLayer();
+
 private:
 	void release(MusicComponent* music);
 	const int						m_poolSize;

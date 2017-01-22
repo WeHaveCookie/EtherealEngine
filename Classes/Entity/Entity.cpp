@@ -12,20 +12,10 @@
 #include "Actions/Command.h"
 #include "Manager/Action/CommandMgr.h"
 #include "Utils/jsonUtils.h"
+#include "Manager/Game/GameMgr.h"
+#include "Manager/Sound/SoundMgr.h"
 
 #define ERROR_TEXTURE "Data/Texture/error.png"
-
-void clampVector(Vector2* vec, float a = -0.1f, float b = 0.1f)
-{
-	if (vec->x > a && vec->x < b)
-	{
-		vec->x = 0.0f;
-	}
-	if (vec->y > a && vec->y < b)
-	{
-		vec->y = 0.0f;
-	}
-}
 
 float clamp(float value, float a, float b)
 {
@@ -49,12 +39,14 @@ std::map<std::string, EntityType::Enum> stringToEntityType =
 {
 	{"Anchor", EntityType::Anchor },
 	{"Movable", EntityType::Movable },
+	{"Projectile", EntityType::Projectile}
 };
 
 std::vector<const char*> entityTypeToString =
 {
 	"Anchor",
 	"Movable",
+	"Projectile"
 };
 
 std::map<std::string, EntityAnimationState::Enum> stringToEntityAnimationState =
@@ -127,8 +119,36 @@ void Entity::paint()
 	}
 }
 
+void Entity::moveToTarget(const float dt)
+{
+	if (m_state.m_live.m_targetName != "")
+	{
+		auto target = EntityMgr::getSingleton()->getEntity(m_state.m_live.m_targetName);
+		if (target != nullptr)
+		{
+			auto pos = Vector2(getPosition().x + getGlobalBounds().width / 2.0, getPosition().y + getGlobalBounds().height / 2.0);
+			auto targetPos = Vector2(target->getPosition().x + target->getGlobalBounds().width / 2.0, target->getPosition().y + target->getGlobalBounds().height / 2.0);
+			Vector2 vect = targetPos - pos;
+			Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
+
+			move(DesiredVelocity * dt * 10);
+			return;
+		}
+	}
+
+	if (m_state.m_live.m_targetPos != getPosition())
+	{
+		auto pos = Vector2(getPosition().x + getGlobalBounds().width / 2.0, getPosition().y + getGlobalBounds().height / 2.0);
+		Vector2 vect = m_state.m_live.m_targetPos - pos;
+		Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
+
+		move(DesiredVelocity * dt * 10);
+	}
+}
+
 void Entity::update(const float dt)
 {
+	moveToTarget(dt);
 	if (!m_state.m_live.m_collidable && isEdition())
 	{
 		move(getMotion());
@@ -229,8 +249,11 @@ void Entity::update(const float dt)
 		m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
 	}
 	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
-	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf());
+	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2);
+	sf::Vector2f oldOrigin = currentAnim->getOrigin();
+	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width/2,getGlobalBounds().height/2));
 	currentAnim->setRotation(m_state.m_live.m_angle);
+
 }
 
 const bool Entity::process(const float dt)
@@ -550,6 +573,10 @@ void Entity::build(const char* path)
 	checkAndAffect(&document, "Width", ValueType::Int, (void**)&widthPtr);
 	checkAndAffect(&document, "Height", ValueType::Int, (void**)&heightPtr);
 
+	float* maxSpeedPtr = &m_state.m_live.m_maxSpeed;
+	float defaultMaxSpeed = 1.0;
+	checkAndAffect(&document, "MaxSpeed", ValueType::Float, (void**)&maxSpeedPtr, &defaultMaxSpeed);
+
 	bool member;
 	sf::Sprite spr;
 
@@ -557,6 +584,36 @@ void Entity::build(const char* path)
 	Vector2 defaultScale(1.0f, 1.0f);
 	checkAndAffect(&document, "Scale", ValueType::Vector2, (void**)&scalePtr, (void*)&defaultScale);
 	spr.setScale(m_state.m_live.m_scale.sf());
+
+	if (document.HasMember("Layout"))
+	{
+		if (strcmp(document["Layout"].GetString(), "Center") == 0)
+		{
+			auto rdrSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
+			auto pos = Vector2((rdrSize.x / 2.0f) - (m_state.m_live.m_width / 2.0f), (rdrSize.y / 2.0f) - (m_state.m_live.m_height / 2.0f));
+			setTarget(pos);
+			setPosition(pos);
+		}
+	}
+
+	if (document.HasMember("Element"))
+	{
+		m_state.m_live.m_element = ShootType::GetType(document["Element"].GetString());
+	}
+
+	if (document.HasMember("Sound"))
+	{
+		SoundMgr::getSingleton()->addSound(document["Sound"].GetString());
+	}
+
+	if (document.HasMember("Target"))
+	{
+		m_state.m_live.m_targetName = document["Target"].GetString();
+	}
+	else
+	{
+		m_state.m_live.m_targetName = "";
+	}
 
 	char entPath[128];
 
@@ -747,6 +804,7 @@ void Entity::build(const char* path)
 		//pos.x = randIntBorned(0.0f, posArray[0].GetFloat());
 		pos.x = posArray[0].GetFloat();
 		pos.y = posArray[1].GetFloat();
+		setTarget(pos);
 		setPosition(pos);
 	}
 
@@ -938,8 +996,9 @@ void Entity::showImGuiWindow()
 			ImGui::Text("Position");
 			float x = m_state.m_live.m_currentPosition.x;
 			float y = m_state.m_live.m_currentPosition.y;
-			ImGui::SliderFloat("x", &x, 0.0f, 1920.0f);
-			ImGui::SliderFloat("y", &y, 0.0f, 1080.0f);
+			auto winSize = GameMgr::getSingleton()->getMainRenderWindow()->getSize();
+			ImGui::SliderFloat("x", &x, 0.0f, winSize.x);
+			ImGui::SliderFloat("y", &y, 0.0f, winSize.y);
 			float rot = m_state.m_live.m_angle * DEGTORAD;
 			ImGui::SliderAngle("Rotation", &rot);
 		

@@ -108,7 +108,13 @@
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandRotate.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandSpawn.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
@@ -275,7 +281,13 @@
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandRotate.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandSpawn.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">

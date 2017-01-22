@@ -36,6 +36,8 @@ class LevelMgr : public Manager
 		bool loadLevel(char* path);
 		void unloadLevel();
 		uint32_t loadLevelAsync();
+		void registerEntityIntoLevel(Entity* ent);
+		const char* getCharacterPath();
     protected:
     private:
         // Function

@@ -26,6 +26,7 @@ void MusicComponent::loadMusic(const char* path, bool loop, bool persistent)
 	m_persistent = persistent;
 	m_state.m_live.m_name = path;
 	m_used = true;
+	m_lastVolume = 100.0f;
 }
 
 bool MusicComponent::process()
@@ -89,6 +90,13 @@ void MusicComponent::displayInfo()
 			}
 			ImGui::Text("Status : %s", status.c_str());
 
+			int layer = m_state.m_live.m_layer;
+			ImGui::InputInt("Layer", &layer);
+			if (layer < 0)
+			{
+				layer = 0;
+			}
+
 			int volume = m_music.getVolume();
 			ImGui::SliderInt("Volume", &volume, 0, 100);
 			m_music.setVolume(volume);
@@ -108,4 +116,20 @@ void MusicComponent::displayInfo()
 		}
 		ImGui::End();
 	}
+}
+
+const bool MusicComponent::isPlayed() const
+{
+	return m_music.getStatus() == sf::SoundSource::Status::Playing;
+}
+
+void MusicComponent::mute()
+{
+	m_lastVolume = getVolume();
+	setVolume(0);
+}
+
+void MusicComponent::unmute()
+{
+	setVolume(m_lastVolume);
 }
