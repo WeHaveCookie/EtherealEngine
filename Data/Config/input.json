@@ -1,6 +1,6 @@
 {
-	"kbA" : "",
-	"kbB" : "",
+	"kbA" : "Shoot",
+	"kbB" : "Rotate",
 	"kbC" : "",
 	"kbD" : "MoveRight",
 	"kbE" : "",
@@ -92,7 +92,7 @@
 	"mouseWheel" : "",
 	"mouseBack" : "",
 	"mouseForward" : "",
-	"padButtonA" : "Jump",
+	"padButtonA" : "Shoot",
 	"padButtonB" : "",
 	"padButtonX" : "Attack",
 	"padButtonY" : "",

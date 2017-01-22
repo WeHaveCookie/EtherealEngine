@@ -1,0 +1,20 @@
+{
+	"Name" : "Triangle",
+	"Width" : 30,
+	"Height" : 30,
+	"Speed" : 1.0,
+	"MaxSpeed" : 10.0,
+	"Scale" : [1.0, 1.0],
+	"Layout" : "Center",
+	"State" : "IDLE",	
+	"Type" : "Projectile",
+	"Sound" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_03.ogg",
+	"Animations" : [
+		{
+			"State" : "IDLE",
+			"Frame" : 1,
+			"Line" : 1,
+			"Time" : 0.0
+		}
+	]
+}

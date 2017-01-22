@@ -20,6 +20,7 @@ class PhysicMgr : public Manager
 		void registerEntity(Entity* ent);
 		void unregisterEntity(Entity* ent);
 
+		void unregisterProjectile(Entity* ent);
 		void applyGravity();
 
         // Function
@@ -31,12 +32,16 @@ class PhysicMgr : public Manager
 		static bool CollisionSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Start, Vector2 s2End);
 		static Vector2 GetCollisionPointSegAndScreenBorder(Vector2 s1Start, Vector2 s1End);
 		static Vector2 GetCollisionPointSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Start, Vector2 s2End);
+		bool CollisionEntToOthers(Entity* ent);
+		std::vector<uint32_t> DestroyEnemyInArea(Entity* ent, ShootType::Enum shootType);
+		static bool CollisionKDOPAndPoint(sf::ConvexShape* kdop, Vector2 pointPos, int count = 0);
 
 		sf::Time getProcessTime() { return m_processTime; }
 		
 		const double getGravity() const { return m_gravity; }
 		void enable(bool b) { m_enable = b; }
 
+		void processCollisionCore();
         // Inline
     protected:
 	private:
@@ -45,8 +50,10 @@ class PhysicMgr : public Manager
 		static PhysicMgr* s_singleton;
 		void checkValidityOfPosition(Entity* ent);
 		void processRegisteryQueue();
+		void processProjectile();
 
 		std::vector<Entity*>							m_entitys;
+		std::vector<Entity*>							m_projectiles;
 		class RegisteryQueue;
 		RegisteryQueue*									m_registeryQueue;
 		sf::Time										m_processTime;

@@ -2,6 +2,7 @@
 
 #include "Manager/Manager.h"
 
+class GestureRecognition;
 
 namespace KeyType
 {
@@ -220,4 +221,5 @@ class InputMgr : public Manager
 		char*										m_keyName[KeyType::endPadKey + 1];
 		ImGuiTextFilter								m_filter;
 		bool										m_lockInput;
+		GestureRecognition*							m_gestureRecognition;
 };

@@ -7,6 +7,8 @@
 #include "Actions/CommandSound.h"
 #include "Actions/CommandInput.h"
 #include "Actions/CommandSpawn.h"
+#include "Actions/CommandChannel.h"
+#include "Actions/CommandShoot.h"
 #include "Actions/CommandRotate.h"
 
 #include "blockingconcurrentqueue.h"
@@ -31,6 +33,9 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandLockInput", CommandType::LockInput},
 	{ "CommandUnlockInput", CommandType::UnlockInput},
 	{ "CommandSpawn", CommandType::Spawn},
+	{ "CommandChannelUpgrade", CommandType::ChannelUpgrade },
+	{ "CommandChannelDowngrade", CommandType::ChannelDowngrade },
+	{ "CommandShoot", CommandType::Shoot },
 	{ "CommandRotate", CommandType::Rotate}
 };
 
@@ -49,6 +54,9 @@ std::vector<const char*> CommandTypeToString =
 	"LockInput",
 	"UnlockInput",
 	"Spawn",
+	"ChannelUpgrade",
+	"ChannelDowngrade",
+	"Shoot",
 	"Rotate"
 };
 
@@ -78,6 +86,9 @@ void CommandMgr::init()
 		CREATE_CMD(CommandLockInput)
 		CREATE_CMD(CommandUnlockInput)
 		CREATE_CMD(CommandSpawn)
+		CREATE_CMD(CommandChannelUpgrade)
+		CREATE_CMD(CommandChannelDowngrade)
+		CREATE_CMD(CommandShoot)
 		CREATE_CMD(CommandRotate)
 }
 

@@ -22,6 +22,9 @@ namespace CommandType
 		LockInput,
 		UnlockInput,
 		Spawn,
+		ChannelUpgrade,
+		ChannelDowngrade,
+		Shoot,
 		Rotate
 	};
 }

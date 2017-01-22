@@ -368,41 +368,13 @@ std::vector<uint32_t> PhysicMgr::DestroyEnemyInArea(Entity* ent, ShootType::Enum
 	std::vector<Entity*> m_deletedEntities;
 	for (auto& entity : m_entitys)
 	{
-		if (entity->getElement() == shootType && (CollisionKDOPAndPoint(&zoneFinale,entity->getPosition())||//HautGauche
-			CollisionKDOPAndPoint(&zoneFinale,Vector2(entity->getPosition().x+entity->getGlobalBounds().width, entity->getPosition().y)) ||//HautDroite
-			CollisionKDOPAndPoint(&zoneFinale, Vector2(entity->getPosition().x + entity->getGlobalBounds().width, entity->getPosition().y+entity->getGlobalBounds().height)) ||//BasDroite
-			CollisionKDOPAndPoint(&zoneFinale, Vector2(entity->getPosition().x, entity->getPosition().y+entity->getGlobalBounds().height))//BasGauche
-			))
+		/*if (entity->getElement() == shootType && )
 		{
-			enemyInZone.push_back(entity->getUID());
-		}
-	}
-	return enemyInZone;
-}
 
-int intersectsegment(sf::Vector2f A, sf::Vector2f B, sf::Vector2f I, sf::Vector2f P)
-{
-	Vector2 D, E;
-	D.x = B.x - A.x;
-	D.y = B.y - A.y;
-	E.x = P.x - I.x;
-	E.y = P.y - I.y;
-	double denom = D.x*E.y - D.y*E.x;
-	if (denom == 0)
-	{
-		return -1;
+		}*/
 	}
-	double t = -(A.x*E.y - I.x*E.y - E.x*A.y + E.x*I.y) / denom;
-	if (t < 0 || t >= 1)
-	{
-		return 0;
-	}
-	double u = -(-D.x*A.y + D.x*I.y + D.y*A.x - D.y*I.x) / denom;
-	if (u < 0 || u >= 1)
-	{
-		return 0;
-	}
-	return 1;
+
+	return enemyInZone;
 }
 
 bool PhysicMgr::CollisionKDOPAndPoint(sf::ConvexShape* kdop, Vector2 pointPos, int count)
