@@ -11,7 +11,11 @@
 	"BackgroundLevel" : 10,
 	"Animated" : true,
 	"Element" : "Sinus",
-	"Sound" : "Data/Sound/FX/SFX_Monster_Attaque/SFX_Monster_Triangle_Attaque_1_3.ogg",
+	"Sound" : [
+		"Data/Sound/FX/SFX_Monster_Attaque/SFX_Monster_Sinus_Attaque_1_1.ogg",
+		"Data/Sound/FX/SFX_Monster_Attaque/SFX_Monster_Sinus_Attaque_1_2.ogg",
+		"Data/Sound/FX/SFX_Monster_Attaque/SFX_Monster_Sinus_Attaque_1_3.ogg"
+		],
 	"Animations" : [
 		{
 			"State" : "IDLE",

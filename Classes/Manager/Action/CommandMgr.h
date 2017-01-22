@@ -29,7 +29,10 @@ namespace CommandType
 		LoadLevel,
 		Exit,
 		Shake,
-		MoveSprite
+		MoveSprite,
+		ShootBlue,
+		ShootGreen,
+		ShootRed
 	};
 }
 

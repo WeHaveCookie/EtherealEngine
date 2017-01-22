@@ -108,5 +108,21 @@
 			"Position" : [840.0, 500.0],
 			"Value" : "Score"
 		}
+	],
+	"Inputs" : [
+		{
+			"Button" : "padButtonA",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/howToPlay.json"
+		},
+		{
+			"Button" : "padButtonB",
+			"Command" : "Exit"
+		},
+		{
+			"Button" : "padButtonX",
+			"Command" : "LoadLevel",
+			"Path" : "Data/Level/credits.json"
+		}
 	]
 }

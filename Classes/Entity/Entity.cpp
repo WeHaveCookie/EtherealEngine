@@ -631,7 +631,9 @@ void Entity::build(const char* path)
 
 	if (document.HasMember("Sound"))
 	{
-		SoundMgr::getSingleton()->addSound(document["Sound"].GetString());
+		const rapidjson::Value& sound = document["Sound"];
+		int soundID = randIntBorned(0, sound.GetArray().Size());
+		SoundMgr::getSingleton()->addSound(sound[soundID].GetString());
 	}
 
 	if (document.HasMember("Target"))

@@ -43,7 +43,10 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandLoadLevel", CommandType::LoadLevel },
 	{ "CommandExit", CommandType::Exit},
 	{ "CommandShake", CommandType::Shake},
-	{ "CommandMoveSprite", CommandType::MoveSprite}
+	{ "CommandMoveSprite", CommandType::MoveSprite},
+	{ "CommandShootBlue", CommandType::ShootBlue},
+	{ "CommandShootGreen", CommandType::ShootGreen},
+	{ "CommandShootRed", CommandType::ShootRed}
 };
 
 std::vector<const char*> CommandTypeToString =
@@ -68,7 +71,10 @@ std::vector<const char*> CommandTypeToString =
 	"LoadLevel",
 	"Exit",
 	"Shake",
-	"MoveSprite"
+	"MoveSprite",
+	"ShootBlue",
+	"ShootGreen",
+	"ShootRed"
 };
 
 CommandMgr::CommandMgr()
@@ -105,6 +111,9 @@ void CommandMgr::init()
 		CREATE_CMD(CommandExit)
 		CREATE_CMD(CommandShake)
 		CREATE_CMD(CommandMoveSprite)
+		CREATE_CMD(CommandShootBlue)
+		CREATE_CMD(CommandShootGreen)
+		CREATE_CMD(CommandShootRed)
 }
 
 void CommandMgr::process(const float dt)

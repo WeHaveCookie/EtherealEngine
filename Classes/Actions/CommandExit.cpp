@@ -6,6 +6,10 @@ CommandExit::~CommandExit()
 {
 }
 
+void CommandExit::init(Entity* ent, void* data) 
+{
+}
+
 bool CommandExit::execute()
 {
 	GameMgr::getSingleton()->getMainRenderWindow()->close();

@@ -102,6 +102,7 @@ function linkEtherealEngineLibs(etherealEnginePath)
 		
 		libdirs {
 			etherealEnginePath .. "../External/SFML-2.3.2/lib/x64",
+			"C:/Program Files\ (x86)/Microsoft SDKs/Windows/v7.1A/Lib/x64"
 		}
 			
 	filter { "platforms:x64", "configurations:Debug or Debug Optimized" }

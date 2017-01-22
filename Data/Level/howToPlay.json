@@ -41,18 +41,21 @@
 	],
 	"Inputs" : [
 		{
-			"Button" : "padButtonA",
+			"Button" : "padButtonY",
 			"Command" : "LoadLevel",
 			"Path" : "Data/Level/level1.json"
 		},
 		{
 			"Button" : "padButtonB",
-			"Command" : "Exit"
+			"Command" : "ShootRed"
 		},
 		{
 			"Button" : "padButtonX",
-			"Command" : "LoadLevel",
-			"Path" : "Data/Level/credits.json"
+			"Command" : "ShootBlue"
+		},
+		{
+			"Button" : "padButtonA",
+			"Command" : "ShootGreen"
 		}
 	]
 }
