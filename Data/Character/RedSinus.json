@@ -22,6 +22,20 @@
 			"Frame" : 4,
 			"Line" : 2,
 			"Time" : 0.1
+		},
+		{
+			"State" : "DEAD",
+			"Frame" : 4,
+			"Line" : 3,
+			"Time" : 0.2,
+			"Commands" : [
+				{
+					"Command" : "Sound",
+					"Path" : "Data/Sound/FX/workDone.ogg",
+					"StartFrame" : 1,
+					"EndFrame" : 1
+				}
+			]
 		}
 	]
 }

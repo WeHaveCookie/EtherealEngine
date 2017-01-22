@@ -1,0 +1,105 @@
+{
+	"Name" : "Defense_Line",
+	"Width" : 90,
+	"Height" : 90,
+	"Speed" : 1.0,
+	"Scale" : [1.0, 1.0],
+	"Layout" : "Center",
+	"State" : "IDLE",
+	"Animations" : [
+		{
+			"State" : "IDLE",
+			"Frame" : 10,
+			"Line" : 1,
+			"Time" : 0.0
+		},
+		{
+			"State" : "DEAD",
+			"Frame" : 10,
+			"Line" : 2,
+			"Time" : 0.3,
+			"Commands" : [
+				{
+					"Command" : "Shake",
+					"StartFrame" : 1,
+					"EndFrame" : 1
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 3,
+					"EndFrame" : 3
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 5,
+					"EndFrame" : 5
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 5,
+					"EndFrame" : 5
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 6,
+					"EndFrame" : 6
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 7,
+					"EndFrame" : 7
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 7,
+					"EndFrame" : 7
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 8,
+					"EndFrame" : 8
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 8,
+					"EndFrame" : 8
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 9,
+					"EndFrame" : 9
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 9,
+					"EndFrame" : 9
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 9,
+					"EndFrame" : 9
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 10,
+					"EndFrame" : 10
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 10,
+					"EndFrame" : 10
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 10,
+					"EndFrame" : 10
+				},
+				{
+					"Command" : "Shake",
+					"StartFrame" : 10,
+					"EndFrame" : 10
+				}
+			]
+		}
+	]
+}

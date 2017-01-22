@@ -1,21 +1,23 @@
 {
-	"Name" : "Sinus",
-	"Width" : 30,
-	"Height" : 30,
-	"Speed" : 1.0,
+	"Name" : "blueWave",
+	"Width" : 256,
+	"Height" : 256,
+	"Speed" : 5.0,
 	"MaxSpeed" : 10.0,
 	"Scale" : [1.0, 1.0],
 	"Layout" : "Center",
 	"State" : "IDLE",	
 	"Type" : "Projectile",
-	"Sound" : "Data/Sound/FX/Soul_AmeTrouve_SFX_OS_02.ogg",
 	"BackgroundLevel" : 10,
+	"Element" : "Triangle",
+	"Animated" : false,
+	"Sound" : "Data/Sound/FX/SFX_Monster_Attaque/SFX_Monster_Sinus_Attaque_1_1.ogg",
 	"Animations" : [
 		{
 			"State" : "IDLE",
 			"Frame" : 1,
 			"Line" : 1,
-			"Time" : 0.0
+			"Time" : 0.2
 		}
 	]
 }

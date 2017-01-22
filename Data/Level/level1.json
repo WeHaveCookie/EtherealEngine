@@ -2,11 +2,14 @@
 	"Name" : "Level1",
 	"Size" : [1920,1080],
 	"NbrPlayer" : 1,
-	"DefaultPlayerPath" : "Data/Character/Core.json",
+	"DefaultPlayerPath" : "Data/Character/defenseLine.json",
 	"Physics" : false,
 	"Backgrounds" : [
 	],
 	"Entitys" : [
+		{
+			"Path" : "Data/Character/core.json"
+		}
 	],
 	"Commands" : [
 		{
@@ -99,7 +102,7 @@
 		},
 		{
 			"Button" : "padButtonA",
-			"Command" : ""
+			"Command" : "Shoot"
 		}
 	]
 }
