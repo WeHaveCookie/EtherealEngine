@@ -188,3 +188,14 @@ const uint32_t MusicComponentPool::getLayer() const
 	}
 	return layer;
 }
+
+void MusicComponentPool::reduceVolume()
+{
+	for (auto& music : m_musics)
+	{
+		if (music->isUsed())
+		{
+			music->setVolume(music->getVolume()*0.9);
+		}
+	}
+}

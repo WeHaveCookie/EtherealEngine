@@ -79,4 +79,12 @@ class EntityMgr : public Manager
 		sf::Time				m_processTime;
 		uint32_t				m_mainCharacterID;
 		bool					m_onEdition;
+		float					m_delayRed;
+		float					m_timerRed;
+		float					m_delayGreen;
+		float					m_timerGreen;
+		float					m_delayBlue;
+		float					m_timerBlue;
+		float					m_timerGlobal;
+		float					m_delayGlobal;
 };

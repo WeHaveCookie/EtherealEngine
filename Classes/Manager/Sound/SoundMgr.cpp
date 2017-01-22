@@ -2,6 +2,8 @@
 #include "SoundMgr.h"
 #include "Manager/File/FileMgr.h"
 #include "Utils/wcharUtils.h"
+#include "Manager/Entity/EntityMgr.h"
+#include "Entity/Entity.h"
 
 SoundMgr* SoundMgr::s_singleton = NULL;
 
@@ -29,6 +31,14 @@ void SoundMgr::init()
 void SoundMgr::process(const float dt)
 {
 	sf::Clock clock;
+	auto core = EntityMgr::getSingleton()->getEntity("Core");
+	if (core != nullptr)
+	{
+		if (core->getState() == EntityAnimationState::Dead)
+		{
+			m_musics->reduceVolume();
+		}
+	}
 	m_sounds->process(dt);
 	m_musics->process(dt);
 	m_processTime = clock.getElapsedTime();
@@ -216,11 +226,8 @@ void SoundMgr::addLayer()
 
 void SoundMgr::removeLayer()
 {
-	if (++m_removeLayerAttempts > 2)
-	{
-		m_musics->removeLayer();
-		m_removeLayerAttempts = 0;
-	}
+	m_musics->removeLayer();
+	m_removeLayerAttempts = 0;
 }
 
 void SoundMgr::unloadContent()

@@ -12,6 +12,7 @@
 #include "Entity/Entity.h"
 #include "Manager/Level/LevelMgr.h"
 #include "Manager/Game/GameMgr.h"
+#include "EtherealEngineManagers.h"
 
 #define SINUSPATH "Data/FX/redWave.json"
 #define SPIKEPATH "Data/FX/greenWave.json"
@@ -36,11 +37,24 @@ void EntityMgr::init()
 {
 	m_processTime = sf::Time::Zero;
 	m_onEdition = false;
+	m_timerBlue = 0.0f;
+	m_timerGreen = 0.0;
+	m_timerRed = 0.0f;
+	m_timerGlobal = 0.0f;
+	m_delayGreen = 0.5f;
+	m_delayBlue = 0.5f;
+	m_delayRed = 0.5f;
+	m_delayGlobal = 0.2f;
 }
 
 void EntityMgr::process(const float dt)
 {
 	sf::Clock clock;
+	m_timerRed -= dt;
+	m_timerGreen -= dt;
+	m_timerBlue -= dt;
+	m_timerGlobal -= dt;
+
 	auto core = getEntity("Core");
 	if (core != NULL)
 	{
@@ -253,6 +267,11 @@ void EntityMgr::spawnIntoRegion(uint32_t id, sf::FloatRect region)
 
 void EntityMgr::createShoot(ShootType::Enum shootType)
 {
+	if (m_timerGlobal > 0.0f)
+	{
+		return;
+	}
+	m_timerGlobal = m_delayGlobal;
 	if (!LevelMgr::getSingleton()->isPlayableLevel())
 	{
 		return;
@@ -264,6 +283,11 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 	{
 	case ShootType::Sinus:
 	{
+		if (m_timerRed > 0.0f)
+		{
+			return;
+		}
+		m_timerRed = m_delayRed;
 		ent = createEntity(SINUSPATH);
 		auto bound = ent->getGlobalBounds();
 		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
@@ -277,6 +301,11 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 	}
 	case ShootType::Spike:
 	{
+		if (m_timerGreen > 0.0f)
+		{
+			return;
+		}
+		m_timerGreen = m_delayGreen;
 		ent = createEntity(SPIKEPATH);
 		auto bound = ent->getGlobalBounds();
 		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
@@ -289,6 +318,11 @@ void EntityMgr::createShoot(ShootType::Enum shootType)
 	}
 	case ShootType::Triangle:
 	{
+		if (m_timerBlue > 0.0f)
+		{
+			return;
+		}
+		m_timerBlue = m_delayBlue;
 		ent = createEntity(TRIANGLEPATH);
 		auto bound = ent->getGlobalBounds();
 		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) - 

@@ -20,6 +20,7 @@ public:
 	void removeLayer();
 	const uint32_t getLayer() const;
 	void unload();
+	void reduceVolume();
 
 private:
 	void release(MusicComponent* music);

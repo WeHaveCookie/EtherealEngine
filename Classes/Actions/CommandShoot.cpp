@@ -20,8 +20,6 @@ void CommandShoot::init(Entity* ent, void* data)
 
 bool CommandShoot::execute()
 {
-	// TEST
-	m_shootType = (ShootType::Enum)randIntBorned(1, 4);
 	EntityMgr::getSingleton()->createShoot(m_shootType);
 	return true;
 }
