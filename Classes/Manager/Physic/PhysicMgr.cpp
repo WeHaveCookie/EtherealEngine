@@ -35,13 +35,18 @@ void PhysicMgr::processCollisionCore()
 {
 	if (GameMgr::getSingleton()->getNumberPlayers() > 0)
 	{
-		auto player = GameMgr::getSingleton()->getEntityPlayer();
-		while (CollisionEntToOthers(player))
+		//auto player = GameMgr::getSingleton()->getEntityPlayer();
+		auto core = EntityMgr::getSingleton()->getEntity("Core");
+		if (core == NULL)
+		{
+			return;
+		}
+		while (CollisionEntToOthers(core))
 		{
 		}
 		for (auto& ent : m_entitys)
 		{
-			if (ent->getUID() != player->getUID() && ent->getDistance(player) < 300.0f)
+			if (ent->getUID() != core->getUID() && ent->getDistance(core) < 300.0f && ent->getElement() != ShootType::None)
 			{
 				ent->setState(EntityAnimationState::Right);
 			}
@@ -62,13 +67,39 @@ bool isVisible(Entity* proj)
 
 void PhysicMgr::processProjectile()
 {
+
 	std::vector<Entity*> removeProjectiles;
+	std::vector<Entity*> removeEntities;
 	for (auto& proj : m_projectiles)
 	{
 		if (!isVisible(proj))
 		{
 			removeProjectiles.push_back(proj);
 		}
+
+		auto player = GameMgr::getSingleton()->getEntityPlayer();
+		if (player == NULL)
+		{
+			return;
+		}
+		auto entities = GetEntityInArea(player, proj->getElement());
+		auto size = entities.size();
+		LevelMgr::getSingleton()->startExtermination();
+		for (auto& ent : entities)
+		{
+			if (CollisionAABBandAABB(proj->getGlobalBounds(), ent->getGlobalBounds()))
+			{
+				LevelMgr::getSingleton()->killEnemyType(ent->getElement());
+				removeEntities.push_back(ent);
+			}
+		}
+		LevelMgr::getSingleton()->endExtermination();
+	}
+
+	for (auto& ent : removeEntities)
+	{
+		ent->setState(EntityAnimationState::Dead);
+		unregisterProjectile(ent);
 	}
 	for (auto& proj : removeProjectiles)
 	{
@@ -293,7 +324,7 @@ bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 	std::vector<Entity*> m_deletedEntities;
 	for (auto& entity : m_entitys)
 	{
-		if (ent->getUID() != entity->getUID() && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
+		if (ent->getUID() != entity->getUID() && entity->getElement() != ShootType::None && CollisionAABBandAABB(ent->getGlobalBounds(), entity->getGlobalBounds()))
 		{
 			int id;
 			auto cmdMgr = CommandMgr::getSingleton();
@@ -321,11 +352,11 @@ bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 	return false;
 }
 
-std::vector<uint32_t> PhysicMgr::DestroyEnemyInArea(Entity* ent, ShootType::Enum shootType)
+std::vector<Entity*> PhysicMgr::GetEntityInArea(Entity* ent, ShootType::Enum shootType)
 {
 	Entity* player = GameMgr::getSingleton()->getEntityPlayer();
 	sf::RenderWindow* mainWindow = GameMgr::getSingleton()->getMainRenderWindow();
-	std::vector<uint32_t> enemyInZone;
+	std::vector<Entity*> enemyInZone;
 
 	Vector2 s1Start(player->getGlobalBounds().left + (player->getGlobalBounds().width / 2.0f), player->getGlobalBounds().top + (player->getGlobalBounds().height / 2.0f));
 	Vector2 s1End(player->getGlobalBounds().left + (player->getGlobalBounds().width / 2.0f),-100000.0);
@@ -394,7 +425,10 @@ std::vector<uint32_t> PhysicMgr::DestroyEnemyInArea(Entity* ent, ShootType::Enum
 			CollisionKDOPAndPoint(&zoneFinale, Vector2(entity->getPosition().x, entity->getPosition().y+entity->getGlobalBounds().height))//BasGauche
 			))
 		{
-			enemyInZone.push_back(entity->getUID());
+			if (entity->getType() != EntityType::Projectile)
+			{
+				enemyInZone.push_back(entity);
+			}
 		}
 	}
 	return enemyInZone;

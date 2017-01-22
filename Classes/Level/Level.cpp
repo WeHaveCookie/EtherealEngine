@@ -14,6 +14,7 @@
 #include "Manager/Sound/SoundMgr.h"
 #include "Utils/Random.h"
 
+
 void Background::paint()
 {
 	auto rdrWin = RenderMgr::getSingleton()->getMainRenderWindow();
@@ -27,9 +28,9 @@ Level::Level()
 	m_shakeFactor = 10.0f;
 	m_maxShakeFactor = 30.0f;
 	m_font.loadFromFile("Data/Fonts/wonder.ttf");
-	m_sinusDead = 0;
-	m_spikeDead = 0;
-	m_triangleDead = 0;
+	m_sinusTotalDead = 0;
+	m_spikeTotalDead = 0;
+	m_triangleTotalDead = 0;
 	m_score = 0;
 }
 
@@ -309,15 +310,15 @@ bool Level::load(const char* path)
 				std::string value = text["Value"].GetString();
 				if (value == "SinusDead")
 				{
-					textLabel += std::to_string(m_sinusDead);
+					textLabel += std::to_string(m_sinusTotalDead);
 				}
 				else if (value == "SpikeDead")
 				{
-					textLabel += std::to_string(m_spikeDead);
+					textLabel += std::to_string(m_spikeTotalDead);
 				}
 				else if (value == "TriangleDead")
 				{
-					textLabel += std::to_string(m_triangleDead);
+					textLabel += std::to_string(m_triangleTotalDead);
 				}
 				else if (value == "Score")
 				{
@@ -451,4 +452,38 @@ void Level::shake(bool b)
 const bool Level::isLoaded() const
 {
 	return m_name != "";
+}
+
+void Level::killEnemyType(ShootType::Enum type)
+{
+	switch (type)
+	{
+	case ShootType::Sinus:
+		m_sinusLocalDead++;
+		break;
+	case ShootType::Spike:
+		m_spikeLocalDead++;
+		break;
+	case ShootType::Triangle:
+		m_triangleLocalDead++;
+		break;
+	case ShootType::None:
+	default:
+		break;
+	}
+}
+
+void Level::startExtermination()
+{
+	m_spikeLocalDead = 0;
+	m_triangleLocalDead = 0;
+	m_sinusLocalDead = 0;
+}
+
+void Level::endExtermination()
+{
+	m_score += m_sinusLocalDead + m_spikeLocalDead + m_triangleLocalDead;
+	m_score *= 1 + (m_sinusLocalDead / 10.0f);
+	m_score *= 1 + (m_spikeLocalDead / 10.0f);
+	m_score *= 1 + (m_triangleLocalDead / 10.0f);
 }

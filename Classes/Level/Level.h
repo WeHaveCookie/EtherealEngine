@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/Entity/EntityMgr.h"
 
 class Entity;
 
@@ -32,6 +33,9 @@ class Level
 		const sf::View getCamera() const { return m_view; }
 		void processShake(const float dt);
 		const bool isLoaded() const;
+		void killEnemyType(ShootType::Enum type);
+		void startExtermination();
+		void endExtermination();
 
 	private:
 
@@ -50,9 +54,12 @@ class Level
 		float						m_maxShakeFactor;
 		sf::Font					m_font;
 		std::vector<sf::Text>		m_texts;
-		uint32_t					m_sinusDead;
-		uint32_t					m_spikeDead;
-		uint32_t					m_triangleDead;
+		uint32_t					m_sinusTotalDead;
+		uint32_t					m_spikeTotalDead;
+		uint32_t					m_triangleTotalDead;
+		uint32_t					m_sinusLocalDead;
+		uint32_t					m_spikeLocalDead;
+		uint32_t					m_triangleLocalDead;
 		uint32_t					m_score;
 };
 

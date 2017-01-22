@@ -192,3 +192,18 @@ const bool LevelMgr::isPlayableLevel() const
 {
 	return m_level->isLoaded() && strcmp(m_level->getName(), "mainMenu") != 0 && strcmp(m_level->getName(), "credits") != 0 && strcmp(m_level->getName(), "gameOver") != 0;
 }
+
+void LevelMgr::killEnemyType(ShootType::Enum type)
+{
+	m_level->killEnemyType(type);
+}
+
+void LevelMgr::startExtermination()
+{
+	m_level->startExtermination();
+}
+
+void LevelMgr::endExtermination()
+{
+	m_level->endExtermination();
+}

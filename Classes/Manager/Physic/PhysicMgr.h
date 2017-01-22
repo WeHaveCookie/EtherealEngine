@@ -33,7 +33,7 @@ class PhysicMgr : public Manager
 		static Vector2 GetCollisionPointSegAndScreenBorder(Vector2 s1Start, Vector2 s1End);
 		static Vector2 GetCollisionPointSegAndSeg(Vector2 s1Start, Vector2 s1End, Vector2 s2Start, Vector2 s2End);
 		bool CollisionEntToOthers(Entity* ent);
-		std::vector<uint32_t> DestroyEnemyInArea(Entity* ent, ShootType::Enum shootType);
+		std::vector<Entity*> GetEntityInArea(Entity* ent, ShootType::Enum shootType);
 		static bool CollisionKDOPAndPoint(sf::ConvexShape* kdop, Vector2 pointPos, int count = 0);
 
 		sf::Time getProcessTime() { return m_processTime; }

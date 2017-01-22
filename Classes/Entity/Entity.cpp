@@ -123,40 +123,43 @@ void Entity::paint()
 
 void Entity::moveToTarget(const float dt)
 {
-	if (m_state.m_live.m_targetName != "")
+	if (getState() != EntityAnimationState::Dead)
 	{
-		auto target = EntityMgr::getSingleton()->getEntity(m_state.m_live.m_targetName);
-		if (target != nullptr)
+		if (m_state.m_live.m_targetName != "")
+		{
+			auto target = EntityMgr::getSingleton()->getEntity(m_state.m_live.m_targetName);
+			if (target != nullptr)
+			{
+				auto pos = Vector2(getPosition().x + getGlobalBounds().width / 2.0, getPosition().y + getGlobalBounds().height / 2.0);
+				auto targetPos = Vector2(target->getPosition().x + target->getGlobalBounds().width / 2.0, target->getPosition().y + target->getGlobalBounds().height / 2.0);
+				Vector2 vect = targetPos - pos;
+				Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
+
+				Vector2 lastVelocity = DesiredVelocity * dt * 10 * m_state.m_live.m_speed;
+				if (EntityMgr::getSingleton()->playerIsDead())
+				{
+					lastVelocity = lastVelocity % 180 * RADTODEG;
+					lastVelocity /= 9;
+				}
+				move(lastVelocity);
+				return;
+			}
+		}
+
+		if (m_state.m_live.m_targetPos != getPosition())
 		{
 			auto pos = Vector2(getPosition().x + getGlobalBounds().width / 2.0, getPosition().y + getGlobalBounds().height / 2.0);
-			auto targetPos = Vector2(target->getPosition().x + target->getGlobalBounds().width / 2.0, target->getPosition().y + target->getGlobalBounds().height / 2.0);
-			Vector2 vect = targetPos - pos;
+			Vector2 vect = m_state.m_live.m_targetPos - pos;
 			Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
 
 			Vector2 lastVelocity = DesiredVelocity * dt * 10 * m_state.m_live.m_speed;
 			if (EntityMgr::getSingleton()->playerIsDead())
 			{
-				lastVelocity = lastVelocity % 180 *RADTODEG;
+				lastVelocity = lastVelocity % 180 * RADTODEG;
 				lastVelocity /= 9;
 			}
 			move(lastVelocity);
-			return;
 		}
-	}
-
-	if (m_state.m_live.m_targetPos != getPosition())
-	{
-		auto pos = Vector2(getPosition().x + getGlobalBounds().width / 2.0, getPosition().y + getGlobalBounds().height / 2.0);
-		Vector2 vect = m_state.m_live.m_targetPos - pos;
-		Vector2 DesiredVelocity = vect.norm() * m_state.m_live.m_maxSpeed;
-
-		Vector2 lastVelocity = DesiredVelocity * dt * 10 * m_state.m_live.m_speed;
-		if (EntityMgr::getSingleton()->playerIsDead())
-		{
-			lastVelocity = lastVelocity % 180 * RADTODEG;
-			lastVelocity /= 9;
-		}
-		move(lastVelocity);
 	}
 }
 
@@ -262,12 +265,16 @@ void Entity::update(const float dt)
 	{
 		m_state.m_live.m_animations[m_state.m_live.m_currentState].update(dt);
 	}
-	sf::Sprite* currentAnim = m_state.m_live.m_animations[m_state.m_live.m_currentState].getCurrentAnimation();
+	EntityAnimation* anim = &m_state.m_live.m_animations[m_state.m_live.m_currentState];
+	sf::Sprite* currentAnim = anim->getCurrentAnimation();
 	currentAnim->setPosition(m_state.m_live.m_currentPosition.sf().x + getGlobalBounds().width / 2.0f, m_state.m_live.m_currentPosition.sf().y + getGlobalBounds().height / 2.0f);
 	currentAnim->setOrigin(sf::Vector2f(getGlobalBounds().width / 2.0f, getGlobalBounds().height / 2.0f));
 	auto mumu = currentAnim->getOrigin();
 	currentAnim->setRotation(m_state.m_live.m_angle);
-
+	if (getState() == EntityAnimationState::Dead && anim->getIndexOfAnim() >= anim->getSizeOfAnim() - 1)
+	{
+		m_live = false;
+	}
 }
 
 const bool Entity::process(const float dt)

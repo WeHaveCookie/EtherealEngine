@@ -123,6 +123,10 @@ void GameMgr::setFrameRate(uint32_t frameRate)
 
 Entity* GameMgr::getEntityPlayer(uint32_t id)
 {
+	if (m_playersId.size() <= id)
+	{
+		return NULL;
+	}
 	return EntityMgr::getSingleton()->getEntity(m_playersId[id]);
 }
 
@@ -143,6 +147,7 @@ void GameMgr::setNumberPlayer(uint32_t nbr)
 			for (uint32_t i = m_nbrPlayers; i < nbr; i++)
 			{
 				m_playersId.push_back(EntityMgr::getSingleton()->createEntity(LevelMgr::getSingleton()->getCharacterPath())->getUID());
+				EntityMgr::getSingleton()->setMainCharacter(m_playersId[0]);
 			}
 		}
 		else

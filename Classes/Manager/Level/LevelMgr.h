@@ -42,6 +42,9 @@ class LevelMgr : public Manager
 		void shake(bool b);
 
 		const bool isPlayableLevel() const;
+		void killEnemyType(ShootType::Enum type);
+		void startExtermination();
+		void endExtermination();
 
     protected:
     private:
