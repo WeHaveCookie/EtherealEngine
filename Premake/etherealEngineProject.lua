@@ -46,7 +46,8 @@ function linkEtherealEngineLibs(etherealEnginePath)
 		}
 		
 		links{
-			"opengl32.lib"
+			"opengl32.lib",
+			"Xinput.lib"
 		}
 		
 		
@@ -59,6 +60,7 @@ function linkEtherealEngineLibs(etherealEnginePath)
 			
 		libdirs {
 			etherealEnginePath .. "../External/SFML-2.3.2/lib/x32",
+			"C:/Program Files\ (x86)/Microsoft SDKs/Windows/v7.1A/Lib"
 		}
 
 	filter { "platforms:Win32", "configurations:Debug or Debug Optimized" }

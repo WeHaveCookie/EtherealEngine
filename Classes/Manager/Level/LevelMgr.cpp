@@ -29,13 +29,17 @@ void LevelMgr::init()
 	m_quadtree->init(0.0f, 0.0f, winSize.x, winSize.y);
 	m_quadtree->setNodeCapacity(50);
 	m_level = new Level();
-	loadLevel("Data/Level/level1.json");
+	loadLevel("Data/Level/mainMenu.json");
 }
 
 void LevelMgr::process(const float dt)
 {
 	sf::Clock clock;
 	m_quadtree->update();
+	if (m_level->cameraShake())
+	{
+		m_level->processShake(dt);
+	}
 	m_processTime = clock.getElapsedTime();
 }
 
@@ -53,6 +57,13 @@ void LevelMgr::showImGuiWindow(bool* window)
 {
 	if (ImGui::Begin("LevelMgr", window))
 	{
+		if (ImGui::Button("SHAKE !!!!!"))
+		{
+			m_level->shake(true);
+		}
+		auto view = m_level->getCamera().getCenter();
+		auto size = m_level->getCamera().getSize();
+		ImGui::Text("View : x = %f | y = %f | w = %f | h = %f", view.x, view.y, size.x, size.y);
 		if(ImGui::CollapsingHeader("Quadtree"))
 		{
 			auto elements = m_quadtree->getAllElements();
@@ -107,6 +118,7 @@ void LevelMgr::showImGuiWindow(bool* window)
 void LevelMgr::registerEntity(Entity* ent)
 {
 	m_quadtree->registerEntity(ent);
+	m_level->registerEntity(ent);
 }
 
 void LevelMgr::unregisterEntity(uint32_t id)
@@ -142,6 +154,7 @@ int LevelMgr::getQueryCount()
 
 bool LevelMgr::loadLevel(char* path)
 {
+	unloadLevel();
 	return m_level->load(path);
 }
 
@@ -163,4 +176,19 @@ void LevelMgr::registerEntityIntoLevel(Entity* ent)
 const char* LevelMgr::getCharacterPath()
 {
 	return m_level->getCharacterPath();
+}
+
+const sf::View LevelMgr::getCamera() const 
+{ 
+	return m_level->getCamera(); 
+}
+
+void LevelMgr::shake(bool b) 
+{ 
+	m_level->shake(b); 
+}
+
+const bool LevelMgr::isPlayableLevel() const
+{
+	return m_level->isLoaded() && strcmp(m_level->getName(), "mainMenu") != 0 && strcmp(m_level->getName(), "credits") != 0 && strcmp(m_level->getName(), "gameOver") != 0;
 }

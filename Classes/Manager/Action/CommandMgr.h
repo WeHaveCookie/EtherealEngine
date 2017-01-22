@@ -25,7 +25,10 @@ namespace CommandType
 		ChannelUpgrade,
 		ChannelDowngrade,
 		Shoot,
-		Rotate
+		Rotate,
+		LoadLevel,
+		Exit,
+		Shake
 	};
 }
 
@@ -46,6 +49,7 @@ public:
 
 	void showImGuiWindow(bool* window);
 	char** getCommandsLabel(int* size) const;
+	void releaseCommands();
 
 private:
 	static CommandMgr*						s_singleton;

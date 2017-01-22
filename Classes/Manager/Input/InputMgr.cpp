@@ -8,6 +8,8 @@
 #include "Actions/Command.h"
 #include "../../External/rapidjson/document.h"
 #include "Gesture/GestureRecognition.h"
+#include "Manager/Level/LevelMgr.h"
+
 
 InputMgr* InputMgr::s_singleton = NULL;
 
@@ -342,6 +344,7 @@ InputMgr::~InputMgr()
 	{
 		free(m_keyName[i]);
 	}
+	SetVibrations(0, 0);
 }
 
 void InputMgr::init()
@@ -463,15 +466,12 @@ void InputMgr::process(const float dt)
 			case sf::Event::Closed:
 				rdrWin->close();
 				break;
-			case sf::Keyboard::Escape:
-				rdrWin->close();
-				break;
 			case sf::Event::KeyPressed:
 			{
 				switch (event.key.code)
 				{
 				case sf::Keyboard::Escape:
-					rdrWin->close();
+					LevelMgr::getSingleton()->loadLevel("Data/Level/mainMenu.json");
 					break;
 				default:
 					break;
@@ -824,4 +824,23 @@ std::vector<uint32_t> InputMgr::getActivePads()
 		id++;
 	}
 	return activePads;
+}
+
+void InputMgr::SetVibrations(unsigned int Value, uint32_t padID)
+{
+	if (padIsActive(padID))
+	{
+		ZeroMemory(&this->m_status, sizeof(XINPUT_STATE));
+		long int ValMax = 65535;
+		XINPUT_VIBRATION vibration;
+		ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+		vibration.wRightMotorSpeed = (Value / 100.0)*ValMax;
+		vibration.wLeftMotorSpeed = (Value / 100.0)*ValMax;
+		XInputSetState(padID, &vibration);
+	}
+}
+
+const bool InputMgr::padIsActive(uint32_t padID) const
+{
+	return m_padsStatus[padID];
 }

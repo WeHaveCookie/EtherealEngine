@@ -32,6 +32,7 @@ void RenderMgr::process(const float dt)
 {
 	auto entityMgr = ENTITY_MGR;
 	auto levelMgr = LEVEL_MGR;
+	m_mainRenderWindow->setView(levelMgr->getCamera());
 	levelMgr->paint();
 	entityMgr->paint();
 	GuiMgr::getSingleton()->paint();

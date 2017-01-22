@@ -1,0 +1,76 @@
+{
+	"Name" : "gameOver",
+	"Size" : [1920,1080],
+	"Backgrounds" : [
+		{
+			"Path" : "Data/Background/mainMenuBack.png",
+			"BackgroundLevel" : 0
+		}
+	],
+	"Entitys" : [
+		{
+			"Path" : "Data/FX/Sinus.json",
+			"Position" : [[480.0, 100.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/FX/Spike.json",
+			"Position" : [[960.0, 100.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/FX/Triangle.json",
+			"Position" : [[1440.0, 100.0]],
+			"Type" : "Anchor"
+		},
+		{
+			"Path" : "Data/Gui/newGame.json",
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/level1.json"
+				}
+			]
+		},
+		{
+			"Path" : "Data/Gui/credits.json",
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/credits.json"
+				}
+			]
+		},
+		{
+			"Path" : "Data/Gui/exit.json",
+			"OnClick" : [
+				{
+					"Command" : "Exit"
+				}
+			]
+		}
+	],
+	"Texts" : [
+		{
+			"Text" : "You have killed ",
+			"Position" : [380.0, 150.0],
+			"Value" : "SinusDead"
+		},
+
+		{
+			"Text" : "You have killed ",
+			"Position" : [860.0, 150.0],
+			"Value" : "SpikeDead"
+		},
+		{
+			"Text" : "You have killed ",
+			"Position" : [1340.0, 150.0],
+			"Value" : "TriangleDead"
+		},
+		{
+			"Text" : "Your score : ",
+			"Position" : [900.0, 500.0],
+			"Value" : "Score"
+		}
+	]
+}

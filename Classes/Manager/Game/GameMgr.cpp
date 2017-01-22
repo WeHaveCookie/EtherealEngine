@@ -62,6 +62,10 @@ void GameMgr::process(const float dt)
 
 	auto ent = entityMgr->getMainCharacter();
 
+	if (soundMgr->getLayer() == 0 && LevelMgr::getSingleton()->isPlayableLevel())
+	{
+		LevelMgr::getSingleton()->loadLevel("Data/Level/gameOver.json");
+	}
 	m_processTime = clock.getElapsedTime();
 }
 

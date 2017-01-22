@@ -10,6 +10,7 @@
 #include "Manager/Input/InputMgr.h"
 #include "Utils/Random.h"
 #include "Entity/Entity.h"
+#include "Manager/Level/LevelMgr.h"
 
 #define SINUSPATH "Data/FX/Sinus.json"
 #define SPIKEPAHT "Data/FX/Spike.json"
@@ -46,6 +47,7 @@ void EntityMgr::process(const float dt)
 		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseLeft))
 		{
 			entity->showInfo();
+			entity->onClick();
 		}
 		if (entity->getLastGlobalBounds().contains(mouseCurrentPosition.sf()) && InputMgr::getSingleton()->keyIsJustPressed(KeyType::mouseWheelButton))
 		{
@@ -231,48 +233,46 @@ void EntityMgr::spawnIntoRegion(uint32_t id, sf::FloatRect region)
 void EntityMgr::createShoot(ShootType::Enum shootType)
 {
 	Entity* ent;
+	Vector2 direction;
 	switch (shootType)
 	{
 	case ShootType::Sinus:
 	{
 		ent = createEntity(SINUSPATH);
 		auto bound = ent->getGlobalBounds();
-		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
+		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= -60 * DEGTORAD;
-		auto rot = getMainCharacter()->getAngle();
-		direction %= getMainCharacter()->getAngle();
-		ent->setTarget(direction);
-		PhysicMgr::getSingleton()->registerEntity(ent);
+		
 		break;
 	}
 	case ShootType::Spike:
 	{
 		ent = createEntity(SPIKEPAHT);
 		auto bound = ent->getGlobalBounds();
-		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
+		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) -
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= 60 * DEGTORAD;
-		auto rot = getMainCharacter()->getAngle();
-		direction %= getMainCharacter()->getAngle();
-		ent->setTarget(direction);
-		PhysicMgr::getSingleton()->registerEntity(ent);
 		break;
 	}
 	case ShootType::Triangle:
 	{
 		ent = createEntity(TRIANGLEPATH);
 		auto bound = ent->getGlobalBounds();
-		auto direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) - 
+		direction = Vector2(bound.left + (bound.width / 2.0f), -100000.0f) - 
 			Vector2(bound.left + (bound.width / 2.0f), bound.top + (bound.height / 2.0));
 		direction %= 180 * DEGTORAD;
-		auto rot = getMainCharacter()->getAngle();
-		direction %= getMainCharacter()->getAngle();
-		ent->setTarget(direction);
-		PhysicMgr::getSingleton()->registerEntity(ent);
 		break;
 	}
 	default:
 		break;
+	}
+	
+	if (ent != nullptr)
+	{
+		direction %= getMainCharacter()->getAngle();
+		ent->setTarget(direction);
+		PhysicMgr::getSingleton()->registerEntity(ent);
+		LevelMgr::getSingleton()->registerEntity(ent);
 	}
 }

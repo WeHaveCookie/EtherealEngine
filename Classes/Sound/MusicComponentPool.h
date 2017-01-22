@@ -18,6 +18,8 @@ public:
 
 	void addLayer();
 	void removeLayer();
+	const uint32_t getLayer() const;
+	void unload();
 
 private:
 	void release(MusicComponent* music);

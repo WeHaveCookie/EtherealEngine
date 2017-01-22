@@ -1180,3 +1180,16 @@ const bool Entity::isInAction(EntityAction::Enum action) const
 	auto test = (m_state.m_live.m_action & action) == action;
 	return (m_state.m_live.m_action & action) == action; 
 }
+
+void Entity::onClick() 
+{ 
+	if (m_state.m_live.m_commandOnClick != NULL)
+	{
+		m_state.m_live.m_commandOnClick->execute();
+	}
+}
+
+const EntityType::Enum Entity::getTypeByName(const char* name) const
+{
+	return stringToEntityType[name];
+}

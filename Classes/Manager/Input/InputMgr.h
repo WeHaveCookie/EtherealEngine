@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Manager/Manager.h"
+#include <XInput.h> 
+#include <Windows.h>
 
 class GestureRecognition;
 
@@ -204,6 +206,8 @@ class InputMgr : public Manager
 		void lockInput(bool b) { m_lockInput = b; }
 
 		void showImGuiWindow(bool* window);
+		void SetVibrations(unsigned int Value, uint32_t padID = 0); // Min 0 Max 100
+		const bool padIsActive(uint32_t padID = 0) const;
 
 		std::vector<uint32_t> getActivePads();
 	private:
@@ -222,4 +226,5 @@ class InputMgr : public Manager
 		ImGuiTextFilter								m_filter;
 		bool										m_lockInput;
 		GestureRecognition*							m_gestureRecognition;
+		XINPUT_STATE								m_status;
 };

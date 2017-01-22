@@ -24,11 +24,6 @@ bool CommandShoot::execute()
 	return true;
 }
 
-void CommandShoot::undo()
-{
-
-}
-
 void* CommandShoot::makeCopy()
 {
 	return (void*)new CommandShoot();

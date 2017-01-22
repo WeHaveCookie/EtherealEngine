@@ -100,3 +100,12 @@ void SoundComponentPool::release(SoundComponent* sound)
 	sound->setNext(m_firstAvailable);
 	m_firstAvailable = sound;
 }
+
+void SoundComponentPool::unload()
+{
+	auto sounds = getSoundsUsed();
+	for (auto& sound : sounds)
+	{
+		release(sound);
+	}
+}

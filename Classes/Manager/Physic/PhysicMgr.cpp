@@ -33,10 +33,12 @@ void PhysicMgr::init()
 
 void PhysicMgr::processCollisionCore()
 {
-	while (CollisionEntToOthers(GameMgr::getSingleton()->getEntityPlayer()))
+	if (GameMgr::getSingleton()->getNumberPlayers() > 0)
 	{
+		while (CollisionEntToOthers(GameMgr::getSingleton()->getEntityPlayer()))
+		{
+		}
 	}
-	
 }
 
 bool isVisible(Entity* proj)
@@ -249,6 +251,8 @@ bool PhysicMgr::CollisionEntToOthers(Entity* ent)
 			int id;
 			auto cmdMgr = CommandMgr::getSingleton();
 			auto cmd = cmdMgr->getCommand("CommandChannelDowngrade", &id);
+			cmdMgr->addCommand(cmd);
+			cmd = cmdMgr->getCommand("CommandShake", &id);
 			cmdMgr->addCommand(cmd);
 			m_deletedEntities.push_back(entity);
 		}

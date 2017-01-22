@@ -10,6 +10,9 @@
 #include "Actions/CommandChannel.h"
 #include "Actions/CommandShoot.h"
 #include "Actions/CommandRotate.h"
+#include "Actions/CommandLoadLevel.h"
+#include "Actions/CommandExit.h"
+#include "Actions/CommandShake.h"
 
 #include "blockingconcurrentqueue.h"
 
@@ -36,7 +39,10 @@ std::map<std::string, CommandType::Enum> StringToCommandType =
 	{ "CommandChannelUpgrade", CommandType::ChannelUpgrade },
 	{ "CommandChannelDowngrade", CommandType::ChannelDowngrade },
 	{ "CommandShoot", CommandType::Shoot },
-	{ "CommandRotate", CommandType::Rotate}
+	{ "CommandRotate", CommandType::Rotate},
+	{ "CommandLoadLevel", CommandType::LoadLevel },
+	{ "CommandExit", CommandType::Exit},
+	{ "CommandShake", CommandType::Shake}
 };
 
 std::vector<const char*> CommandTypeToString =
@@ -57,7 +63,10 @@ std::vector<const char*> CommandTypeToString =
 	"ChannelUpgrade",
 	"ChannelDowngrade",
 	"Shoot",
-	"Rotate"
+	"Rotate",
+	"LoadLevel",
+	"Exit",
+	"Shake"
 };
 
 CommandMgr::CommandMgr()
@@ -90,6 +99,9 @@ void CommandMgr::init()
 		CREATE_CMD(CommandChannelDowngrade)
 		CREATE_CMD(CommandShoot)
 		CREATE_CMD(CommandRotate)
+		CREATE_CMD(CommandLoadLevel)
+		CREATE_CMD(CommandExit)
+		CREATE_CMD(CommandShake)
 }
 
 void CommandMgr::process(const float dt)
@@ -168,4 +180,14 @@ char** CommandMgr::getCommandsLabel(int* size) const
 	}
 
 	return label;
+}
+
+void CommandMgr::releaseCommands()
+{
+	Command* cmd;
+	bool dequeue = m_CommandQueue->try_dequeue(cmd);
+	while (dequeue)
+	{
+		dequeue = m_CommandQueue->try_dequeue(cmd);
+	}
 }

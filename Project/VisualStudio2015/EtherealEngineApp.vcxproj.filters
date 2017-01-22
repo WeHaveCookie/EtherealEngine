@@ -7,6 +7,9 @@
     <Filter Include="Classes\Actions">
       <UniqueIdentifier>{9307F913-FF92-66D8-08A4-E9CC74AEC2D8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Camera">
+      <UniqueIdentifier>{0BDCE62B-F7A9-DA31-E03D-4B58CCAAB696}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
     </Filter>
@@ -19,6 +22,9 @@
     <Filter Include="Classes\Files">
       <UniqueIdentifier>{B5B67FC3-2177-FBF9-EAB1-4477563140D6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Gesture">
+      <UniqueIdentifier>{01CF74E6-6D5A-E2AA-766B-659FE2753EAB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Classes\HUD">
       <UniqueIdentifier>{C33B1A54-2FF1-9249-B8E5-8C20249A894D}</UniqueIdentifier>
     </Filter>
@@ -30,6 +36,9 @@
     </Filter>
     <Filter Include="Classes\Manager\Action">
       <UniqueIdentifier>{0A2FFEAB-F628-27FE-DF95-BD0ECB2E8D6A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Manager\Camera">
+      <UniqueIdentifier>{F56780B0-E161-A902-CACE-3F13B6670F6F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Entity">
       <UniqueIdentifier>{C9DF19B6-B5D9-4208-9E46-D9188ADFA874}</UniqueIdentifier>
@@ -99,10 +108,19 @@
     <ClInclude Include="..\..\Classes\Actions\CommandAttack.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandChannel.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandExit.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandInput.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandJump.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandLoadLevel.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h">
@@ -111,11 +129,20 @@
     <ClInclude Include="..\..\Classes\Actions\CommandRotate.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandShake.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Actions\CommandShoot.h">
+      <Filter>Classes\Actions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Actions\CommandSpawn.h">
       <Filter>Classes\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Camera\Camera.h">
+      <Filter>Classes\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
       <Filter>Classes\Entity\Character</Filter>
@@ -135,6 +162,9 @@
     <ClInclude Include="..\..\Classes\Files\Reader.h">
       <Filter>Classes\Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\Gesture\GestureRecognition.h">
+      <Filter>Classes\Gesture</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\HUD\Menu.h">
       <Filter>Classes\HUD</Filter>
     </ClInclude>
@@ -146,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h">
       <Filter>Classes\Manager\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Manager\Camera\CameraMgr.h">
+      <Filter>Classes\Manager\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h">
       <Filter>Classes\Manager\Entity</Filter>
@@ -272,10 +305,19 @@
     <ClCompile Include="..\..\Classes\Actions\CommandAttack.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandChannel.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandExit.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandInput.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandLoadLevel.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp">
@@ -284,11 +326,20 @@
     <ClCompile Include="..\..\Classes\Actions\CommandRotate.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandShake.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Actions\CommandShoot.cpp">
+      <Filter>Classes\Actions</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Actions\CommandSpawn.cpp">
       <Filter>Classes\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Camera\Camera.cpp">
+      <Filter>Classes\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
       <Filter>Classes\Entity\Character</Filter>
@@ -308,6 +359,9 @@
     <ClCompile Include="..\..\Classes\Files\Reader.cpp">
       <Filter>Classes\Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Gesture\GestureRecognition.cpp">
+      <Filter>Classes\Gesture</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
       <Filter>Classes\HUD</Filter>
     </ClCompile>
@@ -319,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp">
       <Filter>Classes\Manager\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Manager\Camera\CameraMgr.cpp">
+      <Filter>Classes\Manager\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp">
       <Filter>Classes\Manager\Entity</Filter>

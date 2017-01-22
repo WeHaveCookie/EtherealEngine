@@ -29,6 +29,10 @@ namespace ShootType
 		{
 			return ShootType::Triangle;
 		}
+		else
+		{
+			return ShootType::None;
+		}
 	}
 }
 

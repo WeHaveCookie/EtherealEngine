@@ -145,7 +145,7 @@ void MusicComponentPool::addLayer()
 	auto musics = getUsedMusicsSortedHTL();
 	for (auto& music : musics)
 	{
-		if (music->getVolume() == 0)
+		if (music->getVolume() == 0.0f)
 		{
 			music->unmute();
 			break;
@@ -158,10 +158,33 @@ void MusicComponentPool::removeLayer()
 	auto musics = getUsedMusicsSortedLTH();
 	for (auto& music : musics)
 	{
-		if (music->getVolume() > 0)
+		if (music->getVolume() > 0.0f)
 		{
 			music->mute();
 			break;
 		}
 	}
+}
+
+void MusicComponentPool::unload()
+{
+	auto musics = getMusicsUsed();
+	for (auto& music : musics)
+	{
+		release(music);
+	}
+}
+
+const uint32_t MusicComponentPool::getLayer() const
+{
+	auto musics = getUsedMusicsSortedHTL();
+	uint32_t layer = 0;
+	for (auto& music : musics)
+	{
+		if (music->getVolume() > 0.0f)
+		{
+			layer++;
+		}
+	}
+	return layer;
 }

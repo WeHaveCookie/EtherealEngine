@@ -1,0 +1,21 @@
+{
+	"Name" : "credits",
+	"Size" : [1920,1080],
+	"Backgrounds" : [
+		{
+			"Path" : "Data/Background/Ciel.png",
+			"BackgroundLevel" : 0
+		}
+	],
+	"Entitys" : [
+		{
+			"Path" : "Data/Gui/exit.json",
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/mainMenu.json"
+				}
+			]
+		}
+	]
+}

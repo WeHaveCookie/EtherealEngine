@@ -29,6 +29,9 @@ class SoundMgr : public Manager
 		
 		void addLayer();
 		void removeLayer();
+		const uint32_t getLayer() const;
+
+		void unloadContent();
 
 	private:
 

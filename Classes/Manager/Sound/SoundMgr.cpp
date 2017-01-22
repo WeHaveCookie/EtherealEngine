@@ -212,3 +212,14 @@ void SoundMgr::removeLayer()
 {
 	m_musics->removeLayer();
 }
+
+void SoundMgr::unloadContent()
+{
+	m_musics->unload();
+	m_sounds->unload();
+}
+
+const uint32_t SoundMgr::getLayer() const
+{
+	return m_musics->getLayer();
+}

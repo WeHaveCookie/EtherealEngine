@@ -1,5 +1,5 @@
 {
-	"Name" : "MainMenu",
+	"Name" : "mainMenu",
 	"Size" : [1920,1080],
 	"Backgrounds" : [
 		{
@@ -9,20 +9,30 @@
 	],
 	"Entitys" : [
 		{
-			"Path" : "Data/Gui/newGame.json"
+			"Path" : "Data/Gui/newGame.json",
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/level1.json"
+				}
+			]
 		},
 		{
-			"Path" : "Data/Gui/continue.json"
+			"Path" : "Data/Gui/credits.json",
+			"OnClick" : [
+				{
+					"Command" : "LoadLevel",
+					"Path" : "Data/Level/gameOver.json"
+				}
+			]
 		},
 		{
-			"Path" : "Data/Gui/credits.json"
-		},
-		{
-			"Path" : "Data/Gui/exit.json"
-		}
-		,
-		{
-			"Path" : "Data/Character/TestTurret.json"
+			"Path" : "Data/Gui/exit.json",
+			"OnClick" : [
+				{
+					"Command" : "Exit"
+				}
+			]
 		}
 	]
 }

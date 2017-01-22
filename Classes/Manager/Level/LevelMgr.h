@@ -38,6 +38,11 @@ class LevelMgr : public Manager
 		uint32_t loadLevelAsync();
 		void registerEntityIntoLevel(Entity* ent);
 		const char* getCharacterPath();
+		const sf::View getCamera() const;
+		void shake(bool b);
+
+		const bool isPlayableLevel() const;
+
     protected:
     private:
         // Function

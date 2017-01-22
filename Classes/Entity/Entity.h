@@ -276,6 +276,10 @@ class Entity
 		void showImGuiWindow();
 		void setTarget(Vector2 pos) { m_state.m_live.m_targetPos = pos; }
 		const bool isProjectile() const { return m_state.m_live.m_type == EntityType::Projectile; }
+		void onClick();
+		void setCommandOnClick(Command* cmd) { m_state.m_live.m_commandOnClick = cmd; }
+		void setType(EntityType::Enum type) { m_state.m_live.m_type = type; }
+		const EntityType::Enum getTypeByName(const char* name) const;
 
 	protected:
 		static uint32_t		newUID;
@@ -336,6 +340,7 @@ class Entity
 				Vector2													m_targetPos;
 				float													m_maxSpeed;
 				ShootType::Enum											m_element;
+				Command*												m_commandOnClick;
 
 				void clear()
 				{
@@ -353,6 +358,7 @@ class Entity
 					}
 					m_animate = true;
 					m_collisionState = CollisionState::None;
+					m_commandOnClick = NULL;
 				}
 			} m_live;
 

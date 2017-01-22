@@ -13,7 +13,7 @@ public:
 	void process(const float dt);
 	std::vector<SoundComponent*> getSoundsUsed();
 	void release(uint32_t id);
-
+	void unload();
 private:
 	void release(SoundComponent* sound);
 	const int						m_poolSize;

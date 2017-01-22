@@ -21,6 +21,15 @@ void Background::paint()
 
 Level::Level()
 {
+	m_shakeTime = 0.5f;
+	m_timer = 0.0f;
+	m_shakeFactor = 10.0f;
+	m_maxShakeFactor = 30.0f;
+	m_font.loadFromFile("Data/Fonts/wonder.ttf");
+	m_sinusDead = 0;
+	m_spikeDead = 0;
+	m_triangleDead = 0;
+	m_score = 0;
 }
 
 
@@ -30,9 +39,14 @@ Level::~Level()
 
 void Level::paint()
 {
-	for (auto &background : m_backgrounds)
+	for (auto& background : m_backgrounds)
 	{
 		background->paint();
+	}
+	for (auto& text : m_texts)
+	{
+		auto winRdr = GameMgr::getSingleton()->getMainRenderWindow();
+		winRdr->draw(text);
 	}
 }
 
@@ -70,6 +84,8 @@ bool Level::load(const char* path)
 	auto sizePtr = &m_size;
 	checkAndAffect(&document, "Size", ValueType::Vector2, (void**)&sizePtr);
 	
+	m_view.reset(sf::FloatRect(sf::Vector2f(0.0f, 0.0f), m_size));
+	m_shake = false;
 	uint32_t nbrPlayer = 0;
 	uint32_t* nbrPlayerPtr = &nbrPlayer;
 	checkAndAffect(&document, "NbrPlayer", ValueType::Int, (void**)&nbrPlayerPtr);
@@ -148,23 +164,61 @@ bool Level::load(const char* path)
 		for (auto& entity : entitys.GetArray())
 		{
 			assert(entity.HasMember("Path"));
-			
+			Entity* ent;
+			Command* cmdPtr = nullptr;
 			const char* entPath = entity["Path"].GetString();
+			
+			if (entity.HasMember("OnClick"))
+			{
+				const rapidjson::Value& OnClick = entity["OnClick"];
+
+				for (auto& cmd : OnClick.GetArray())
+				{
+					assert(cmd.HasMember("Command"));
+					std::string cmdPath = "Command" + (std::string)cmd["Command"].GetString();
+					int id;
+					cmdPtr = CommandMgr::getSingleton()->getCommand((char*)cmdPath.c_str(), &id);
+					if (cmdPath == "CommandLoadLevel")
+					{
+						std::string levelPath = cmd["Path"].GetString();
+						cmdPtr->init(nullptr, (void*)&levelPath);
+					}
+
+				}
+			}
+
+			
+
 			if (entity.HasMember("Position"))
 			{
 				const rapidjson::Value& clones = entity["Position"];
 				for (auto& clone : clones.GetArray())
 				{
-					Entity* ent = EntityMgr::getSingleton()->createEntity(entPath);
+					ent = EntityMgr::getSingleton()->createEntity(entPath);
 					ent->setPosition(Vector2(clone[0].GetFloat(), clone[1].GetFloat()));
 					m_entitys.push_back(ent);
+					if (cmdPtr != nullptr)
+					{
+						ent->setCommandOnClick(cmdPtr);
+					}
+					
 				}
 			}
 			else
 			{
-				Entity* ent = EntityMgr::getSingleton()->createEntity(entPath);
+				ent = EntityMgr::getSingleton()->createEntity(entPath);
 				m_entitys.push_back(ent);
+				if (cmdPtr != nullptr)
+				{
+					ent->setCommandOnClick(cmdPtr);
+				}
 			}
+			if (entity.HasMember("Type"))
+			{
+				auto type = entity["Type"].GetString();
+				ent->setType(ent->getTypeByName(type));
+			}
+			
 		}
 	}
 
@@ -238,6 +292,44 @@ bool Level::load(const char* path)
 		}
 	}
 
+	if (document.HasMember("Texts"))
+	{
+		const rapidjson::Value& texts = document["Texts"];
+		for (auto& text : texts.GetArray())
+		{
+			assert(text.HasMember("Text") && text.HasMember("Position") && text["Position"].GetArray().Size() == 2);
+			std::string textLabel = text["Text"].GetString();
+			sf::Vector2f position(text["Position"][0].GetFloat(), text["Position"][1].GetFloat());
+			if (text.HasMember("Value"))
+			{
+				std::string value = text["Value"].GetString();
+				if (value == "SinusDead")
+				{
+					textLabel += std::to_string(m_sinusDead);
+				}
+				else if (value == "SpikeDead")
+				{
+					textLabel += std::to_string(m_spikeDead);
+				}
+				else if (value == "TriangleDead")
+				{
+					textLabel += std::to_string(m_triangleDead);
+				}
+				else if (value == "Score")
+				{
+					textLabel += std::to_string(m_score);
+				}
+			}
+			sf::Text textSF;
+			textSF.setFont(m_font);
+			textSF.setPosition(position);
+			textSF.setString(textLabel);
+			textSF.setColor(sf::Color::White);
+			textSF.setCharacterSize(24);
+			m_texts.push_back(textSF);
+		}
+	}
+
 	FileMgr::CloseFile(json);
 	return true;
 }
@@ -251,10 +343,13 @@ bool Level::reload()
 void Level::unload()
 {
 	m_backgrounds.clear();
+	m_texts.clear();
 	for (auto &entity : m_entitys)
 	{
 		EntityMgr::getSingleton()->deleteEntity(entity->getUID());
 	}
+	SoundMgr::getSingleton()->unloadContent();
+	CommandMgr::getSingleton()->releaseCommands();
 	m_entitys.clear();
 	m_name = "";
 	m_size = sf::Vector2f();
@@ -263,4 +358,55 @@ void Level::unload()
 void Level::registerEntity(Entity* ent)
 {
 	m_entitys.push_back(ent);
+}
+
+void Level::processShake(const float dt)
+{
+	m_timer += dt;
+	if (m_timer > m_shakeTime)
+	{
+		shake(false);
+		m_timer = 0.0f;
+	}	
+ 	m_view.reset(sf::FloatRect(rand() % (int)m_shakeFactor, rand() % (int)m_shakeFactor, m_size.x, m_size.y));
+}
+
+void Level::shake(bool b) 
+{ 
+	auto previousState = m_shake;
+	m_shake = b; 
+	auto inputMgr = InputMgr::getSingleton();
+	if (!m_shake)
+	{
+		if (inputMgr->getActivePads().size() > 0)
+		{
+			inputMgr->SetVibrations(0, inputMgr->getActivePads()[0]);
+		}
+		m_view.reset(sf::FloatRect(0.0f, 0.0f, m_size.x, m_size.y));
+	}
+	else
+	{
+		if (m_timer > 0.0f || previousState)
+		{
+			m_shakeFactor *= 1.10f;
+			if (m_shakeFactor > m_maxShakeFactor)
+			{
+				m_shakeFactor = m_maxShakeFactor;
+			}
+		}
+		else
+		{
+			m_shakeFactor = 10.0f;
+		}
+		if (inputMgr->getActivePads().size() > 0)
+		{
+			inputMgr->SetVibrations(80 + ((m_shakeFactor *6.6) / 10.0), inputMgr->getActivePads()[0]);
+		}
+		m_timer = 0.0f;
+	}
+}
+
+const bool Level::isLoaded() const
+{
+	return m_name != "";
 }

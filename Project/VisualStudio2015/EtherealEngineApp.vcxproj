@@ -181,7 +181,7 @@
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -192,8 +192,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;D:\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -210,7 +210,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -221,8 +221,8 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;D:\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -239,7 +239,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -250,8 +250,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;D:\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -268,7 +268,7 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_DEBUG;_DEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -279,8 +279,8 @@ xcopy /f/y/d "..\..\..\External\DLL\x86\*.dll" "$(OutDir)"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;D:\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -297,7 +297,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -313,8 +313,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Debug\*.dll" "$(OutDir)"</Com
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;D:\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -330,7 +330,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -346,8 +346,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;D:\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -364,7 +364,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN32;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_FINAL;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -380,8 +380,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;D:\External\SFML-2.3.2\lib\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x86;..\..\..\External\SFML-2.3.2\lib\x32;C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -398,7 +398,7 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PreprocessorDefinitions>ETHEREALENGINE_GAME;WIN64;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ETHEREALENGINE_FINAL;NDEBUG;ETHEREAL_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;..\..\Classes;D:\External\ImGui;D:\External\rapidjson;D:\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;D:\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Classes;..\..\..\External\ImGui;..\..\..\External\rapidjson;..\..\..\External\moodycamel;C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt;..\..\..\External\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -414,8 +414,8 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x32\Release\*.dll" "$(OutDir)"</C
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;D:\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;Xinput.lib;sfml-graphics.lib;sfml-window.lib;sfml-audio.lib;sfml-network.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.10150.0\ucrt\x64;..\..\..\External\SFML-2.3.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
@@ -427,22 +427,30 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
   <ItemGroup>
     <ClInclude Include="..\..\Classes\Actions\Command.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandAttack.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandChannel.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandExit.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandInput.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandJump.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandLoadLevel.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandRotate.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandShake.h" />
+    <ClInclude Include="..\..\Classes\Actions\CommandShoot.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandSpawn.h" />
+    <ClInclude Include="..\..\Classes\Camera\Camera.h" />
     <ClInclude Include="..\..\Classes\Entity\Character\Character.h" />
     <ClInclude Include="..\..\Classes\Entity\Entity.h" />
     <ClInclude Include="..\..\Classes\Entity\EntityPool.h" />
     <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h" />
     <ClInclude Include="..\..\Classes\EtherealEngineManagers.h" />
     <ClInclude Include="..\..\Classes\Files\Reader.h" />
+    <ClInclude Include="..\..\Classes\Gesture\GestureRecognition.h" />
     <ClInclude Include="..\..\Classes\HUD\Menu.h" />
     <ClInclude Include="..\..\Classes\Level\Level.h" />
     <ClInclude Include="..\..\Classes\Level\Quadtree.h" />
     <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h" />
+    <ClInclude Include="..\..\Classes\Manager\Camera\CameraMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\File\FileMgr.h" />
@@ -486,22 +494,30 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
   <ItemGroup>
     <ClCompile Include="..\..\Classes\Actions\Command.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandAttack.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandChannel.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandExit.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandInput.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandLoadLevel.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandRotate.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandShake.cpp" />
+    <ClCompile Include="..\..\Classes\Actions\CommandShoot.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandSpawn.cpp" />
+    <ClCompile Include="..\..\Classes\Camera\Camera.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp" />
     <ClCompile Include="..\..\Classes\Entity\EntityPool.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp" />
     <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp" />
     <ClCompile Include="..\..\Classes\Files\Reader.cpp" />
+    <ClCompile Include="..\..\Classes\Gesture\GestureRecognition.cpp" />
     <ClCompile Include="..\..\Classes\HUD\Menu.cpp" />
     <ClCompile Include="..\..\Classes\Level\Level.cpp" />
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp" />
+    <ClCompile Include="..\..\Classes\Manager\Camera\CameraMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\File\FileMgr.cpp" />
