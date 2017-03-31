@@ -10,17 +10,8 @@
     <Filter Include="Classes\Entity">
       <UniqueIdentifier>{DF538031-CB21-7437-B4B5-E45DA022509C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Entity\Character">
-      <UniqueIdentifier>{7B5417BD-6779-663D-90C4-4BCD7C48655B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Entity\Pnj">
-      <UniqueIdentifier>{165450DF-0238-1135-6B98-0B88579BFBB6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Files">
       <UniqueIdentifier>{B5B67FC3-2177-FBF9-EAB1-4477563140D6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\HUD">
-      <UniqueIdentifier>{C33B1A54-2FF1-9249-B8E5-8C20249A894D}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Level">
       <UniqueIdentifier>{BA42EAC3-2603-66FA-EF3D-AF775BBDAAD6}</UniqueIdentifier>
@@ -34,9 +25,6 @@
     <Filter Include="Classes\Manager\Entity">
       <UniqueIdentifier>{C9DF19B6-B5D9-4208-9E46-D9188ADFA874}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Manager\Event">
-      <UniqueIdentifier>{2E59B7BF-9AC5-72BA-63B9-0A18CFE49422}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Manager\File">
       <UniqueIdentifier>{6C7F7291-580E-FC5A-012D-1056ED9A0C01}</UniqueIdentifier>
     </Filter>
@@ -45,9 +33,6 @@
     </Filter>
     <Filter Include="Classes\Manager\Input">
       <UniqueIdentifier>{DC87FBBF-48F4-B6BA-11E8-4E187D13D922}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Manager\Item">
-      <UniqueIdentifier>{7B527491-67E1-FD5A-1000-1256FC6D0E01}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Manager\Level">
       <UniqueIdentifier>{64F92CC0-D065-E8BA-9959-801805850A23}</UniqueIdentifier>
@@ -66,12 +51,6 @@
     </Filter>
     <Filter Include="Classes\Manager\Sound">
       <UniqueIdentifier>{951DB1C0-018A-6CBB-CA7D-041936A98E23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Manager\Time">
-      <UniqueIdentifier>{DB2C7A91-C7BB-035B-70DA-17565C481401}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Resources">
-      <UniqueIdentifier>{1DA8934C-89BE-91E2-D235-1D043E8B626A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Sound">
       <UniqueIdentifier>{EB666EC4-5727-EAFA-2062-33788CE12ED7}</UniqueIdentifier>
@@ -111,26 +90,17 @@
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h">
       <Filter>Classes\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Character\Character.h">
-      <Filter>Classes\Entity\Character</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\Entity.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Entity\EntityPool.h">
       <Filter>Classes\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h">
-      <Filter>Classes\Entity\Pnj</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\EtherealEngineManagers.h">
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Files\Reader.h">
       <Filter>Classes\Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\HUD\Menu.h">
-      <Filter>Classes\HUD</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Level\Level.h">
       <Filter>Classes\Level</Filter>
@@ -144,9 +114,6 @@
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h">
       <Filter>Classes\Manager\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h">
-      <Filter>Classes\Manager\Event</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\File\FileMgr.h">
       <Filter>Classes\Manager\File</Filter>
     </ClInclude>
@@ -155,9 +122,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Input\InputMgr.h">
       <Filter>Classes\Manager\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Manager\Item\ItemMgr.h">
-      <Filter>Classes\Manager\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h">
       <Filter>Classes\Manager\Level</Filter>
@@ -183,12 +147,6 @@
     <ClInclude Include="..\..\Classes\Manager\Sound\SoundMgr.h">
       <Filter>Classes\Manager\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h">
-      <Filter>Classes\Manager\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Resources\Resources.h">
-      <Filter>Classes\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Sound\MusicComponent.h">
       <Filter>Classes\Sound</Filter>
     </ClInclude>
@@ -205,9 +163,6 @@
       <Filter>Classes\Thread</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Thread\SaveThread.h">
-      <Filter>Classes\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Thread\Thread.h">
       <Filter>Classes\Thread</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h">
@@ -243,9 +198,6 @@
     <ClInclude Include="..\..\Classes\Utils\Vector2.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Utils\VectorUtils.h">
-      <Filter>Classes\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\containerUtils.h">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
@@ -278,26 +230,17 @@
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp">
       <Filter>Classes\Actions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp">
-      <Filter>Classes\Entity\Character</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Entity\EntityPool.cpp">
       <Filter>Classes\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp">
-      <Filter>Classes\Entity\Pnj</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Files\Reader.cpp">
       <Filter>Classes\Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\HUD\Menu.cpp">
-      <Filter>Classes\HUD</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Level\Level.cpp">
       <Filter>Classes\Level</Filter>
@@ -311,9 +254,6 @@
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp">
       <Filter>Classes\Manager\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp">
-      <Filter>Classes\Manager\Event</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\File\FileMgr.cpp">
       <Filter>Classes\Manager\File</Filter>
     </ClCompile>
@@ -322,9 +262,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Input\InputMgr.cpp">
       <Filter>Classes\Manager\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Manager\Item\ItemMgr.cpp">
-      <Filter>Classes\Manager\Item</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp">
       <Filter>Classes\Manager\Level</Filter>
@@ -350,12 +287,6 @@
     <ClCompile Include="..\..\Classes\Manager\Sound\SoundMgr.cpp">
       <Filter>Classes\Manager\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Manager\Time\TimeMgr.cpp">
-      <Filter>Classes\Manager\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Resources\Resources.cpp">
-      <Filter>Classes\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Sound\MusicComponent.cpp">
       <Filter>Classes\Sound</Filter>
     </ClCompile>
@@ -372,9 +303,6 @@
       <Filter>Classes\Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Thread\SaveThread.cpp">
-      <Filter>Classes\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Thread\Thread.cpp">
       <Filter>Classes\Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui-SFML.cpp">

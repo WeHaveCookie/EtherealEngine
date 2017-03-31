@@ -431,22 +431,17 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Actions\CommandJump.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandMove.h" />
     <ClInclude Include="..\..\Classes\Actions\CommandSound.h" />
-    <ClInclude Include="..\..\Classes\Entity\Character\Character.h" />
     <ClInclude Include="..\..\Classes\Entity\Entity.h" />
     <ClInclude Include="..\..\Classes\Entity\EntityPool.h" />
-    <ClInclude Include="..\..\Classes\Entity\Pnj\Pnj.h" />
     <ClInclude Include="..\..\Classes\EtherealEngineManagers.h" />
     <ClInclude Include="..\..\Classes\Files\Reader.h" />
-    <ClInclude Include="..\..\Classes\HUD\Menu.h" />
     <ClInclude Include="..\..\Classes\Level\Level.h" />
     <ClInclude Include="..\..\Classes\Level\Quadtree.h" />
     <ClInclude Include="..\..\Classes\Manager\Action\CommandMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Entity\EntityMgr.h" />
-    <ClInclude Include="..\..\Classes\Manager\Event\EventMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\File\FileMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Game\GameMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Input\InputMgr.h" />
-    <ClInclude Include="..\..\Classes\Manager\Item\ItemMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Level\LevelMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Loading\LoadingMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Manager.h" />
@@ -455,15 +450,12 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Manager\Render\GuiMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Render\RenderMgr.h" />
     <ClInclude Include="..\..\Classes\Manager\Sound\SoundMgr.h" />
-    <ClInclude Include="..\..\Classes\Manager\Time\TimeMgr.h" />
-    <ClInclude Include="..\..\Classes\Resources\Resources.h" />
     <ClInclude Include="..\..\Classes\Sound\MusicComponent.h" />
     <ClInclude Include="..\..\Classes\Sound\MusicComponentPool.h" />
     <ClInclude Include="..\..\Classes\Sound\SoundComponent.h" />
     <ClInclude Include="..\..\Classes\Sound\SoundComponentPool.h" />
     <ClInclude Include="..\..\Classes\Thread\LoadingThread.h" />
     <ClInclude Include="..\..\Classes\Thread\SaveThread.h" />
-    <ClInclude Include="..\..\Classes\Thread\Thread.h" />
     <ClInclude Include="..\..\Classes\Utils\HashUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig-SFML.h" />
     <ClInclude Include="..\..\Classes\Utils\ImGui\imconfig.h" />
@@ -475,7 +467,6 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClInclude Include="..\..\Classes\Utils\ImGui\stb_truetype.h" />
     <ClInclude Include="..\..\Classes\Utils\Random.h" />
     <ClInclude Include="..\..\Classes\Utils\Vector2.h" />
-    <ClInclude Include="..\..\Classes\Utils\VectorUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\containerUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\jsonUtils.h" />
     <ClInclude Include="..\..\Classes\Utils\wcharUtils.h" />
@@ -488,22 +479,17 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Actions\CommandJump.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandMove.cpp" />
     <ClCompile Include="..\..\Classes\Actions\CommandSound.cpp" />
-    <ClCompile Include="..\..\Classes\Entity\Character\Character.cpp" />
     <ClCompile Include="..\..\Classes\Entity\Entity.cpp" />
     <ClCompile Include="..\..\Classes\Entity\EntityPool.cpp" />
-    <ClCompile Include="..\..\Classes\Entity\Pnj\Pnj.cpp" />
     <ClCompile Include="..\..\Classes\EtherealEngineManagers.cpp" />
     <ClCompile Include="..\..\Classes\Files\Reader.cpp" />
-    <ClCompile Include="..\..\Classes\HUD\Menu.cpp" />
     <ClCompile Include="..\..\Classes\Level\Level.cpp" />
     <ClCompile Include="..\..\Classes\Level\Quadtree.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Action\CommandMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Entity\EntityMgr.cpp" />
-    <ClCompile Include="..\..\Classes\Manager\Event\EventMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\File\FileMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Game\GameMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Input\InputMgr.cpp" />
-    <ClCompile Include="..\..\Classes\Manager\Item\ItemMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Level\LevelMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Loading\LoadingMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Manager.cpp" />
@@ -512,15 +498,12 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="..\..\Classes\Manager\Render\GuiMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Render\RenderMgr.cpp" />
     <ClCompile Include="..\..\Classes\Manager\Sound\SoundMgr.cpp" />
-    <ClCompile Include="..\..\Classes\Manager\Time\TimeMgr.cpp" />
-    <ClCompile Include="..\..\Classes\Resources\Resources.cpp" />
     <ClCompile Include="..\..\Classes\Sound\MusicComponent.cpp" />
     <ClCompile Include="..\..\Classes\Sound\MusicComponentPool.cpp" />
     <ClCompile Include="..\..\Classes\Sound\SoundComponent.cpp" />
     <ClCompile Include="..\..\Classes\Sound\SoundComponentPool.cpp" />
     <ClCompile Include="..\..\Classes\Thread\LoadingThread.cpp" />
     <ClCompile Include="..\..\Classes\Thread\SaveThread.cpp" />
-    <ClCompile Include="..\..\Classes\Thread\Thread.cpp" />
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui-SFML.cpp" />
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui.cpp" />
     <ClCompile Include="..\..\Classes\Utils\ImGui\imgui_demo.cpp" />
@@ -529,7 +512,13 @@ xcopy /f/y/d "..\..\..\External\SFML-2.3.2\bin\x64\Release\*.dll" "$(OutDir)"</C
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Final|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Final|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Optimized|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

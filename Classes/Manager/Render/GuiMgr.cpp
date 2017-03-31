@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "GuiMgr.h"
 
-#include "Manager/Time/TimeMgr.h"
 #include "Manager/Sound/SoundMgr.h"
 #include "Manager/Level/LevelMgr.h"
-#include "Manager/Item/ItemMgr.h"
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Game/GameMgr.h"
-#include "Manager/Event/EventMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Entity/EntityMgr.h"
@@ -19,13 +16,10 @@ GuiMgr* GuiMgr::s_singleton = NULL;
 
 struct GuiMgr::Flags
 {
-	bool show_TimeMgr;
 	bool show_SoundMgr;
 	bool show_LevelMgr;
-	bool show_ItemMgr;
 	bool show_InputMgr;
 	bool show_GameMgr;
-	bool show_EventMgr;
 	bool show_PhysicMgr;
 	bool show_RenderMgr;
 	bool show_EntityMgr;
@@ -35,13 +29,10 @@ struct GuiMgr::Flags
 	bool show_Demo;
 
 	Flags()
-		:show_TimeMgr(false),
-		show_SoundMgr(false),
+		:show_SoundMgr(false),
 		show_LevelMgr(false),
-		show_ItemMgr(false),
 		show_InputMgr(false),
 		show_GameMgr(false),
-		show_EventMgr(false),
 		show_PhysicMgr(false),
 		show_RenderMgr(false),
 		show_EntityMgr(false),

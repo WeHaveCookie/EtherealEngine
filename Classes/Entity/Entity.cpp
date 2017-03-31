@@ -8,7 +8,6 @@
 #include "Manager/File/FileMgr.h"
 #include "../../External/rapidjson/document.h"
 #include "Utils/Random.h"
-#include "Utils/VectorUtils.h"
 #include "Actions/Command.h"
 #include "Manager/Action/CommandMgr.h"
 #include "Utils/jsonUtils.h"

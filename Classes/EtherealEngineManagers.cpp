@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "EtherealEngineManagers.h"
 
-#include "Manager/Time/TimeMgr.h"
 #include "Manager/Sound/SoundMgr.h"
 #include "Manager/Level/LevelMgr.h"
-#include "Manager/Item/ItemMgr.h"
 #include "Manager/Input/InputMgr.h"
 #include "Manager/Game/GameMgr.h"
-#include "Manager/Event/EventMgr.h"
 #include "Manager/Physic/PhysicMgr.h"
 #include "Manager/Render/RenderMgr.h"
 #include "Manager/Entity/EntityMgr.h"
@@ -35,13 +32,10 @@ float g_DeltaTime = 0.33f;
 float g_DeltaTimeFactor = 1.f;
 float g_Framerate = 1.0f/60.0f;
 
-REGISTER_MANAGER(TimeMgr)
 REGISTER_MANAGER(SoundMgr)
 REGISTER_MANAGER(LevelMgr)
-REGISTER_MANAGER(ItemMgr)
 REGISTER_MANAGER(InputMgr)
 REGISTER_MANAGER(GameMgr)
-REGISTER_MANAGER(EventMgr)
 REGISTER_MANAGER(PhysicMgr)
 REGISTER_MANAGER(RenderMgr)
 REGISTER_MANAGER(EntityMgr)
@@ -66,13 +60,10 @@ void EtherealEngineManagers::CreateManagers()
 	g_SaveThread = new SaveThread();
 
 	CREATE_MGR(InputMgr)
-		CREATE_MGR(TimeMgr)
 		CREATE_MGR(LoadingMgr)
 		CREATE_MGR(SoundMgr)
 		CREATE_MGR(LevelMgr)
-		CREATE_MGR(ItemMgr)
 		CREATE_MGR(GameMgr)
-		CREATE_MGR(EventMgr)
 		CREATE_MGR(CommandMgr)
 		CREATE_MGR(PhysicMgr)
 		CREATE_MGR(RenderMgr)
@@ -87,14 +78,11 @@ void EtherealEngineManagers::InitManagers()
 
 	INIT_MGR(CommandMgr)
 		INIT_MGR(InputMgr)
-		INIT_MGR(TimeMgr)
 		INIT_MGR(LoadingMgr)
 		INIT_MGR(SoundMgr)
 		INIT_MGR(LevelMgr)
-		INIT_MGR(ItemMgr)
 		INIT_MGR(PhysicMgr)
 		INIT_MGR(GameMgr)
-		INIT_MGR(EventMgr)
 		INIT_MGR(EntityMgr)
 		INIT_MGR(RenderMgr)
 		INIT_MGR(FileMgr)
@@ -113,13 +101,10 @@ void EtherealEngineManagers::UpdateManagers(float _dt)
 	g_RenderMgr->startFrame();
 
 	PROCESS_MGR(InputMgr)
-		PROCESS_MGR(TimeMgr)
 		PROCESS_MGR(LoadingMgr)
 		PROCESS_MGR(SoundMgr)
 		PROCESS_MGR(LevelMgr)
-		PROCESS_MGR(ItemMgr)
 		PROCESS_MGR(GameMgr)
-		PROCESS_MGR(EventMgr)
 		PROCESS_MGR(CommandMgr)
 		PROCESS_MGR(PhysicMgr)
 		PROCESS_MGR(EntityMgr)
@@ -132,13 +117,10 @@ void EtherealEngineManagers::DestroyManagers()
 {
 
 	END_MGR(InputMgr)
-		END_MGR(TimeMgr)
 		END_MGR(LoadingMgr)
 		END_MGR(SoundMgr)
 		END_MGR(LevelMgr)
-		END_MGR(ItemMgr)
 		END_MGR(GameMgr)
-		END_MGR(EventMgr)
 		END_MGR(CommandMgr)
 		END_MGR(PhysicMgr)
 		END_MGR(EntityMgr)
